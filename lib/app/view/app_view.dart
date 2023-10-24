@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kopuro/modules/main/view/main_view.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -17,7 +18,7 @@ class KopuroApp extends StatelessWidget {
     return const MaterialApp(
       title: 'KopuroApp',
       debugShowCheckedModeBanner: false,
-      home: Scaffold(body: Center(child: Text('Hello'))),
+      home: MainView(),
     );
   }
 }

@@ -1,0 +1,1 @@
+export 'view/vacancies_list.dart';
