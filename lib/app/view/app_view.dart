@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kopuro/modules/main/view/main_view.dart';
+import 'package:kopuro/modules/onboarding/view/onboarding_view.dart';
+import 'package:kopuro/modules/student/main/view/main_view.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -15,10 +16,10 @@ class KopuroApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return  MaterialApp(
       title: 'KopuroApp',
       debugShowCheckedModeBanner: false,
-      home: MainView(),
+      home: OnboardingView(),
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../modules.dart';
+import '../../../modules.dart';
 
 class MainView extends StatefulWidget {
   const MainView({super.key});
