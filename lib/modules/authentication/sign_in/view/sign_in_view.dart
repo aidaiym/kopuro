@@ -7,8 +7,8 @@ class SignInView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      appBar: AppBar(leading: IconButton(icon: Icon(Icons.back_hand), onPressed: () =>  Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (context) =>  OnboardingView(),
+      appBar: AppBar(leading: IconButton(icon: const Icon(Icons.back_hand), onPressed: () =>  Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (context) =>  const OnboardingView(),
     ))),),
       body: const Center(child: Text('Login'),),
     );
