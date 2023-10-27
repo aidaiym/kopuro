@@ -12,7 +12,7 @@ void main() async {
  runApp(
     BlocProvider(
       create: (context) => SignInCubit(),
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }

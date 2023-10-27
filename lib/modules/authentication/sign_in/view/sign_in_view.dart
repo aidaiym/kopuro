@@ -11,12 +11,12 @@ class SignInView extends StatelessWidget {
     final passwordController = TextEditingController();
 
     return Scaffold(
-      appBar: AppBar(title: Text('Login')),
+      appBar: AppBar(title: const Text('Login')),
       body: Center(
         child: Column(
           children: <Widget>[
-            TextField(controller: emailController, decoration: InputDecoration(labelText: 'Email')),
-            TextField(controller: passwordController, decoration: InputDecoration(labelText: 'Password')),
+            TextField(controller: emailController, decoration: const InputDecoration(labelText: 'Email')),
+            TextField(controller: passwordController, decoration: const InputDecoration(labelText: 'Password')),
             ElevatedButton(
               onPressed: () {
                 context.read<SignInCubit>().signInWithEmailAndPassword(
@@ -24,7 +24,7 @@ class SignInView extends StatelessWidget {
                   passwordController.text,
                 );
               },
-              child: Text('Login'),
+              child: const Text('Login'),
             ),
           ],
         ),

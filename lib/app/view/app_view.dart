@@ -4,23 +4,23 @@ import 'package:kopuro/modules/authentication/sign_in/logic/sign_in_cubit.dart';
 import 'package:kopuro/modules/modules.dart';
 import 'package:kopuro/modules/onboarding/view/onboarding_view.dart';
 
-import '../../models/models.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: BlocBuilder<SignInCubit, User?>(
-        builder: (context, user) {
+    return  Builder(
+        builder: (context) {
+          final user = BlocProvider.of<SignInCubit>(context).state;
+
           if (user != null) {
             return const MainView();
           } else {
             return const OnboardingView();
           }
         },
-      ),
+      
     );
   }
 }
