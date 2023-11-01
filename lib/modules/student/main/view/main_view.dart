@@ -38,16 +38,15 @@ class MainScreen extends StatelessWidget {
     return Scaffold(
       body: items[context.watch<MainCubit>().state],
       bottomNavigationBar: NavigationBar(
+
         onDestinationSelected: context.read<MainCubit>().change,
         selectedIndex: context.watch<MainCubit>().state,
         destinations: const <Widget>[
           NavigationDestination(
-            // key: const Key(MqKeys.home),
             icon:  Icon(Icons.house),
             label: 'Vacancies',
           ),
           NavigationDestination(
-            // key:  Key(MqKeys.quaranRead),
             icon:  Icon(Icons.man),
             label: 'Profile',
           ),

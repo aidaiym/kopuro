@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "433828119900",
+    "project_id": "kopuro-5fe2a",
+    "storage_bucket": "kopuro-5fe2a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:433828119900:android:4a10495953145558102d99",
+        "android_client_info": {
+          "package_name": "com.example.kopuro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5SmRhkIGjlAoemhOWuUw8P_Y3qD27fTc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:kopuro/modules/modules.dart';
-import 'package:kopuro/modules/onboarding/view/onboarding_view.dart';
 
 import '../../models/models.dart';
 
@@ -14,13 +13,19 @@ class AppRouter {
 
 
 
-  static Route<void> onGenerateRoute(RouteSettings settings, User? user) {
-    return switch (settings.name) {
-      main => CupertinoPageRoute(builder: (_) => user != null ? const MainView() : const SignInView()),
-      signin => CupertinoPageRoute(builder: (_) => const SignInView()),
-      onboarding => CupertinoPageRoute(builder: (_) => const OnboardingView()),
-
-      _ => throw Exception('no builder specified for route named: [${settings.name}]'),
-    };
+static Route<void> onGenerateRoute(RouteSettings settings, User? user) {
+  switch (settings.name) {
+    case main:
+      return CupertinoPageRoute(builder: (_) => user != null ? const MainView() : const SignInView());
+    case signin:
+      return CupertinoPageRoute(builder: (_) => const SignInView());
+    case onboarding:
+      return CupertinoPageRoute(builder: (_) => const OnboardingView());
+    case signup:
+      return CupertinoPageRoute(builder: (_) => const SignUpStudentView());
+    default:
+      throw Exception('No builder specified for route named: [${settings.name}]');
   }
+}
+
 }
