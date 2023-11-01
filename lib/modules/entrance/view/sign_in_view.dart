@@ -60,7 +60,7 @@ class SignInView extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const SignUpStudentView()),
+                          MaterialPageRoute(builder: (context) => const ChooseAccountType()),
                         );
                       },
                       child: const Text('Катталуу',
