@@ -18,7 +18,6 @@ class ResumeBuilder extends StatelessWidget {
     final linkedinController = TextEditingController();
     final githubController = TextEditingController();
     final aboutController = TextEditingController();
-
     return BlocProvider(
       create: (context) => SignUpCubit(),
       child: Scaffold(

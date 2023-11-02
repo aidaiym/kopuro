@@ -11,11 +11,15 @@ class VerifyEmailView extends StatelessWidget {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       if (user.emailVerified) {
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const ResumeBuilder()));
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ResumeBuilder()),
+        );
       } else {
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const SignUpStudentView()));
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const SignUpStudentView()),
+        );
       }
     }
 
@@ -37,8 +41,11 @@ class VerifyEmailView extends StatelessWidget {
                 await user?.reload();
                 if (user != null) {
                   if (user.emailVerified) {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => const ResumeBuilder()));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ResumeBuilder()),
+                    );
                   }
                 }
               },

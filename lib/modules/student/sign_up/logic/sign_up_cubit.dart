@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,24 +10,21 @@ class SignUpCubit extends Cubit<SignUpState> {
   SignUpCubit() : super(const SignUpState());
 
   Future<void> signUp({
-  required String email,
-  required String password,
-}) async {
-  emit(state.copyWith(isSubmitting: true, errorMessage: ''));
+    required String email,
+    required String password,
+  }) async {
+    emit(state.copyWith(isSubmitting: true, errorMessage: ''));
 
-  try {
-    final userCredential = await _auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+    try {
+      final userCredential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      await userCredential.user?.sendEmailVerification();
 
-
-    await userCredential.user?.sendEmailVerification();
-
-    emit(state.copyWith(isSuccess: true, isSubmitting: false));
-  } catch (e) {
-    emit(state.copyWith(isSubmitting: false, errorMessage: e.toString()));
+      emit(state.copyWith(isSuccess: true, isSubmitting: false));
+    } catch (e) {
+      emit(state.copyWith(isSubmitting: false, errorMessage: e.toString()));
+    }
   }
-}
-
 }
