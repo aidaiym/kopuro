@@ -8,36 +8,48 @@ class TextFieldWidget extends StatelessWidget {
     required this.controller,
     required this.label,
     required this.validator,
+    required this.description,
   });
 
   final TextEditingController controller;
   final String label;
   final String validator;
+  final String description;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10),
-      child: TextFormField(
-        validator: (value) {
-          if (value!.isEmpty) {
-            return validator;
-          }
-          return null;
-        },
-        controller: controller,
-        decoration: InputDecoration(
-          labelText: label,
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15.0),
-            borderSide: const BorderSide(
-              width: 1,
-              color: AppColors.main,
+      padding: const EdgeInsets.only(bottom: 10, top: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            description,
+            style: AppTextStyles.header4Black,
+          ),
+          const SizedBox(height: 10),
+          TextFormField(
+            validator: (value) {
+              if (value!.isEmpty) {
+                return validator;
+              }
+              return null;
+            },
+            controller: controller,
+            decoration: InputDecoration(
+              labelText: label,
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15.0),
+                borderSide: const BorderSide(
+                  width: 1,
+                  color: AppColors.main,
+                ),
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

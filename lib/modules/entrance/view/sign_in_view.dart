@@ -34,12 +34,12 @@ class SignInView extends StatelessWidget {
                 TextFieldWidget(
                   controller: emailController,
                   label: 'Электрондук почтаныз',
-                  validator: 'Сураныч, электрондук почтанызды жазыныз',
+                  validator: 'Сураныч, электрондук почтанызды жазыныз', description: 'Электрондук почта',
                 ),
                 TextFieldWidget(
                   controller: passwordController,
                   label: 'Паролунуз',
-                  validator: 'Сураныч, паролунузду жазыныз',
+                  validator: 'Сураныч, паролунузду жазыныз', description: 'Пароль',
                 ),
                 MainButton(
                   text: 'Кирүү',
