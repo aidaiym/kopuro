@@ -14,6 +14,7 @@ class SignInView extends StatelessWidget {
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     return Scaffold(
+      appBar: AppBar(),
       backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         child: Padding(

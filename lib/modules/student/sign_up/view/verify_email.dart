@@ -13,6 +13,7 @@ class VerifyEmailView extends StatelessWidget {
     final user = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
+      appBar: AppBar(),
         body: Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -35,6 +36,7 @@ class VerifyEmailView extends StatelessWidget {
                       builder: (context) => const ResumeBuilder()),
                 );
               } else {
+                user.delete();
                 Navigator.push(
                   context,
                   MaterialPageRoute(

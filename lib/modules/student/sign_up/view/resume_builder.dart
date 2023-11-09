@@ -112,8 +112,14 @@ class ResumeBuilder extends StatelessWidget {
                       ),
                    
                       MainButton(
-                          onPressed: () {
-                         
+                         onPressed: () async {
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>  const StudentMainView()),
+                );
+            
                           },
                           text: 'Катталуу'),
                       if (state.errorMessage.isNotEmpty)

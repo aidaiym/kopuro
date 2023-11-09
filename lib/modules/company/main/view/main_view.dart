@@ -3,14 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../modules.dart';
 
-class StudentMainView extends StatefulWidget {
-  const StudentMainView({super.key});
+class CompanyMainView extends StatefulWidget {
+  const CompanyMainView({super.key});
 
   @override
-  State<StudentMainView> createState() => _StudentMainViewState();
+  State<CompanyMainView> createState() => _CompanyMainViewState();
 }
 
-class _StudentMainViewState extends State<StudentMainView> {
+class _CompanyMainViewState extends State<CompanyMainView> {
   @override
   void initState() {
     super.initState();

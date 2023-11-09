@@ -1,14 +1,15 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:kopuro/app/services/auth_service.dart';
 part 'sign_in_state.dart';
 
 
 class SignInCubit extends Cubit<SignInState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  SignInCubit() : super(const SignInInitial());
-
+  SignInCubit(this.service) : super(const SignInInitial());
+ final AuthService service;
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     try {
       final userCredential = await _auth.signInWithEmailAndPassword(
