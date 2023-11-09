@@ -1,75 +1,51 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:kopuro/components/components.dart';
+import 'package:kopuro/constants/contants.dart';
 import '../../../modules.dart';
 import 'resume_builder.dart';
 
 class VerifyEmailView extends StatelessWidget {
-  const VerifyEmailView({Key? key});
+  const VerifyEmailView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => SignUpCubit(),
-      child: BlocBuilder<SignUpCubit, SignUpState>(
-        builder: (context, state) {
-          final signUpCubit = context.read<SignUpCubit>();
+    final user = FirebaseAuth.instance.currentUser;
 
-          if (state.isSuccess) {
-            return ResumeBuilder();
-          }
-
-          if (state.errorMessage.isNotEmpty) {
-            return Scaffold(
-              appBar: AppBar(
-                title: const Text('Email Verification Error'),
-              ),
-              body: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Error: ${state.errorMessage}',
-                      style: TextStyle(color: Colors.red, fontSize: 18),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        signUpCubit.checkEmailVerification(context);
-                      },
-                      child: const Text('Refresh'),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }
-
-          // Initial state, loading, or any other state
-          signUpCubit.checkEmailVerification(context); // Trigger email verification check
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('Email Verification'),
+    return Scaffold(
+        body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              textAlign: TextAlign.center,
+              'Почтаңызды текшериңиз, сизге текшерүү үчүн ссылка жиберилди. Текшерүүдөн өткөн соң кийинки баскычын басыңыз! ',
+              style: AppTextStyles.header4Black,
             ),
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Please check your email for a verification link.',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      signUpCubit.checkEmailVerification(context); // Refresh the email verification status
-                    },
-                    child: const Text('Refresh'),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
+          ),
+          MainButton(
+            onPressed: () async {
+              user!.reload();
+              if (user.emailVerified) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ResumeBuilder()),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SignUpStudentView()),
+                );
+              }
+            },
+            text: 'Кийинки',
+          ),
+        ],
       ),
-    );
+    ));
   }
 }

@@ -16,6 +16,7 @@ class SignUpStudentView extends StatelessWidget {
     return BlocProvider(
       create: (context) => SignUpCubit(),
       child: Scaffold(
+        appBar: AppBar(),
         body: BlocConsumer<SignUpCubit, SignUpState>(
           listener: (context, state) {
             if (state.isSuccess) {}
@@ -43,15 +44,17 @@ class SignUpStudentView extends StatelessWidget {
                       MainButton(
                           onPressed: () {
                             context.read<SignUpCubit>().signUp(
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                );
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const VerifyEmailView()),
-                            );
+                                email: emailController.text,
+                                password: passwordController.text);
+                            Future.delayed(Duration.zero, () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const VerifyEmailView()),
+                              );
+                            });
+                         
                           },
                           text: 'Катталуу'),
                       if (state.errorMessage.isNotEmpty)

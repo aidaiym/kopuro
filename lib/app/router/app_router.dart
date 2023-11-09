@@ -11,8 +11,6 @@ class AppRouter {
   static const String signin = '/signin';
   static const String signup = '/signup';
 
-
-
 static Route<void> onGenerateRoute(RouteSettings settings, User? user) {
   switch (settings.name) {
     case main:

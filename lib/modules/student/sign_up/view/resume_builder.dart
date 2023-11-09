@@ -21,6 +21,7 @@ class ResumeBuilder extends StatelessWidget {
     return BlocProvider(
       create: (context) => SignUpCubit(),
       child: Scaffold(
+        appBar: AppBar(),
         body: BlocConsumer<SignUpCubit, SignUpState>(
           listener: (context, state) {
             if (state.isSuccess) {}
