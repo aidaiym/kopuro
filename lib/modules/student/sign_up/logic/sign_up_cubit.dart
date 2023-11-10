@@ -1,10 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:kopuro/modules/modules.dart';
-import 'package:kopuro/modules/student/sign_up/view/resume_builder.dart';
-import 'package:kopuro/modules/student/sign_up/view/verify_email.dart';
 
 part 'sign_up_state.dart';
 
@@ -28,5 +24,4 @@ class SignUpCubit extends Cubit<SignUpState> {
           isSubmitting: false, errorMessage: e.toString(), isSuccess: false));
     }
   }
-
 }

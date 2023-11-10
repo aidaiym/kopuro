@@ -1,20 +1,19 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopuro/app/app.dart';
-import 'package:kopuro/modules/modules.dart';
-
+import 'package:kopuro/modules/entrance/logic/sign_in_cubit.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-       onGenerateRoute: (settings) => AppRouter.onGenerateRoute(
-        settings,
-        context.read<SignInCubit>().state.user,
-      ),
-  
+    final appUser = context.read<SignInCubit>().state.user;
+    return MaterialApp(
+      onGenerateRoute: (settings) {
+        return AppRouter.onGenerateRoute(settings, appUser);
+      },
     );
   }
 }

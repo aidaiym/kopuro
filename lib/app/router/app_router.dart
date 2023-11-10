@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:kopuro/models/user/user_model.dart';
 import 'package:kopuro/modules/company/main/view/main_view.dart';
 import 'package:kopuro/modules/modules.dart';
-
-import '../../models/models.dart';
 
 class AppRouter {
   const AppRouter();
@@ -16,13 +15,15 @@ class AppRouter {
     switch (settings.name) {
       case main:
         return CupertinoPageRoute(builder: (_) {
-          if (user!.userType == 'Student') {
-            return const StudentMainView();
-          } else if (user.userType == 'Company') {
-            return const CompanyMainView();
-          } else {
-            return const SignInView();
+          if (user != null) {
+            if (user.userType == 'Student') {
+              return const StudentMainView();
+            } else if (user.userType == 'Company') {
+              return const CompanyMainView();
+            }
           }
+
+          return const SignInView();
         });
       case signin:
         return CupertinoPageRoute(builder: (_) => const SignInView());
@@ -31,8 +32,7 @@ class AppRouter {
       case signup:
         return CupertinoPageRoute(builder: (_) => const SignUpStudentView());
       default:
-        throw Exception(
-            'No builder specified for route named: [${settings.name}]');
+        throw Exception('No builder specified for route named: [${settings.name}]');
     }
   }
 }
