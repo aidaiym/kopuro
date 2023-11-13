@@ -1,0 +1,1 @@
+export 'view/company_view.dart';

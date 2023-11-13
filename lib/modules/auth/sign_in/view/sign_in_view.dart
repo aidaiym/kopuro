@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopuro/modules/modules.dart';
-import '../../../../components/components.dart';
-import '../../../../constants/contants.dart';
+import '../../../../../components/components.dart';
+import '../../../../../constants/contants.dart';
 
 class SignInView extends StatelessWidget {
   const SignInView({super.key});

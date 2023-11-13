@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:kopuro/app/router/app_router.dart';
 import 'package:kopuro/components/components.dart';
 import 'package:kopuro/constants/app/app_text_styles.dart';
-
-import '../../modules.dart';
 
 class ChooseAccountType extends StatelessWidget {
   const ChooseAccountType({super.key});
@@ -18,7 +17,6 @@ class ChooseAccountType extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Аккаунттун түрүн тандаңыз', style: AppTextStyles.header1),
-
               Padding(
                 padding: const EdgeInsets.only(bottom: 50.0, top: 20),
                 child: Text('Сиз компаниясызбы же студентсизби?',
@@ -26,21 +24,13 @@ class ChooseAccountType extends StatelessWidget {
               ),
               MainButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SignUpStudentView()),
-                  );
+                  Navigator.pushNamed(context, AppRouter.signupStudent);
                 },
                 text: 'Студент',
               ),
               MainButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SignUpStudentView()),
-                  );
+                  Navigator.pushNamed(context, AppRouter.signupStudent);
                 },
                 text: 'Компания',
               ),

@@ -1,24 +1,38 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopuro/app/app.dart';
-import 'package:kopuro/modules/entrance/logic/sign_in_cubit.dart';
+import 'package:kopuro/modules/modules.dart';
+
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final appUser = context.read<SignInCubit>().state.user;
-    return MaterialApp(
-      onGenerateRoute: (settings) {
-        return AppRouter.onGenerateRoute(settings, appUser);
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => SignInCubit()),
+      ],
+      child: const KopuroApp(),
     );
   }
 }
 
+class KopuroApp extends StatelessWidget {
+  const KopuroApp({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'KopuroApp',
+      debugShowCheckedModeBanner: false,
+      onGenerateRoute: (settings) {
+        return AppRouter.onGenerateRoute(
+            settings, context.read<SignInCubit>().currentUser);
+      },
+    );
+  }
+}
 
 
 

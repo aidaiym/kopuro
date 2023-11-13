@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../modules.dart';
+import 'package:kopuro/modules/modules.dart';
 
 class CompanyMainView extends StatefulWidget {
   const CompanyMainView({super.key});
@@ -20,7 +19,7 @@ class _CompanyMainViewState extends State<CompanyMainView> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => MainCubit(),
-      child: const MainScreen([
+      child: const CompanyMainScreen([
         VacanciesList(),
         StudentProfile(),
 
@@ -29,8 +28,8 @@ class _CompanyMainViewState extends State<CompanyMainView> {
   }
 }
 
-class MainScreen extends StatelessWidget {
-  const MainScreen(this.items, {super.key});
+class CompanyMainScreen extends StatelessWidget {
+  const CompanyMainScreen(this.items, {super.key});
 
   final List<Widget> items;
 

@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kopuro/app/router/app_router.dart';
+import 'package:kopuro/models/user/user_model.dart';
 
 import '../../../../components/components.dart';
 import '../../../../constants/contants.dart';
@@ -10,14 +13,17 @@ class ResumeBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final nameController = TextEditingController();
     final dateOfBirthController = TextEditingController();
+    final phoneNumberController = TextEditingController();
     final educationController = TextEditingController();
     final skillsController = TextEditingController();
     final linkedinController = TextEditingController();
     final githubController = TextEditingController();
     final aboutController = TextEditingController();
+    final jobController = TextEditingController();
+    final locationController = TextEditingController();
+
     return BlocProvider(
       create: (context) => SignUpCubit(),
       child: Scaffold(
@@ -47,13 +53,13 @@ class ResumeBuilder extends StatelessWidget {
                         description: 'Туулган күн',
                       ),
                       TextFieldWidget(
-                        controller: skillsController,
+                        controller: phoneNumberController,
                         label: 'Телефон номери',
                         validator: 'Сураныч, Телефон номери жазыныз',
                         description: 'Телефон номери',
                       ),
                       TextFieldWidget(
-                        controller: aboutController,
+                        controller: locationController,
                         label: 'Жайгашкан жери',
                         validator: 'Сураныч, Жайгашкан жери жазыныз',
                         description: 'Жайгашкан жери',
@@ -65,7 +71,7 @@ class ResumeBuilder extends StatelessWidget {
                         description: 'мен тууралуу',
                       ),
                       TextFieldWidget(
-                        controller: nameController,
+                        controller: jobController,
                         label: 'Жумуштун аталышы',
                         validator: 'Сураныч, жумуштун жазыныз',
                         description: 'Жумуштун аталышы',
@@ -75,7 +81,7 @@ class ResumeBuilder extends StatelessWidget {
                         style: AppTextStyles.header2,
                       ),
                       TextFieldWidget(
-                        controller: linkedinController,
+                        controller: educationController,
                         label: 'билим',
                         validator: 'Сураныч, билим жазыныз',
                         description: 'билим',
@@ -110,18 +116,41 @@ class ResumeBuilder extends StatelessWidget {
                         validator: 'Сураныч, Github жазыныз',
                         description: 'Github',
                       ),
-                   
                       MainButton(
-                         onPressed: () async {
+                        onPressed: () async {
+                          final userCubit =
+                              BlocProvider.of<SignUpCubit>(context);
+                          final user = FirebaseAuth.instance.currentUser;
 
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>  const StudentMainView()),
-                );
-            
-                          },
-                          text: 'Катталуу'),
+                          if (user != null) {
+                            final users = Users(
+                              uid: user.uid,
+                              createdTime: DateTime.now(),
+                              userType: 'Student',
+                              email: user.email!,
+                              username: nameController.text,
+                              phoneNumber: phoneNumberController.text,
+                              aboutUser: aboutController.text,
+                              jobTitle: jobController.text,
+                              skills: skillsController.text,
+                              userLocation: locationController.text,
+                              education: educationController.text,
+                              workExperience: jobController.text,
+                              language: jobController.text,
+                              linkedIn: linkedinController.text,
+                              github: githubController.text,
+                              photoUrl: '',
+                            );
+
+                            userCubit.createStudent(users);
+                            Navigator.pushNamed(
+                                context, AppRouter.studentMainView);
+                          } else {
+                            print('No signed-in user');
+                          }
+                        },
+                        text: 'Катталуу',
+                      ),
                       if (state.errorMessage.isNotEmpty)
                         Text(
                           'Error: ${state.errorMessage}',
