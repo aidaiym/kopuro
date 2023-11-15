@@ -29,6 +29,8 @@
 		<key>UIMainStoryboardFile</key>
 		<string>Main</string>
 		<key>UISupportedInterfaceOrientations</key>
+		<!-- <key>NSPhotoLibraryUsageDescription</key> 
+		<string>Photo Library Access Warning</string> -->
 		<array>
 			<string>UIInterfaceOrientationPortrait</string>
 			<string>UIInterfaceOrientationLandscapeLeft</string>
