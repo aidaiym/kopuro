@@ -46,10 +46,11 @@ class SignInView extends StatelessWidget {
                   text: 'Кирүү',
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      context.read<SignInCubit>().signInWithEmailAndPassword(
+  context.read<SignInCubit>().signInWithEmailAndPassword(
                             emailController.text,
                             passwordController.text,
                           );
+                          
                     }
                   },
                 ),
