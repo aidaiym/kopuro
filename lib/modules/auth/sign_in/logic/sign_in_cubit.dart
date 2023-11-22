@@ -36,26 +36,31 @@ class SignInCubit extends Cubit<SignInState> {
 
   SignInCubit() : super(SignInInitial());
 
-  Future<void> signInWithEmailAndPassword(String email, String password) async {
-    try {
-      final userCredential = await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+Future<void> signInWithEmailAndPassword(String email, String password) async {
+  try {
+    final userCredential = await _auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
 
-      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userCredential.user!.uid)
-          .get();
+    DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userCredential.user!.uid)
+        .get();
 
+    if (userSnapshot.exists && userSnapshot.data() != null) {
       Users signedInUser =
-          Users.fromJson(userSnapshot.data() as Map<String, dynamic>);
-
+          Users.fromJson(userSnapshot.data()! as Map<String, dynamic>);
       emit(SignInSuccess(user: signedInUser));
-    } catch (e) {
-      emit(SignInFailure(error: e.toString()));
+    } else {
+      emit(SignInFailure(error: 'User document does not exist or has no data'));
     }
+  } catch (e) {
+    emit(SignInFailure(error: e.toString()));
   }
+}
+
+
 
   Future<void> signOut() async {
     await _auth.signOut();
