@@ -1,37 +1,32 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_model.dart';
+part of 'company_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Users _$UsersFromJson(Map<String, dynamic> json) => Users(
+CompanyUser _$CompanyUserFromJson(Map<String, dynamic> json) => CompanyUser(
       id: json['id'] as String,
-      createdTime: DateTime.parse(json['createdTime'] as String),
       username: json['username'] as String,
       email: json['email'] as String,
-      type: $enumDecode(_$UserTypeEnumMap, json['type']),
+      createdTime: DateTime.parse(json['createdTime'] as String),
+      linkedIn: json['linkedIn'] as String?,
       phoneNumber: json['phoneNumber'] as String?,
       aboutUser: json['aboutUser'] as String?,
       photoUrl: json['photoUrl'] as String?,
       userLocation: json['userLocation'] as String?,
     );
 
-Map<String, dynamic> _$UsersToJson(Users instance) => <String, dynamic>{
+Map<String, dynamic> _$CompanyUserToJson(CompanyUser instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'createdTime': instance.createdTime.toIso8601String(),
       'username': instance.username,
       'email': instance.email,
-      'type': _$UserTypeEnumMap[instance.type]!,
       'phoneNumber': instance.phoneNumber,
       'aboutUser': instance.aboutUser,
       'photoUrl': instance.photoUrl,
       'userLocation': instance.userLocation,
+      'linkedIn': instance.linkedIn,
     };
-
-const _$UserTypeEnumMap = {
-  UserType.admin: 'admin',
-  UserType.student: 'student',
-  UserType.company: 'company',
-};

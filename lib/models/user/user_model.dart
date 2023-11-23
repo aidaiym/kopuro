@@ -1,83 +1,59 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:kopuro/core/enums/user_type.dart';
 part 'user_model.g.dart';
+
+
 
 @JsonSerializable()
 class Users {
-  const Users({
-    required this.uid,
+  final String id;
+  final DateTime createdTime;
+  final String username;
+  final String email;
+  final UserType type;
+  final String? phoneNumber;
+  final String? aboutUser;
+  final String? photoUrl;
+  final String? userLocation;
+
+  Users({
+    required this.id,
     required this.createdTime,
-    required this.userType,
-    required this.email,
     required this.username,
-    required this.phoneNumber,
-    required this.aboutUser,
-    required this.jobTitle,
-    required this.skills,
-    this.userLocation,
-    this.education,
-    this.workExperience,
-    this.language,
-    this.linkedIn,
-    this.github,
+    required this.email,
+    required this.type,
+    this.phoneNumber,
+    this.aboutUser,
     this.photoUrl,
+    this.userLocation,
   });
 
   factory Users.fromJson(Map<String, dynamic> json) => _$UsersFromJson(json);
   Map<String, dynamic> toJson() => _$UsersToJson(this);
 
-  final String uid;
-  final DateTime createdTime;
-  final String userType;
-  final String email;
-  final String username;
-  final String phoneNumber;
-  final String aboutUser;
-  final String jobTitle;
-  final String skills;
-  final String? userLocation;
-  final String? education;
-  final String? workExperience;
-  final String? language;
-  final String? linkedIn;
-  final String? github;
-  final String? photoUrl;
-
   Users copyWith({
+    String? id,
+    DateTime? createdTime,
     String? username,
     String? email,
-    String? photoUrl,
-    String? uid,
-    DateTime? createdTime,
+    UserType? type,
     String? phoneNumber,
-    String? password,
-    String? userType,
-    String? userLocation,
     String? aboutUser,
-    String? jobTitle,
-    String? skills,
-    String? education,
-    String? workExperience,
-    String? language,
-    String? linkedIn,
-    String? github,
+    String? photoUrl,
+    String? userLocation,
   }) {
     return Users(
-      uid: uid ?? this.uid,
+      id: id ?? this.id,
       createdTime: createdTime ?? this.createdTime,
-      userType: userType ?? this.userType,
-      email: email ?? this.email,
       username: username ?? this.username,
+      email: email ?? this.email,
+      type: type ?? this.type,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       aboutUser: aboutUser ?? this.aboutUser,
-      jobTitle: jobTitle ?? this.jobTitle,
-      skills: skills ?? this.skills,
-      userLocation: userLocation ?? this.userLocation,
-      education: education ?? this.education,
-      workExperience: workExperience ?? this.workExperience,
-      language: language ?? this.language,
-      linkedIn: linkedIn ?? this.linkedIn,
-      github: github ?? this.github,
       photoUrl: photoUrl ?? this.photoUrl,
+      userLocation: userLocation ?? this.userLocation,
     );
   }
 }
+
+

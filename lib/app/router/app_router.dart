@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:kopuro/models/user/user_model.dart';
-import 'package:kopuro/modules/modules.dart';
+import 'package:kopuro/export_files.dart';
+
 
 class AppRouter {
   const AppRouter();
@@ -17,9 +17,9 @@ class AppRouter {
       case main:
         return CupertinoPageRoute(builder: (_) {
           if (user != null) {
-            if (user.userType == 'Student') {
+            if (user.type == UserType.admin) {
               return const StudentMainView();
-            } else if (user.userType == 'Company') {
+            } else if (user.type == UserType.admin) {
               return const CompanyMainView();
             }
           }

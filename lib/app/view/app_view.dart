@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kopuro/app/app.dart';
-import 'package:kopuro/modules/modules.dart';
-
+import 'package:kopuro/export_files.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
