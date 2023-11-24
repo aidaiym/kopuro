@@ -20,9 +20,9 @@ class _StudentMainViewState extends State<StudentMainView> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => MainCubit(),
-      child: const MainScreen([
+      child:  const MainScreen([
         VacanciesList(),
-        StudentProfile(),
+        StudentProfileView(),
 
       ]),
     );

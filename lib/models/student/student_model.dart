@@ -13,9 +13,13 @@ class StudentUser extends Users {
   final String? language;
   final String? linkedIn;
   final String? github;
+  @override
+  final UserType type;
 
-  StudentUser({
+  StudentUser(
+   {
     required String id,
+     required this.type, 
     required String username,
     required String email,
     required this.jobTitle,
@@ -34,7 +38,7 @@ class StudentUser extends Users {
           id: id,
           username: username,
           email: email,
-          type: UserType.student,
+          type: type,
           createdTime: createdTime,
           phoneNumber: phoneNumber,
           aboutUser: aboutUser,
@@ -43,8 +47,10 @@ class StudentUser extends Users {
         );
 
   factory StudentUser.fromJson(Map<String, dynamic> json) => _$StudentUserFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$StudentUserToJson(this);
 
+  @override
   StudentUser copyWith({
     String? id,
     DateTime? createdTime,
@@ -64,6 +70,7 @@ class StudentUser extends Users {
     String? github,
   }) {
     return StudentUser(
+      type: type ?? this.type, // Pass the type parameter here
       id: id ?? this.id,
       username: username ?? this.username,
       email: email ?? this.email,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kopuro/export_files.dart';
 
-import '../../../modules.dart';
 
 class VacanciesList extends StatelessWidget {
   const VacanciesList({super.key});
@@ -11,9 +11,7 @@ class VacanciesList extends StatelessWidget {
     return BlocProvider(
       create: (context) => VacancyCubit()..loadVacancies(),
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Vacancies'),
-        ),
+
         body: BlocBuilder<VacancyCubit, VacancyState>(
           builder: (context, state) {
             if (state is VacancyLoaded) {

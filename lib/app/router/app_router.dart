@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:kopuro/export_files.dart';
-
+import 'package:kopuro/modules/student/sign_up/view/verify_email.dart';
 
 class AppRouter {
   const AppRouter();
@@ -11,6 +11,7 @@ class AppRouter {
   static const String signupStudent = '/signupStudent';
   static const String resumeBuilder = '/resumeBuilder';
   static const String studentMainView = '/studentMainView';
+  static const String verifyEmail = '/verifyEmail';
 
   static Route<void> onGenerateRoute(RouteSettings settings, Users? user) {
     switch (settings.name) {
@@ -29,6 +30,8 @@ class AppRouter {
         return CupertinoPageRoute(builder: (_) => const SignInView());
       case onboarding:
         return CupertinoPageRoute(builder: (_) => const OnboardingView());
+      case verifyEmail:
+        return CupertinoPageRoute(builder: (_) => const VerifyEmailView());
       case signupStudent:
         return CupertinoPageRoute(builder: (_) => const SignUpStudentView());
       case resumeBuilder:

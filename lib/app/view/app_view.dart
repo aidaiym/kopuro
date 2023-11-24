@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => SignInCubit()),
+        BlocProvider(create: (context) => AuthCubit()),
       ],
       child: const KopuroApp(),
     );
@@ -17,33 +17,28 @@ class MyApp extends StatelessWidget {
 }
 
 class KopuroApp extends StatelessWidget {
-  const KopuroApp({super.key});
+  const KopuroApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'KopuroApp',
-      debugShowCheckedModeBanner: false,
-      onGenerateRoute: (settings) {
-        return AppRouter.onGenerateRoute(
-            settings, context.read<SignInCubit>().currentUser);
+    return FutureBuilder<Users?>(
+      future: context.read<AuthCubit>().getCurrentUser(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          Users? user = snapshot.data;
+          return MaterialApp(
+            title: 'KopuroApp',
+            debugShowCheckedModeBanner: false,
+            onGenerateRoute: (settings) {
+              return AppRouter.onGenerateRoute(settings, user);
+            },
+          );
+        } else {
+
+          return const CircularProgressIndicator();
+        }
       },
     );
   }
 }
 
-
-
-
-
-
-  //  Builder(
-    //     builder: (context) {
-    //       final user = BlocProvider.of<SignInCubit>(context).state;
-    //       if (user != null) {
-    //         return const OnboardingView();
-    //       } else {
-    //         return const OnboardingView();
-    //       }
-    //     },
-      

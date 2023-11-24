@@ -1,91 +1,61 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:kopuro/components/components.dart';
-import 'package:kopuro/modules/modules.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kopuro/export_files.dart';
 
-class StudentProfile extends StatelessWidget {
-  const StudentProfile({Key? key}) : super(key: key);
+class StudentProfileView extends StatelessWidget {
+  const StudentProfileView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Student Profile'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              _editProfile(context);
+            },
+            icon: const Icon(Icons.edit),
+          ),
+          IconButton(
+            onPressed: () {
+              _logout(context);
+            },
+            icon: const Icon(Icons.logout),
+          ),
+        ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.settings),
-                ),
-                ElevatedButton(
-                    onPressed: () {},
-                    child: const Row(
-                      children: [
-                        Icon(Icons.history),
-                        Text('Applied Companies'),
-                      ],
-                    )),
-              ],
-            ),
-            const Divider(),
-            const CircleAvatar(
-              radius: 50.0,
-              backgroundImage: NetworkImage('photoUrl'),
-            ),
-            const SizedBox(height: 16.0),
-            const UserInfoItem(label: 'Email', value: 'user@example.com'),
-            const UserInfoItem(label: 'Username', value: 'John Doe'),
-            const UserInfoItem(label: 'Phone Number', value: '+123456789'),
-            const UserInfoItem(
-                label: 'About Me', value: 'I am a passionate student.'),
-            const UserInfoItem(label: 'Job Title', value: 'Software Developer'),
-            const UserInfoItem(
-                label: 'Skills', value: 'Flutter, Dart, Firebase'),
-            const UserInfoItem(label: 'Location', value: 'City, Country'),
-            const SizedBox(height: 16.0),
-            const SizedBox(height: 16.0),
-            MainButton(
-              onPressed: () {
-                FirebaseAuth.instance.signOut();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SignInView()),
-                );
-              },
-              text: 'Logout',
-            ),
-          ],
-        ),
+      body: BlocBuilder<AuthCubit, AuthState>(
+        builder: (context, state) {
+          if (state is AuthSignedInState) {
+            return _buildProfile(state.user as Users);
+          } else {
+            return const Center(child: Text('Error loading profile.'));
+          }
+        },
       ),
     );
   }
-}
 
-class UserInfoItem extends StatelessWidget {
-  final String label;
-  final String value;
-
-  const UserInfoItem({Key? key, required this.label, required this.value})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildProfile(Users user) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
-          Text(value),
+          Text('Username: ${user.username}'),
+          Text('Email: ${user.email}'),
         ],
       ),
     );
+  }
+
+  void _editProfile(BuildContext context) {
+
+    // Navigator.pushNamed(context, AppRouter.editProfile);
+  }
+
+  void _logout(BuildContext context) {
+    context.read<AuthCubit>().logOut();
   }
 }

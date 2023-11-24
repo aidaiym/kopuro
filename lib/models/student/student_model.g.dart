@@ -8,6 +8,7 @@ part of 'student_model.dart';
 
 StudentUser _$StudentUserFromJson(Map<String, dynamic> json) => StudentUser(
       id: json['id'] as String,
+      type: $enumDecode(_$UserTypeEnumMap, json['type']),
       username: json['username'] as String,
       email: json['email'] as String,
       jobTitle: json['jobTitle'] as String,
@@ -41,4 +42,11 @@ Map<String, dynamic> _$StudentUserToJson(StudentUser instance) =>
       'language': instance.language,
       'linkedIn': instance.linkedIn,
       'github': instance.github,
+      'type': _$UserTypeEnumMap[instance.type]!,
     };
+
+const _$UserTypeEnumMap = {
+  UserType.admin: 'admin',
+  UserType.student: 'student',
+  UserType.company: 'company',
+};

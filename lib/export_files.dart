@@ -4,3 +4,4 @@ export 'constants/contants.dart';
 export 'core/core.dart';
 export 'models/models.dart';
 export 'modules/modules.dart';
+export 'service/service.dart';
