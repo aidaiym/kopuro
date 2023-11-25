@@ -25,6 +25,7 @@ class StudentProfileView extends StatelessWidget {
           ),
         ],
       ),
+      
       body: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) {
           if (state is AuthSignedInState) {
