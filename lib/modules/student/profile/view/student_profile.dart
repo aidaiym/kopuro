@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopuro/export_files.dart';
@@ -7,6 +8,7 @@ class StudentProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Student Profile'),
@@ -25,11 +27,19 @@ class StudentProfileView extends StatelessWidget {
           ),
         ],
       ),
-      
       body: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) {
-          if (state is AuthSignedInState) {
-            return _buildProfile(state.user as Users);
+          if (user != null) {
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Username: ${user.phoneNumber}'),
+                  Text('Email: ${user.email}'),
+                ],
+              ),
+            );
           } else {
             return const Center(child: Text('Error loading profile.'));
           }
@@ -38,21 +48,7 @@ class StudentProfileView extends StatelessWidget {
     );
   }
 
-  Widget _buildProfile(Users user) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Username: ${user.username}'),
-          Text('Email: ${user.email}'),
-        ],
-      ),
-    );
-  }
-
   void _editProfile(BuildContext context) {
-
     // Navigator.pushNamed(context, AppRouter.editProfile);
   }
 

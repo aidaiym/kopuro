@@ -13,34 +13,34 @@ class AppRouter {
   static const String studentMainView = '/studentMainView';
   static const String verifyEmail = '/verifyEmail';
 
-  static Route<void> onGenerateRoute(RouteSettings settings, Users? user) {
-    switch (settings.name) {
-      case main:
-        return CupertinoPageRoute(builder: (_) {
-          if (user != null) {
-            if (user.type == UserType.admin) {
-              return const StudentMainView();
-            } else if (user.type == UserType.admin) {
-              return const CompanyMainView();
-            }
+static Route<void> onGenerateRoute(RouteSettings settings, Users? user) {
+  switch (settings.name) {
+    case main:
+      return CupertinoPageRoute(builder: (_) {
+        if (user != null) {
+          if (user.type == UserType.admin) {
+            return const StudentMainView();
+          } else if (user.type == UserType.company) {
+            return const CompanyMainView();
           }
-          return const SignInView();
-        });
-      case signin:
-        return CupertinoPageRoute(builder: (_) => const SignInView());
-      case onboarding:
-        return CupertinoPageRoute(builder: (_) => const OnboardingView());
-      case verifyEmail:
-        return CupertinoPageRoute(builder: (_) => const VerifyEmailView());
-      case signupStudent:
-        return CupertinoPageRoute(builder: (_) => const SignUpStudentView());
-      case resumeBuilder:
-        return CupertinoPageRoute(builder: (_) => const ResumeBuilder());
-      case studentMainView:
-        return CupertinoPageRoute(builder: (_) => const StudentMainView());
-      default:
-        throw Exception(
-            'No builder specified for route named: [${settings.name}]');
-    }
+        }
+        return const SignInView();
+      });
+    case signin:
+      return CupertinoPageRoute(builder: (_) => const SignInView());
+    case onboarding:
+      return CupertinoPageRoute(builder: (_) => const OnboardingView());
+    case verifyEmail:
+      return CupertinoPageRoute(builder: (_) => const VerifyEmailView());
+    case signupStudent:
+      return CupertinoPageRoute(builder: (_) => const SignUpStudentView());
+    case resumeBuilder:
+      return CupertinoPageRoute(builder: (_) => const ResumeBuilder());
+    case studentMainView:
+      return CupertinoPageRoute(builder: (_) => const StudentMainView());
+    default:
+      throw Exception('No builder specified for route named: [${settings.name}]');
   }
+}
+
 }
