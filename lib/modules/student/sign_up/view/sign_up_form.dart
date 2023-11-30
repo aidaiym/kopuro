@@ -130,6 +130,14 @@ class StudentSignUpForm extends StatelessWidget {
                               : null;
 
                           ();
+                          if (state.status.isSuccess) {
+                            print('object');
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const VerifyEmailView()),
+                            );
+                          }
                         },
                         text: 'Кийинки');
               },

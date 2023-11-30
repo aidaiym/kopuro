@@ -76,9 +76,17 @@ class VerifyEmailView extends StatelessWidget {
                   await user?.reload();
                   user = FirebaseAuth.instance.currentUser;
                   if (user?.emailVerified == true) {
-                 Navigator.pushNamed(context, AppRouter.resumeBuilder);
+                      Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => const ResumeBuilder()),
+                            );
+                //  Navigator.pushNamed(context, AppRouter.resumeBuilder);
                   } else {
-                     Navigator.pushNamed(context, AppRouter.signupStudent);
+                      Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => const SignUpStudentView()),
+                            );
+                    //  Navigator.pushNamed(context, AppRouter.signupStudent);
                     print('Email not verified. You can provide an option to resend verification.');
                   }
                 },
