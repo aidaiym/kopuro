@@ -24,10 +24,10 @@ static Route<void> onGenerateRoute(RouteSettings settings, Users? user) {
             return const CompanyMainView();
           }
         }
-        return const SignInView();
+        return const OnboardingView();
       });
     case signin:
-      return CupertinoPageRoute(builder: (_) => const SignInView());
+      return CupertinoPageRoute(builder: (_) => const OnboardingView());
     case onboarding:
       return CupertinoPageRoute(builder: (_) => const OnboardingView());
     case verifyEmail:

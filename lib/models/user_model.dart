@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:kopuro/export_files.dart';
 
-enum UserType { student, company, admin }
 
 class User extends Equatable {
   const User({

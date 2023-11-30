@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kopuro/app/router/app_router.dart';
 import 'package:kopuro/components/components.dart';
 import 'package:kopuro/constants/app/app_text_styles.dart';
+import 'package:kopuro/modules/student/sign_up/view/sign_up_page.dart';
 
 class ChooseAccountType extends StatelessWidget {
   const ChooseAccountType({super.key});
@@ -24,7 +25,10 @@ class ChooseAccountType extends StatelessWidget {
               ),
               MainButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, AppRouter.signupStudent);
+                  Navigator.of(context).push<void>(StudentSignUpPage.route());
+                  // Navigator.pushNamed(context, AppRouter.signupStudent);
+
+                      
                 },
                 text: 'Студент',
               ),

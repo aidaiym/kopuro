@@ -1,7 +1,8 @@
 import 'package:flutter/widgets.dart';
-import 'package:kopuro/core/app/bloc/app_bloc.dart';
-import 'package:kopuro/core/app/home_page.dart';
-import 'package:kopuro/core/login/view/login_page.dart';
+import 'package:kopuro/app/bloc/app_bloc.dart';
+
+import 'package:kopuro/modules/student/main/home_page.dart';
+import 'package:kopuro/modules/login/view/login_page.dart';
 
 
 List<Page<dynamic>> onGenerateAppViewPages(

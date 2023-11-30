@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
-import 'package:kopuro/constants/app/app_colors.dart';
-
-import '../../modules.dart';
+import 'package:kopuro/export_files.dart';
 
 class OnboardingView extends StatelessWidget {
   const OnboardingView({Key? key}) : super(key: key);
 
   void onDonePress(BuildContext context) {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (context) => const SignInView(),
+      builder: (context) => const LoginPage(),
     ));
   }
 
@@ -47,7 +45,7 @@ class OnboardingView extends StatelessWidget {
             ),
             onPressed: () {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => const SignInView(),
+                builder: (context) => const LoginPage(),
               ));
             },
             child: const Text('Бүттү'),
