@@ -1,10 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:kopuro/export_files.dart';
-import 'package:kopuro/modules/student/sign_up/view/verify_email.dart';
 
 part 'sign_up_state.dart';
 
@@ -63,7 +60,7 @@ class SignUpCubit extends Cubit<SignUpState> {
     );
   }
 
-  Future<void> signUpFormSubmitted() async {
+Future<void> signUpFormSubmitted() async {
     if (!state.isValid) return;
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
     try {
@@ -83,4 +80,5 @@ class SignUpCubit extends Cubit<SignUpState> {
       emit(state.copyWith(status: FormzSubmissionStatus.failure));
     }
   }
+
 }

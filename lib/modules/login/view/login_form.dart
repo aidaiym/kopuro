@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:kopuro/export_files.dart';
 import 'package:kopuro/modules/login/logic/login_cubit.dart';
-import 'package:kopuro/modules/student/sign_up/view/sign_up_page.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});

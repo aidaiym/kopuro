@@ -47,3 +47,5 @@ final class SignUpState extends Equatable {
     );
   }
 }
+
+

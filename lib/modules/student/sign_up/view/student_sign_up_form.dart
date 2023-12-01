@@ -1,10 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:kopuro/export_files.dart';
-import 'package:kopuro/modules/student/sign_up/cubit/sign_up_cubit.dart';
-import 'package:kopuro/modules/student/sign_up/view/verify_email.dart';
 
 class StudentSignUpForm extends StatelessWidget {
   const StudentSignUpForm({super.key});
@@ -122,24 +119,15 @@ class StudentSignUpForm extends StatelessWidget {
                 return state.status.isInProgress
                     ? const CircularProgressIndicator()
                     : MainButton(
-                        onPressed: () async {
-                          state.isValid
-                              ? () => context
-                                  .read<SignUpCubit>()
-                                  .signUpFormSubmitted()
-                              : null;
-
-                          ();
-                          if (state.status.isSuccess) {
-                            print('object');
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const VerifyEmailView()),
-                            );
+                        onPressed: () {
+                          if (state.isValid) {
+                            context.read<SignUpCubit>().signUpFormSubmitted();
+                            Navigator.of(context)
+                                .push<void>(VerifyEmailView.route());
                           }
                         },
-                        text: 'Кийинки');
+                        text: 'Кийинки',
+                      );
               },
             ),
           ],

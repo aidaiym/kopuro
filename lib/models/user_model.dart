@@ -27,6 +27,15 @@ class User extends Equatable {
 
   @override
   List<Object?> get props => [email, id, username, createdTime, photoUrl, userLocation];
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'createdTime': createdTime,
+      'username': username,
+      'email': email,
+
+    };
+  }
 }
 
 class AdminUser extends User {

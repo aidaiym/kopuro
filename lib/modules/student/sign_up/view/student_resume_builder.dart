@@ -1,17 +1,20 @@
-import 'dart:io';
+
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'package:kopuro/export_files.dart';
+import 'package:kopuro/models/user_model.dart';
 
 class ResumeBuilder extends StatelessWidget {
-  const ResumeBuilder({super.key});
-
+  const ResumeBuilder({Key? key}) : super(key: key);
+ static Route<void> route() {
+    return MaterialPageRoute<void>(builder: (_) => const ResumeBuilder());
+  }
   @override
   Widget build(BuildContext context) {
     final nameController = TextEditingController();
-    final dateOfBirthController = TextEditingController();
     final phoneNumberController = TextEditingController();
     final educationController = TextEditingController();
     final skillsController = TextEditingController();
@@ -21,11 +24,12 @@ class ResumeBuilder extends StatelessWidget {
     final jobController = TextEditingController();
     final languageController = TextEditingController();
     final locationController = TextEditingController();
-    File? selectedImage;
 
-    void _uploadResume(BuildContext context) async {
+    // File? selectedImage; // Uncomment if you want to handle image uploading
+
+    void uploadResume(BuildContext context) async {
       try {
-        User? user = FirebaseAuth.instance.currentUser;
+        var user = FirebaseAuth.instance.currentUser;
         StudentUser student = StudentUser(
           id: user?.uid ?? '',
           type: UserType.student,
@@ -44,14 +48,9 @@ class ResumeBuilder extends StatelessWidget {
           userLocation: locationController.text,
         );
 
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(user?.uid)
-            .set(student.toJson());
-
-        Navigator.pushNamed(context, AppRouter.studentMainView);
+        await FirebaseFirestore.instance.collection('users').doc(user?.uid).set(student.toMap());
       } catch (e) {
-        print('Error uploading resume: $e');
+        log('Error uploading resume: $e');
       }
     }
 
@@ -63,36 +62,11 @@ class ResumeBuilder extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // ElevatedButton(
-                //   onPressed: () async {
-                //     final pickedImage = await ImagePicker().pickImage(
-                //       source: ImageSource.gallery,
-                //     );
-
-                //     if (pickedImage != null) {
-                //       selectedImage = File(pickedImage.path);
-                //     }
-                //   },
-                //   child: const Text('Choose Photo'),
-                // ),
-                // if (selectedImage != null)
-                //   Image.file(
-                //     selectedImage!,
-                //     width: 100,
-                //     height: 100,
-                //   ),
                 TextFieldWidget(
                   controller: nameController,
                   label: 'Аты-жөнү',
                   validator: 'Сураныч, Аты-жөнү жазыныз',
                   description: 'Аты-жөнү',
-                  obscureText: false,
-                ),
-                TextFieldWidget(
-                  controller: dateOfBirthController,
-                  label: 'Туулган күн',
-                  validator: 'Сураныч, Туулган күн жазыныз',
-                  description: 'Туулган күн',
                   obscureText: false,
                 ),
                 TextFieldWidget(
@@ -136,17 +110,10 @@ class ResumeBuilder extends StatelessWidget {
                 ),
                 TextFieldWidget(
                   obscureText: false,
-                  controller: jobController,
-                  label: 'иш тажрыйба',
-                  validator: 'Сураныч, иш тажрыйба жазыныз',
-                  description: 'иш тажрыйба',
-                ),
-                TextFieldWidget(
                   controller: skillsController,
                   label: 'көндүмдөр',
                   validator: 'Сураныч, көндүмдөр жазыныз',
                   description: 'көндүмдөр',
-                  obscureText: false,
                 ),
                 TextFieldWidget(
                   controller: languageController,
@@ -171,7 +138,7 @@ class ResumeBuilder extends StatelessWidget {
                 ),
                 MainButton(
                   onPressed: () async {
-                    _uploadResume(context);
+                    uploadResume(context);
                   },
                   text: 'Катталуу',
                 ),
