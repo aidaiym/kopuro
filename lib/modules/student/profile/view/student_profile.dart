@@ -83,26 +83,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
     fetchUserData();
   }
+Future<void> fetchUserData() async {
+  User? user = getCurrentUser();
 
-  Future<void> fetchUserData() async {
-    User? user = getCurrentUser();
+  if (user != null && mounted) {
+    String uid = user.uid;
 
-    if (user != null) {
-      String uid = user.uid;
+    // Check if the user exists in the Firestore collection
+    Map<String, dynamic> data = await getUserData(uid);
 
-      // Check if the user exists in the Firestore collection
-      Map<String, dynamic> data = await getUserData(uid);
-
-      if (data.isNotEmpty) {
-        setState(() {
-          userData = data;
-        });
-      } else {
-        // Handle the case where the user data is not found
-        log('User data not found in Firestore for UID: $uid');
-      }
+    if (mounted) {
+      // Check if the widget is still mounted before calling setState
+      setState(() {
+        userData = data;
+      });
+    } else {
+      // Handle the case where the widget is not mounted
+      log('Widget is not mounted. Cannot update state.');
     }
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
