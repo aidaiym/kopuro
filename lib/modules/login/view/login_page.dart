@@ -7,8 +7,10 @@ import 'package:kopuro/modules/login/view/login_form.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
-
-  static Page<void> page() => const MaterialPage<void>(child: LoginPage());
+ static Route<void> route() {
+    return MaterialPageRoute<void>(builder: (_) => const LoginPage());
+  }
+  // static Page<void> page() => const MaterialPage<void>(child: LoginPage());
 
   @override
   Widget build(BuildContext context) {

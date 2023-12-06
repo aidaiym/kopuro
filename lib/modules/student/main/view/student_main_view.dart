@@ -22,8 +22,8 @@ class _StudentMainViewState extends State<StudentMainView> {
     return BlocProvider(
       create: (context) => MainCubit(),
       child:  const MainScreen([
-        ProfileScreen(),
-        StudentProfileView(),
+        VacanciesList(),
+        StudentProfileWidget(),
       ]),
     );
   }

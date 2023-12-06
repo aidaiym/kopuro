@@ -6,6 +6,7 @@ class OnboardingView extends StatelessWidget {
   const OnboardingView({Key? key}) : super(key: key);
 
   static Page<void> page() => const MaterialPage<void>(child: OnboardingView());
+
   void onDonePress(BuildContext context) {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (context) => const LoginPage(),
@@ -45,11 +46,8 @@ class OnboardingView extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              Navigator.of(context).push<void>(
-                MaterialPageRoute<void>(
-                  builder: (_) => const LoginPage(),
-                ),
-              );
+               Navigator.of(context)
+                                .push<void>(LoginPage.route());
             },
             child: const Text('Бүттү',   style: TextStyle(color: Colors.white)),
           ),
@@ -69,3 +67,4 @@ class OnboardingView extends StatelessWidget {
     );
   }
 }
+

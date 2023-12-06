@@ -1,1 +1,2 @@
-export 'view/student_profile.dart';
+export 'view/student_profile_widget.dart';
+export 'logic/profile_cubit.dart';

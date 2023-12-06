@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,9 +8,10 @@ import 'package:kopuro/models/user_model.dart';
 
 class ResumeBuilder extends StatelessWidget {
   const ResumeBuilder({Key? key}) : super(key: key);
- static Route<void> route() {
+  static Route<void> route() {
     return MaterialPageRoute<void>(builder: (_) => const ResumeBuilder());
   }
+
   @override
   Widget build(BuildContext context) {
     final nameController = TextEditingController();
@@ -24,17 +24,13 @@ class ResumeBuilder extends StatelessWidget {
     final jobController = TextEditingController();
     final languageController = TextEditingController();
     final locationController = TextEditingController();
-
-    // File? selectedImage; // Uncomment if you want to handle image uploading
-
     void uploadResume(BuildContext context) async {
       try {
         var user = FirebaseAuth.instance.currentUser;
         StudentUser student = StudentUser(
           id: user?.uid ?? '',
-          type: UserType.student,
-          username: nameController.text,
           email: user?.email ?? '',
+          username: nameController.text,
           createdTime: DateTime.now(),
           jobTitle: jobController.text,
           skills: skillsController.text,
@@ -48,7 +44,19 @@ class ResumeBuilder extends StatelessWidget {
           userLocation: locationController.text,
         );
 
-        await FirebaseFirestore.instance.collection('users').doc(user?.uid).set(student.toMap());
+        Map<String, dynamic> studentMap = student.toMapStudent();
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user?.uid)
+            .set(studentMap, SetOptions(merge: true));
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                const StudentMainView(),
+          ),
+        );
       } catch (e) {
         log('Error uploading resume: $e');
       }
@@ -139,6 +147,7 @@ class ResumeBuilder extends StatelessWidget {
                 MainButton(
                   onPressed: () async {
                     uploadResume(context);
+                    // StudentMainView.page();
                   },
                   text: 'Катталуу',
                 ),

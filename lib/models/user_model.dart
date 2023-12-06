@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:kopuro/export_files.dart';
 
-
 class User extends Equatable {
   const User({
     required this.id,
@@ -26,14 +25,14 @@ class User extends Equatable {
   bool get isNotEmpty => this != User.empty;
 
   @override
-  List<Object?> get props => [email, id, username, createdTime, photoUrl, userLocation];
+  List<Object?> get props =>
+      [email, id, username, createdTime, photoUrl, userLocation];
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'createdTime': createdTime,
       'username': username,
       'email': email,
-
     };
   }
 }
@@ -47,7 +46,8 @@ class AdminUser extends User {
     required String email,
     required DateTime createdTime,
     required this.userType,
-  }) : super(id: id, username: username, email: email, createdTime: createdTime);
+  }) : super(
+            id: id, username: username, email: email, createdTime: createdTime);
 
   @override
   List<Object?> get props => [...super.props, userType];
@@ -82,7 +82,28 @@ class StudentUser extends User {
     this.language,
     this.linkedIn,
     this.github,
-  }) : super(id: id ?? '', username: username ?? '', email: email ?? '', createdTime: createdTime, photoUrl: photoUrl, userLocation: userLocation);
+  }) : super(
+            id: id ?? '',
+            username: username ?? '',
+            email: email ?? '',
+            createdTime: createdTime,
+            photoUrl: photoUrl,
+            userLocation: userLocation);
+  Map<String, dynamic> toMapStudent() {
+    return {
+      ...toMap(),
+      'type': 'student',
+      'phoneNumber': phoneNumber,
+      'aboutUser': aboutUser,
+      'jobTitle': jobTitle,
+      'skills': skills,
+      'education': education,
+      'workExperience': workExperience,
+      'language': language,
+      'linkedIn': linkedIn,
+      'github': github,
+    };
+  }
 
   @override
   List<Object?> get props => [
@@ -117,8 +138,15 @@ class CompanyUser extends User {
     this.aboutUser,
     String? photoUrl,
     String? userLocation,
-  }) : super(id: id, username: username, email: email, createdTime: createdTime, photoUrl: photoUrl, userLocation: userLocation);
+  }) : super(
+            id: id,
+            username: username,
+            email: email,
+            createdTime: createdTime,
+            photoUrl: photoUrl,
+            userLocation: userLocation);
 
   @override
-  List<Object?> get props => [...super.props, type, linkedIn, phoneNumber, aboutUser];
+  List<Object?> get props =>
+      [...super.props, type, linkedIn, phoneNumber, aboutUser];
 }
