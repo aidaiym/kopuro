@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopuro/export_files.dart';
 
-
 class StudentMainView extends StatefulWidget {
   const StudentMainView({super.key});
   static Page<void> page() =>
@@ -19,11 +18,18 @@ class _StudentMainViewState extends State<StudentMainView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => MainCubit(),
-      child:  const MainScreen([
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<MainCubit>(
+          create: (_) => MainCubit(),
+        ),
+        BlocProvider<ProfileCubit>(
+          create: (_) => ProfileCubit(),
+        ),
+      ],
+      child: const MainScreen([
         VacanciesList(),
-        StudentProfileWidget(),
+        StudentProfileView(),
       ]),
     );
   }

@@ -3,8 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 part 'profile_state.dart';
 
-
-
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(ProfileState(userData: {}));
 
@@ -26,10 +24,10 @@ Future<Map<String, dynamic>> getUserData(String uid) async {
     if (userSnapshot.exists) {
       return userSnapshot.data() as Map<String, dynamic>;
     } else {
-      return {}; // Return an empty map or handle accordingly
+      return {};
     }
   } catch (e) {
     log('Error fetching user data: $e');
-    return {}; // Return an empty map or handle accordingly
+    return {};
   }
 }

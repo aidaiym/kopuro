@@ -21,7 +21,7 @@ class _CompanyMainViewState extends State<CompanyMainView> {
       create: (context) => MainCubit(),
       child: const CompanyMainScreen([
         VacanciesList(),
-        StudentProfileWidget(),
+        StudentProfileView(),
 
       ]),
     );
