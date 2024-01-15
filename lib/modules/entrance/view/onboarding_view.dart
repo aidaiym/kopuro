@@ -41,6 +41,7 @@ class OnboardingView extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.main,
               textStyle: const TextStyle(color: Colors.white),
+              
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0),
               ),
@@ -49,7 +50,7 @@ class OnboardingView extends StatelessWidget {
                Navigator.of(context)
                                 .push<void>(LoginPage.route());
             },
-            child: const Text('Бүттү',   style: TextStyle(color: Colors.white)),
+            child: const Text('Бүттү',   style: TextStyle(color: Colors.white, fontSize: 12)),
           ),
           renderNextBtn: Container(
             padding: const EdgeInsets.all(8),
@@ -59,7 +60,7 @@ class OnboardingView extends StatelessWidget {
             ),
             child: const Text(
               'Кийинки',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white, fontSize: 12),
             ),
           ),
         ),

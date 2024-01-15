@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../models/models.dart';
@@ -21,7 +22,8 @@ class VacancyCubit extends Cubit<VacancyState> {
 
       emit(VacancyLoaded(vacancies: allVacancies));
     } catch (e) {
-      emit(const VacancyError(message: 'Failed to load vacancies.'));
+      Text('Failed to load vacancies.');
+      // emit(const VacancyError(message: 'Failed to load vacancies.'));
     }
   }
 
