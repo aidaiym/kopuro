@@ -1,11 +1,8 @@
-
 import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopuro/app/bloc/app_bloc.dart';
-import 'package:kopuro/app/router/app_router.dart';
-import 'package:kopuro/core/repos/authentication_repository/authentication_repository.dart';
-
+import 'package:kopuro/export_files.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -19,10 +16,17 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
       value: _authenticationRepository,
-      child: BlocProvider(
-        create: (_) => AppBloc(
-          authenticationRepository: _authenticationRepository,
-        ),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => PageCubit(),
+          ),
+          BlocProvider(
+            create: (_) => AppBloc(
+              authenticationRepository: _authenticationRepository,
+            ),
+          )
+        ],
         child: const AppView(),
       ),
     );

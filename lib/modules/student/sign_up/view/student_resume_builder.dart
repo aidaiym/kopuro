@@ -50,6 +50,7 @@ class ResumeBuilder extends StatelessWidget {
             .doc(user?.uid)
             .set(studentMap, SetOptions(merge: true));
 
+        // ignore: use_build_context_synchronously
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

@@ -77,21 +77,21 @@ Widget _buildSuccessContent(BuildContext context, HomeSuccessState state) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Center(
-            // child: CircleAvatar(
-            //   radius: 60,
-            //   backgroundImage: state.userData!['photoUrl'] != null
-            //       ? NetworkImage(state.userData!['photoUrl'])
-            //       : AssetImage('assets/images/avatar.png') as ImageProvider,
-            // ),
+            child: CircleAvatar(
+              radius: 60,
+              backgroundImage: state.userData!['photoUrl'] != null
+                  ? NetworkImage(state.userData!['photoUrl'])
+                  : const AssetImage('assets/images/avatar.png') as ImageProvider,
+            ),
           ),
           const SizedBox(height: 16),
           ListTile(
             title: Text(
-              state.userData!['username'],
+              state.userData!['username']??'Nameß',
               style: AppTextStyles.header3,
             ),
             subtitle: Text(
-              state.userData!['jobTitle'],
+              state.userData!['jobTitle']??'jobTitle',
               style: AppTextStyles.header2,
             ),
           ),
@@ -111,12 +111,12 @@ Widget _buildSuccessContent(BuildContext context, HomeSuccessState state) {
   );
 }
 
-Widget _buildSection(String title, String content) {
+Widget _buildSection(String? title, String? content) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Text(title, style: AppTextStyles.sectionTitle),
-      Text(content, style: AppTextStyles.sectionContent),
+      Text(title ?? '', style: AppTextStyles.sectionTitle),
+      Text(content ?? '', style: AppTextStyles.sectionContent),
       const SizedBox(height: 16),
     ],
   );

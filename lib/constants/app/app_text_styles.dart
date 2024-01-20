@@ -25,4 +25,16 @@ final class AppTextStyles {
     fontWeight: FontWeight.normal,
     color: Colors.black87,
   );
+
+  static TextStyle white14 = GoogleFonts.firaSans(
+    fontSize: 14,
+    color: Colors.white,
+    fontWeight: FontWeight.w400,
+  );
+
+  static TextStyle main14 = GoogleFonts.firaSans(
+    fontSize: 14,
+    color: AppColors.main,
+    fontWeight: FontWeight.w500
+  );
 }
