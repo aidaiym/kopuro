@@ -8,8 +8,6 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   Future<void> fetchUserData(String uid) async {
     try {
-      // emit(HomeLoadingState());
-
       Map<String, dynamic> data = await getUserData(uid);
       emit(HomeSuccessState(userData: data));
     } catch (e) {
@@ -17,20 +15,36 @@ class ProfileCubit extends Cubit<ProfileState> {
       log('Error fetching user data: $e');
     }
   }
-}
 
-Future<Map<String, dynamic>> getUserData(String uid) async {
-  try {
-    DocumentSnapshot userSnapshot =
-        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+  Future<void> updateUserData(
+      String uid, Map<String, dynamic> updatedData) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .update(updatedData);
 
-    if (userSnapshot.exists) {
-      return userSnapshot.data() as Map<String, dynamic>;
-    } else {
+      Map<String, dynamic> updatedUserData = await getUserData(uid);
+      emit(HomeSuccessState(userData: updatedUserData));
+    } catch (e) {
+      emit(HomeErrorState('Error updating user data: $e'));
+      log('Error updating user data: $e');
+    }
+  }
+
+  Future<Map<String, dynamic>> getUserData(String uid) async {
+    try {
+      DocumentSnapshot userSnapshot =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+      if (userSnapshot.exists) {
+        return userSnapshot.data() as Map<String, dynamic>;
+      } else {
+        return {};
+      }
+    } catch (e) {
+      log('Error fetching user data: $e');
       return {};
     }
-  } catch (e) {
-    log('Error fetching user data: $e');
-    return {};
   }
 }
