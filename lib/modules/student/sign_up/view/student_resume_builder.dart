@@ -4,8 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kopuro/export_files.dart';
-import 'package:kopuro/models/user_model.dart';
-
 class ResumeBuilder extends StatelessWidget {
   const ResumeBuilder({Key? key}) : super(key: key);
   static Route<void> route() {

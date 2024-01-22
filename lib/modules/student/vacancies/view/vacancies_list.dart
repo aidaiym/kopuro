@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopuro/export_files.dart';
 
-
 class VacanciesList extends StatelessWidget {
   const VacanciesList({super.key});
 
@@ -11,7 +10,6 @@ class VacanciesList extends StatelessWidget {
     return BlocProvider(
       create: (context) => VacancyCubit()..loadVacancies(),
       child: Scaffold(
-
         body: BlocBuilder<VacancyCubit, VacancyState>(
           builder: (context, state) {
             if (state is VacancyLoaded) {
@@ -37,7 +35,7 @@ class VacanciesList extends StatelessWidget {
                       itemCount: state.vacancies.length,
                       itemBuilder: (context, index) {
                         final vacancy = state.vacancies[index];
-                
+
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Card(
@@ -69,8 +67,16 @@ class VacanciesList extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: ElevatedButton(
-                                    onPressed: () {},
-                                    child: const Text('Apply'),
+                                    onPressed: () {
+                                      Navigator.push<void>(
+                                        context,
+                                        MaterialPageRoute<void>(
+                                          builder: (BuildContext context) =>
+                                              VacancyDetail(vacancy: vacancy),
+                                        ),
+                                      );
+                                    },
+                                    child: const Text('Kөбүрөөк маалымат алуу'),
                                   ),
                                 ),
                               ],

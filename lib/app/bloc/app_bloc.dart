@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopuro/core/repos/authentication_repository/authentication_repository.dart';
-import 'package:kopuro/models/user_model.dart';
+import 'package:kopuro/models/user/user_model.dart';
 
 part 'app_event.dart';
 part 'app_state.dart';

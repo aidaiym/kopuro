@@ -54,7 +54,7 @@ class StudentProfileView extends StatelessWidget {
               );
             } else {
               return const Center(
-                child: Text('User not authenticated'),
+                child: CircularProgressIndicator(),
               );
             }
           },
@@ -72,12 +72,13 @@ class StudentProfileView extends StatelessWidget {
       );
     } else {
       return const Center(
-        child: Text('User not authenticated'),
+        child: CircularProgressIndicator(),
       );
     }
   }
 
   Widget _buildSuccessContent(BuildContext context, HomeSuccessState state) {
+    
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -96,11 +97,11 @@ class StudentProfileView extends StatelessWidget {
             const SizedBox(height: 16),
             ListTile(
               title: Text(
-                state.userData!['username'] ?? 'Nameß',
+                state.userData!['username'] ?? '',
                 style: AppTextStyles.header3,
               ),
               subtitle: Text(
-                state.userData!['jobTitle'] ?? 'jobTitle',
+                state.userData!['jobTitle'] ?? '',
                 style: AppTextStyles.header2,
               ),
             ),

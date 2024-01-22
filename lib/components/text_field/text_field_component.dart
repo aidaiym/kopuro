@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../../constants/contants.dart';
@@ -9,8 +8,8 @@ class TextFieldWidget extends StatelessWidget {
     required this.controller,
     required this.label,
     required this.validator,
-    required this.description, 
-   required  this.obscureText,
+    required this.description,
+    required this.obscureText,
   });
 
   final TextEditingController controller;
@@ -32,7 +31,7 @@ class TextFieldWidget extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           TextFormField(
-            obscureText:  obscureText,
+            obscureText: obscureText,
             validator: (value) {
               if (value!.isEmpty) {
                 return validator;

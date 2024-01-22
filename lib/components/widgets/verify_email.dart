@@ -1,7 +1,8 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:kopuro/export_files.dart';
 
 class VerifyEmailView extends StatelessWidget {
@@ -37,7 +38,7 @@ class VerifyEmailView extends StatelessWidget {
               const SizedBox(height: 20),
               MainButton(
                   onPressed: () async {
-                    User? user = FirebaseAuth.instance.currentUser;
+                    firebase_auth.User? user = FirebaseAuth.instance.currentUser;
                     await user?.reload();
                     user = FirebaseAuth.instance.currentUser;
 
@@ -50,7 +51,7 @@ class VerifyEmailView extends StatelessWidget {
                     } else {
                       FirebaseAuth.instance
                           .authStateChanges()
-                          .listen((User? user) {
+                          .listen((firebase_auth.User? user) {
                         if (user?.emailVerified == true) {
                           Navigator.of(context).push(
                             MaterialPageRoute(

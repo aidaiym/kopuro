@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopuro/export_files.dart';
 
 class EditProfilePage extends StatelessWidget {
-  const EditProfilePage({super.key});
+  const EditProfilePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,20 +14,14 @@ class EditProfilePage extends StatelessWidget {
       ),
       body: BlocProvider(
         create: (context) => ProfileCubit(),
-        child: const EditProfileView(),
+        child: EditProfileView(),
       ),
     );
   }
 }
 
-class EditProfileView extends StatefulWidget {
-  const EditProfileView({Key? key}) : super(key: key);
-
-  @override
-  _EditProfileViewState createState() => _EditProfileViewState();
-}
-
-class _EditProfileViewState extends State<EditProfileView> {
+class EditProfileView extends StatelessWidget {
+  EditProfileView({Key? key}) : super(key: key);
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
@@ -41,26 +35,42 @@ class _EditProfileViewState extends State<EditProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    ProfileState profileState = context.watch<ProfileCubit>().state;
-    Map<String, dynamic> userData =
-        (profileState as HomeSuccessState).userData ?? {};
-    Map<TextEditingController, String> controllerMap = {
-      nameController: 'username',
-      phoneNumberController: 'phoneNumber',
-      locationController: 'location',
-      aboutController: 'about',
-      jobController: 'jobTitle',
-      educationController: 'education',
-      skillsController: 'skills',
-      languageController: 'language',
-      linkedinController: 'linkedin',
-      githubController: 'github',
-    };
+    return BlocBuilder<ProfileCubit, ProfileState>(
+      builder: (context, state) {
+        String? userId = FirebaseAuth.instance.currentUser?.uid;
+        if (userId != null) {
+          context.read<ProfileCubit>().fetchUserData(userId);
+          return _buildContent(context, state);
+        }
+        if (state is HomeSuccessState) {
+          return _buildContent(context, state);
+        } else if (state is HomeErrorState) {
+          return Center(
+            child: Text('Error fetching user data: ${state.message}'),
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
+  }
 
-    controllerMap.forEach((controller, field) {
-      controller.text = userData[field] ?? '';
-    });
-
+  Widget _buildContent(
+    BuildContext context,
+    ProfileState state,
+  ) {
+    // nameController.text = state.userData?['username'] ?? '';
+    phoneNumberController.text = state.userData?['phoneNumber'] ?? '';
+    locationController.text = state.userData?['location'] ?? '';
+    aboutController.text = state.userData?['aboutMe'] ?? '';
+    jobController.text = state.userData?['jobTitle'] ?? '';
+    educationController.text = state.userData?['education'] ?? '';
+    skillsController.text = state.userData?['skills'] ?? '';
+    languageController.text = state.userData?['language'] ?? '';
+    linkedinController.text = state.userData?['linkedin'] ?? '';
+    githubController.text = state.userData?['github'] ?? '';
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -145,17 +155,25 @@ class _EditProfileViewState extends State<EditProfileView> {
             onPressed: () {
               String authenticatedUserId =
                   FirebaseAuth.instance.currentUser?.uid ?? '';
-              Map<String, dynamic> updatedData = {};
-              controllerMap.forEach((controller, field) {
-                updatedData[field] = controller.text;
-              });
+              Map<String, dynamic> updatedData = {
+                'username': nameController.text,
+                'phoneNumber': phoneNumberController.text,
+                'location': locationController.text,
+                'aboutMe': aboutController.text,
+                'jobTitle': jobController.text,
+                'education': educationController.text,
+                'skills': skillsController.text,
+                'language': languageController.text,
+                'linkedin': linkedinController.text,
+                'github': githubController.text,
+              };
 
               context
                   .read<ProfileCubit>()
                   .updateUserData(authenticatedUserId, updatedData);
               Navigator.pop(context);
             },
-            text: 'Save Changes',
+            text: 'Өзгөрүүлөрдү сактоо',
           ),
         ],
       ),
