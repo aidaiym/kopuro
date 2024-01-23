@@ -14,37 +14,68 @@ class EditProfilePage extends StatelessWidget {
       ),
       body: BlocProvider(
         create: (context) => ProfileCubit(),
-        child: EditProfileView(),
+        child: const EditProfileView(),
       ),
     );
   }
 }
 
-class EditProfileView extends StatelessWidget {
-  EditProfileView({Key? key}) : super(key: key);
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController phoneNumberController = TextEditingController();
-  final TextEditingController locationController = TextEditingController();
-  final TextEditingController aboutController = TextEditingController();
-  final TextEditingController jobController = TextEditingController();
-  final TextEditingController educationController = TextEditingController();
-  final TextEditingController skillsController = TextEditingController();
-  final TextEditingController languageController = TextEditingController();
-  final TextEditingController linkedinController = TextEditingController();
-  final TextEditingController githubController = TextEditingController();
+class EditProfileView extends StatefulWidget {
+  const EditProfileView({Key? key}) : super(key: key);
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _EditProfileViewState createState() => _EditProfileViewState();
+}
+
+class _EditProfileViewState extends State<EditProfileView> {
+  late TextEditingController nameController;
+  late TextEditingController phoneNumberController;
+  late TextEditingController locationController;
+  late TextEditingController aboutController;
+  late TextEditingController jobController;
+  late TextEditingController educationController;
+  late TextEditingController skillsController;
+  late TextEditingController languageController;
+  late TextEditingController linkedinController;
+  late TextEditingController githubController;
+
+  @override
+  void initState() {
+    super.initState();
+    nameController = TextEditingController();
+    phoneNumberController = TextEditingController();
+    locationController = TextEditingController();
+    aboutController = TextEditingController();
+    jobController = TextEditingController();
+    educationController = TextEditingController();
+    skillsController = TextEditingController();
+    languageController = TextEditingController();
+    linkedinController = TextEditingController();
+    githubController = TextEditingController();
+    String? userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId != null) {
+      context.read<ProfileCubit>().fetchUserData(userId);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
-        String? userId = FirebaseAuth.instance.currentUser?.uid;
-        if (userId != null) {
-          context.read<ProfileCubit>().fetchUserData(userId);
+        if (state is ProfileSuccessState) {
+          nameController.text = state.userData?['username'] ?? '';
+          phoneNumberController.text = state.userData?['phoneNumber'] ?? '';
+          locationController.text = state.userData?['location'] ?? '';
+          aboutController.text = state.userData?['aboutMe'] ?? '';
+          jobController.text = state.userData?['jobTitle'] ?? '';
+          educationController.text = state.userData?['education'] ?? '';
+          skillsController.text = state.userData?['skills'] ?? '';
+          languageController.text = state.userData?['language'] ?? '';
+          linkedinController.text = state.userData?['linkedin'] ?? '';
+          githubController.text = state.userData?['github'] ?? '';
           return _buildContent(context, state);
-        }
-        if (state is HomeSuccessState) {
-          return _buildContent(context, state);
-        } else if (state is HomeErrorState) {
+        } else if (state is ProfileErrorState) {
           return Center(
             child: Text('Error fetching user data: ${state.message}'),
           );
@@ -57,20 +88,7 @@ class EditProfileView extends StatelessWidget {
     );
   }
 
-  Widget _buildContent(
-    BuildContext context,
-    ProfileState state,
-  ) {
-    // nameController.text = state.userData?['username'] ?? '';
-    phoneNumberController.text = state.userData?['phoneNumber'] ?? '';
-    locationController.text = state.userData?['location'] ?? '';
-    aboutController.text = state.userData?['aboutMe'] ?? '';
-    jobController.text = state.userData?['jobTitle'] ?? '';
-    educationController.text = state.userData?['education'] ?? '';
-    skillsController.text = state.userData?['skills'] ?? '';
-    languageController.text = state.userData?['language'] ?? '';
-    linkedinController.text = state.userData?['linkedin'] ?? '';
-    githubController.text = state.userData?['github'] ?? '';
+  Widget _buildContent(BuildContext context, ProfileState state) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -82,6 +100,7 @@ class EditProfileView extends StatelessWidget {
             validator: 'Сураныч, Аты-жөнү жазыныз',
             description: 'Аты-жөнү',
             obscureText: false,
+            hintText: state.userData?['username'] ?? '',
           ),
           TextFieldWidget(
             controller: phoneNumberController,
@@ -89,6 +108,7 @@ class EditProfileView extends StatelessWidget {
             validator: 'Сураныч, Телефон номери жазыныз',
             description: 'Телефон номери',
             obscureText: false,
+            hintText: state.userData?['phoneNumber'] ?? '',
           ),
           TextFieldWidget(
             controller: locationController,
@@ -96,6 +116,7 @@ class EditProfileView extends StatelessWidget {
             validator: 'Сураныч, Жайгашкан жери жазыныз',
             description: 'Жайгашкан жери',
             obscureText: false,
+            hintText: state.userData?['location'] ?? '',
           ),
           TextFieldWidget(
             controller: aboutController,
@@ -103,8 +124,10 @@ class EditProfileView extends StatelessWidget {
             validator: 'Сураныч, мен тууралуу жазыныз',
             description: 'мен тууралуу',
             obscureText: false,
+            hintText: state.userData?['aboutMe'] ?? '',
           ),
           TextFieldWidget(
+            hintText: state.userData?['jobTitle'] ?? '',
             obscureText: false,
             controller: jobController,
             label: 'Жумуштун аталышы',
@@ -121,6 +144,7 @@ class EditProfileView extends StatelessWidget {
             label: 'билим',
             validator: 'Сураныч, билим жазыныз',
             description: 'билим',
+            hintText: state.userData?['education'] ?? '',
           ),
           TextFieldWidget(
             obscureText: false,
@@ -128,6 +152,7 @@ class EditProfileView extends StatelessWidget {
             label: 'көндүмдөр',
             validator: 'Сураныч, көндүмдөр жазыныз',
             description: 'көндүмдөр',
+            hintText: state.userData?['skills'] ?? '',
           ),
           TextFieldWidget(
             controller: languageController,
@@ -135,6 +160,7 @@ class EditProfileView extends StatelessWidget {
             validator: 'Сураныч, тил жазыныз',
             description: 'тил',
             obscureText: false,
+            hintText: state.userData?['language'] ?? '',
           ),
           TextFieldWidget(
             controller: linkedinController,
@@ -142,6 +168,7 @@ class EditProfileView extends StatelessWidget {
             validator: 'Сураныч, Linkedin жазыныз',
             description: 'Linkedin',
             obscureText: false,
+            hintText: state.userData?['linkedin'] ?? '',
           ),
           TextFieldWidget(
             controller: githubController,
@@ -149,6 +176,7 @@ class EditProfileView extends StatelessWidget {
             validator: 'Сураныч, Github жазыныз',
             description: 'Github',
             obscureText: false,
+            hintText: state.userData?['github'] ?? '',
           ),
           const SizedBox(height: 16),
           MainButton(

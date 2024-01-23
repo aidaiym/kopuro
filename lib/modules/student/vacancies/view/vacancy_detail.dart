@@ -10,66 +10,6 @@ class VacancyDetail extends StatelessWidget {
   final Vacancy vacancy;
   @override
   Widget build(BuildContext context) {
-    // void applyVacancy(BuildContext context) async {
-    //   try {
-    //     var user = FirebaseAuth.instance.currentUser;
-
-    //     final CollectionReference vacancies =
-    //         FirebaseFirestore.instance.collection('vacancies');
-    //     final updatedVacancy = vacancy.copyWith(
-    //       appliedUsers: [...vacancy.appliedStudents ?? [], user],
-    //     );
-
-    //     final Map<String, dynamic> vacancyMap = updatedVacancy.toJson();
-    //     final DocumentReference vacancyDocument = vacancies
-    //         .doc('${vacancy}'); 
-    //     await vacancyDocument.update(vacancyMap);
-
-    //     showDialog(
-    //       context: context,
-    //       builder: (BuildContext context) {
-    //         return AlertDialog(
-    //           title: Text('Success'),
-    //           content: Text('You have successfully applied to the vacancy!'),
-    //           actions: <Widget>[
-    //             TextButton(
-    //               onPressed: () {
-    //                 Navigator.of(context).pop(); 
-    //                 Navigator.pushReplacement(
-    //                   context,
-    //                   MaterialPageRoute(
-    //                     builder: (context) => const StudentMainView(),
-    //                   ),
-    //                 );
-    //               },
-    //               child: Text('OK'),
-    //             ),
-    //           ],
-    //         );
-    //       },
-    //     );
-    //   } catch (e) {
-    //     log('Error applying to the vacancy: $e');
-    //     showDialog(
-    //       context: context,
-    //       builder: (BuildContext context) {
-    //         return AlertDialog(
-    //           title: Text('Error'),
-    //           content: Text('An error occurred while applying to the vacancy.'),
-    //           actions: <Widget>[
-    //             TextButton(
-    //               onPressed: () {
-    //                 Navigator.of(context).pop();
-    //               },
-    //               child: Text('OK'),
-    //             ),
-    //           ],
-    //         );
-    //       },
-    //     );
-    //   }
-    // }
-
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
@@ -90,9 +30,62 @@ class VacancyDetail extends StatelessWidget {
             Text(vacancy.location),
             Text(vacancy.salary),
             MainButton(
-              onPressed: () async{
-                // applyVacancy
-                },
+              onPressed: () async {
+                try {
+                  var user = FirebaseAuth.instance.currentUser;
+                  FirebaseFirestore.instance
+                      .collection('vacancies')
+                      .doc(vacancy.id)
+                      .update(({
+                        'appliedUsers': FieldValue.arrayUnion([user!.uid])
+                      }));
+
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Азаматсыз!'),
+                        content: const Text(
+                            'Сиз вакансияга ийгиликтүү тапшырдыңыз!'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const StudentMainView(),
+                                ),
+                              );
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } catch (e) {
+                  log('Error applying to the vacancy: $e');
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Ката'),
+                        content: const Text(
+                            'Вакансияга тапшырып жатканда ката кетти.'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              },
               text: 'Вакансияга тапшыруу',
             ),
           ],

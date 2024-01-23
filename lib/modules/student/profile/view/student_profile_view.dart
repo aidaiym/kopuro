@@ -24,7 +24,7 @@ class StudentProfileView extends StatelessWidget {
                   context,
                   MaterialPageRoute<void>(
                       builder: (BuildContext context) =>
-                          const EditProfilePage()),
+                           const EditProfilePage()),
                 );
               },
             ),
@@ -32,6 +32,7 @@ class StudentProfileView extends StatelessWidget {
               key: const Key('homePage_logout_iconButton'),
               icon: const Icon(Icons.exit_to_app),
               onPressed: () {
+
                 context.read<AppBloc>().add(const AppLogoutRequested());
               },
             ),
@@ -46,9 +47,9 @@ class StudentProfileView extends StatelessWidget {
               return _buildContent(context, state);
             }
 
-            if (state is HomeSuccessState) {
+            if (state is ProfileSuccessState) {
               return _buildContent(context, state);
-            } else if (state is HomeErrorState) {
+            } else if (state is ProfileErrorState) {
               return Center(
                 child: Text('Error fetching user data: ${state.message}'),
               );
@@ -62,11 +63,11 @@ class StudentProfileView extends StatelessWidget {
   }
 
   Widget _buildContent(BuildContext context, ProfileState state) {
-    if (state is HomeLoadingState) {
+    if (state is ProfileLoadingState) {
       return const Center(child: CircularProgressIndicator());
-    } else if (state is HomeSuccessState) {
+    } else if (state is ProfileSuccessState) {
       return _buildSuccessContent(context, state);
-    } else if (state is HomeErrorState) {
+    } else if (state is ProfileErrorState) {
       return Center(
         child: Text('Error fetching user data: ${state.message}'),
       );
@@ -77,7 +78,7 @@ class StudentProfileView extends StatelessWidget {
     }
   }
 
-  Widget _buildSuccessContent(BuildContext context, HomeSuccessState state) {
+  Widget _buildSuccessContent(BuildContext context, ProfileSuccessState state) {
     
     return SingleChildScrollView(
       child: Padding(

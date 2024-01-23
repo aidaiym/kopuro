@@ -4,14 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
-  ProfileCubit() : super(HomeInitialState());
+  ProfileCubit() : super(ProfileInitialState());
 
   Future<void> fetchUserData(String uid) async {
     try {
       Map<String, dynamic> data = await getUserData(uid);
-      emit(HomeSuccessState(userData: data));
+      emit(ProfileSuccessState(userData: data));
     } catch (e) {
-      emit(HomeErrorState('Error fetching user data: $e'));
+      emit(ProfileErrorState('Error fetching user data: $e'));
       log('Error fetching user data: $e');
     }
   }
@@ -25,9 +25,9 @@ class ProfileCubit extends Cubit<ProfileState> {
           .update(updatedData);
 
       Map<String, dynamic> updatedUserData = await getUserData(uid);
-      emit(HomeSuccessState(userData: updatedUserData));
+      emit(ProfileSuccessState(userData: updatedUserData));
     } catch (e) {
-      emit(HomeErrorState('Error updating user data: $e'));
+      // emit(HomeErrorState('Error updating user data: $e'));
       log('Error updating user data: $e');
     }
   }

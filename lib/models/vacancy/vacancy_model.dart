@@ -1,7 +1,9 @@
-import 'package:kopuro/models/user/user_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Vacancy {
   const Vacancy({
+    required this.id,
+    required this.createdTime,
     required this.jobTitle,
     required this.companyName,
     required this.location,
@@ -9,27 +11,30 @@ class Vacancy {
     required this.jobDescription,
     required this.contactInformation,
     required this.salary,
-    this.appliedStudents,
+    this.appliedUsers,
   });
 
   factory Vacancy.fromJson(Map<String, dynamic> json) {
     return Vacancy(
-      jobTitle: json['jobTitle'] as String,
-      companyName: json['companyName'] as String,
-      location: json['location'] as String,
-      jobType: json['jobType'] as String,
-      jobDescription: json['jobDescription'] as String,
-      contactInformation: json['contactInformation'] as String,
-      salary: json['salary'] as String,
-      appliedStudents: (json['appliedUsers'] as List<dynamic>?)
-          ?.map((userJson) =>
-              StudentUser.fromJson(userJson as Map<String, dynamic>))
-          .toList(),
-    );
+        id: json['id'] as String,
+        createdTime: (json['createdTime'] as Timestamp).toDate(),
+        jobTitle: json['jobTitle'] as String,
+        companyName: json['companyName'] as String,
+        location: json['location'] as String,
+        jobType: json['jobType'] as String,
+        jobDescription: json['jobDescription'] as String,
+        contactInformation: json['contactInformation'] as String,
+        salary: json['salary'] as String,
+        // appliedUsers: json['appliedUsers'] as List<String>?);
+         appliedUsers: (json['appliedUsers'] as List<dynamic>?)
+        ?.map((userId) => userId as String)
+        .toList());
   }
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
+      'createdTime': createdTime.toUtc().toIso8601String(),
       'jobTitle': jobTitle,
       'companyName': companyName,
       'location': location,
@@ -37,11 +42,12 @@ class Vacancy {
       'jobDescription': jobDescription,
       'contactInformation': contactInformation,
       'salary': salary,
-      'appliedUsers':
-          appliedStudents?.map((user) => user.toMapStudent()).toList(),
+      'appliedUsers': appliedUsers,
     };
   }
 
+  final String id;
+  final DateTime createdTime;
   final String jobTitle;
   final String companyName;
   final String location;
@@ -49,9 +55,11 @@ class Vacancy {
   final String jobDescription;
   final String contactInformation;
   final String salary;
-  final List<StudentUser>? appliedStudents;
+  final List<String>? appliedUsers;
 
   Vacancy copyWith({
+    String? id,
+    DateTime? createdTime,
     String? jobTitle,
     String? companyName,
     String? location,
@@ -59,9 +67,11 @@ class Vacancy {
     String? jobDescription,
     String? contactInformation,
     String? salary,
-    List<StudentUser>? appliedUsers,
+    List<String>? appliedUsers,
   }) {
     return Vacancy(
+      id: id ?? this.id,
+      createdTime: createdTime ?? this.createdTime,
       jobTitle: jobTitle ?? this.jobTitle,
       companyName: companyName ?? this.companyName,
       location: location ?? this.location,
@@ -69,7 +79,7 @@ class Vacancy {
       jobDescription: jobDescription ?? this.jobDescription,
       contactInformation: contactInformation ?? this.contactInformation,
       salary: salary ?? this.salary,
-      appliedStudents: appliedUsers ?? this.appliedStudents,
+      appliedUsers: appliedUsers ?? appliedUsers,
     );
   }
 }

@@ -9,7 +9,7 @@ class TextFieldWidget extends StatelessWidget {
     required this.label,
     required this.validator,
     required this.description,
-    required this.obscureText,
+    required this.obscureText, this.hintText,
   });
 
   final TextEditingController controller;
@@ -17,6 +17,7 @@ class TextFieldWidget extends StatelessWidget {
   final String validator;
   final String description;
   final bool obscureText;
+  final String? hintText;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +41,7 @@ class TextFieldWidget extends StatelessWidget {
             },
             controller: controller,
             decoration: InputDecoration(
+              hintText: hintText,
               labelText: label,
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),

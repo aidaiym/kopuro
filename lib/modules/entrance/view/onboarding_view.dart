@@ -6,6 +6,7 @@ class OnboardingView extends StatelessWidget {
   OnboardingView({super.key});
 
   static Page<void> page() => MaterialPage<void>(child: OnboardingView());
+  final PageController _pageController = PageController();
 
   final List<String> onboardingItems = [
     "assets/images/onboarding1.png",
@@ -29,6 +30,10 @@ class OnboardingView extends StatelessWidget {
             Navigator.of(context).push<void>(LoginPage.route());
           } else {
             context.read<PageCubit>().setPage(currentPage + 1);
+            _pageController.nextPage(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
           }
         },
         child: BlocBuilder<PageCubit, int>(
@@ -50,6 +55,7 @@ class OnboardingView extends StatelessWidget {
           children: [
             Expanded(
               child: PageView.builder(
+                controller: _pageController,
                 itemCount: onboardingItems.length,
                 itemBuilder: (context, index) {
                   return Padding(

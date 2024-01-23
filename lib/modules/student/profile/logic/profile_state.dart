@@ -5,20 +5,20 @@ abstract class ProfileState {
   ProfileState({required this.userData});
 }
 
-class HomeInitialState extends ProfileState {
-  HomeInitialState() : super(userData: null);
+class ProfileInitialState extends ProfileState {
+  ProfileInitialState() : super(userData: null);
 }
 
-class HomeLoadingState extends ProfileState {
-  HomeLoadingState() : super(userData: null);
+class ProfileLoadingState extends ProfileState {
+  ProfileLoadingState() : super(userData: null);
 }
 
-class HomeSuccessState extends ProfileState {
-  HomeSuccessState({required Map<String, dynamic> userData})
+class ProfileSuccessState extends ProfileState {
+  ProfileSuccessState({required Map<String, dynamic> userData})
       : super(userData: userData);
 }
 
-class HomeErrorState extends ProfileState {
-  HomeErrorState(this.message) : super(userData: null);
+class ProfileErrorState extends ProfileState {
+  ProfileErrorState(this.message) : super(userData: null);
   final String message;
 }
