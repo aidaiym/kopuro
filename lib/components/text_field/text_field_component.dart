@@ -28,7 +28,7 @@ class TextFieldWidget extends StatelessWidget {
         children: [
           Text(
             description,
-            style: AppTextStyles.header4Black,
+            style: AppTextStyles.black14,
           ),
           const SizedBox(height: 10),
           TextFormField(

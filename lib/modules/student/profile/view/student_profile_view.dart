@@ -15,24 +15,33 @@ class StudentProfileView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: const Text('Профиль'),
+          title: Text('Өздүк баракча', style: AppTextStyles.black19),
           actions: <Widget>[
             IconButton(
-              icon: const Icon(Icons.edit),
+              icon: const Icon(
+                Icons.edit_outlined,
+                color: AppColors.main,
+              ),
               onPressed: () {
                 Navigator.push<void>(
                   context,
                   MaterialPageRoute<void>(
                       builder: (BuildContext context) =>
-                           const EditProfilePage()),
+                          const EditProfilePage()),
                 );
               },
             ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 12.0),
+              child: VerticalDivider(),
+            ),
             IconButton(
               key: const Key('homePage_logout_iconButton'),
-              icon: const Icon(Icons.exit_to_app),
+              icon: const Icon(
+                Icons.logout_outlined,
+                color: AppColors.main,
+              ),
               onPressed: () {
-
                 context.read<AppBloc>().add(const AppLogoutRequested());
               },
             ),
@@ -79,34 +88,20 @@ class StudentProfileView extends StatelessWidget {
   }
 
   Widget _buildSuccessContent(BuildContext context, ProfileSuccessState state) {
-    
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Center(
-              child: CircleAvatar(
-                radius: 60,
-                backgroundImage: state.userData!['photoUrl'] != null
-                    ? NetworkImage(state.userData!['photoUrl'])
-                    : const AssetImage('assets/images/avatar.png')
-                        as ImageProvider,
-              ),
+            Text(
+              state.userData!['username'] ?? '',
+              style: AppTextStyles.black20,
             ),
-            const SizedBox(height: 16),
-            ListTile(
-              title: Text(
-                state.userData!['username'] ?? '',
-                style: AppTextStyles.header3,
-              ),
-              subtitle: Text(
-                state.userData!['jobTitle'] ?? '',
-                style: AppTextStyles.header2,
-              ),
-            ),
-            const SizedBox(height: 16),
+            Text(state.userData!['jobTitle'] ?? '',
+                style: AppTextStyles.main18),
+            const SizedBox(height: 15),
             _buildSection('Email', state.userData!['email']),
             _buildSection('Phone Number', state.userData!['phoneNumber']),
             _buildSection('Education', state.userData!['education']),
@@ -121,14 +116,17 @@ class StudentProfileView extends StatelessWidget {
     );
   }
 
-  Widget _buildSection(String? title, String? content) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(title ?? '', style: AppTextStyles.sectionTitle),
-        Text(content ?? '', style: AppTextStyles.sectionContent),
-        const SizedBox(height: 16),
-      ],
+  Widget _buildSection(String title, String? content) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text('$title: ', style: AppTextStyles.main18),
+          Flexible(child: Text(content ?? '', style: AppTextStyles.black16)),
+        ],
+      ),
     );
   }
 }

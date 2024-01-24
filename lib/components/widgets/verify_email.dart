@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:kopuro/export_files.dart';
 
-class VerifyEmailView extends StatelessWidget {
+class  VerifyEmailView extends StatelessWidget {
   const VerifyEmailView({Key? key}) : super(key: key);
 
   static Route<void> route() {
@@ -26,7 +26,7 @@ class VerifyEmailView extends StatelessWidget {
             children: <Widget>[
               Text(
                 'Электрондук почтаңызды текшериңиз',
-                style: AppTextStyles.sectionTitle,
+                style: AppTextStyles.main18,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 30),

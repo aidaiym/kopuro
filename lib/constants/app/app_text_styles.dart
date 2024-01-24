@@ -8,19 +8,19 @@ final class AppTextStyles {
       fontSize: 32, fontWeight: FontWeight.bold, color: AppColors.main);
   static TextStyle header2 = GoogleFonts.firaSans(
       fontSize: 24, fontWeight: FontWeight.w300, color: Colors.black);
-  static TextStyle header3 = GoogleFonts.firaSans(
+  static TextStyle black20 = GoogleFonts.firaSans(
       fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black);
-  static TextStyle header4 = GoogleFonts.firaSans(
+  static TextStyle white14bold = GoogleFonts.firaSans(
       fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white);
-  static TextStyle header4Black =
+  static TextStyle black14 =
       GoogleFonts.firaSans(fontSize: 14, color: Colors.black);
-  static TextStyle sectionTitle = GoogleFonts.firaSans(
+  static TextStyle main18 = GoogleFonts.firaSans(
     fontSize: 18,
     fontWeight: FontWeight.bold,
     color: AppColors.main,
   );
 
-  static TextStyle sectionContent = GoogleFonts.firaSans(
+  static TextStyle black16 = GoogleFonts.firaSans(
     fontSize: 16,
     fontWeight: FontWeight.normal,
     color: Colors.black87,
@@ -37,4 +37,10 @@ final class AppTextStyles {
     color: AppColors.main,
     fontWeight: FontWeight.w500
   );
+  
+  static TextStyle black19 =
+      GoogleFonts.firaSans(fontSize: 19, fontWeight: FontWeight.w500);
+
+  static TextStyle main19 = GoogleFonts.firaSans(
+      color: AppColors.main, fontSize: 19, fontWeight: FontWeight.w900);
 }

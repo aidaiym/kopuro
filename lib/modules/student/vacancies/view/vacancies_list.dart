@@ -23,8 +23,7 @@ class VacanciesList extends StatelessWidget {
                           context.read<VacancyCubit>().filterVacancies(query);
                         },
                         decoration: const InputDecoration(
-                          labelText: 'Search',
-                          hintText: 'Enter search query',
+                          labelText: 'Издөө',
                           prefixIcon: Icon(Icons.search),
                           border: OutlineInputBorder(),
                         ),
@@ -37,49 +36,52 @@ class VacanciesList extends StatelessWidget {
                         final vacancy = state.vacancies[index];
 
                         return Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(10.0),
                           child: Card(
                             elevation: 3.0,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ListTile(
-                                  leading: const CircleAvatar(),
-                                  title: Text(vacancy.jobTitle),
-                                  subtitle: Text(vacancy.companyName),
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 16.0, vertical: 8.0),
-                                  child: Wrap(
-                                    spacing: 8.0,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(vacancy.jobTitle,
+                                      style: AppTextStyles.black16),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    vacancy.companyName,
+                                    style: AppTextStyles.black14,
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Wrap(
+                                    spacing: 20,
                                     children: [
-                                      Chip(label: Text('Full-Time')),
-                                      Chip(label: Text('Remote')),
+                                      Chip(
+                                        label: Text(vacancy.jobType),
+                                      ),
+                                      Chip(
+                                        label: Text(vacancy.location),
+                                      ),
                                     ],
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0),
-                                  child: Text('Salary: ${vacancy.salary}'),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.push<void>(
-                                        context,
-                                        MaterialPageRoute<void>(
-                                          builder: (BuildContext context) =>
-                                              VacancyDetail(vacancy: vacancy),
-                                        ),
-                                      );
-                                    },
-                                    child: const Text('Kөбүрөөк маалымат алуу'),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    'Salary: ${vacancy.salary}',
+                                    style: AppTextStyles.black16,
                                   ),
-                                ),
-                              ],
+                                  const SizedBox(height: 10),
+                                  MainButton(
+                                      onPressed: () {
+                                        Navigator.push<void>(
+                                          context,
+                                          MaterialPageRoute<void>(
+                                            builder: (BuildContext context) =>
+                                                VacancyDetail(vacancy: vacancy),
+                                          ),
+                                        );
+                                      },
+                                      text: 'Kөбүрөөк маалымат алуу')
+                                ],
+                              ),
                             ),
                           ),
                         );

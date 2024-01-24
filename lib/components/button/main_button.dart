@@ -29,7 +29,7 @@ class MainButton extends StatelessWidget {
             ),
             elevation: 5,
           ),
-          child: Text(text, style: AppTextStyles.header4,),
+          child: Text(text, style: AppTextStyles.white14bold,),
         ),
       ),
     );

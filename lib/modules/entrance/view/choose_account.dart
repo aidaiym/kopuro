@@ -19,7 +19,7 @@ class ChooseAccountType extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 50.0, top: 20),
                 child: Text('Сиз компаниясызбы же студентсизби?',
-                    style: AppTextStyles.header4Black),
+                    style: AppTextStyles.black14),
               ),
               MainButton(
                 onPressed: () {
