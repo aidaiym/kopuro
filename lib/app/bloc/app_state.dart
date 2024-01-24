@@ -2,9 +2,6 @@ part of 'app_bloc.dart';
 
 enum AppStatus {
   authenticated,
-  // authenticatedStudent,
-  // authenticatedCompany,
-  // authenticatedAdmin,
   unauthenticated,
 }
 

@@ -47,27 +47,25 @@ class StudentProfileView extends StatelessWidget {
             ),
           ],
         ),
-        body: BlocBuilder<ProfileCubit, ProfileState>(
-          builder: (context, state) {
-            String? userId =
-                firebase_auth.FirebaseAuth.instance.currentUser?.uid;
-            if (userId != null) {
-              context.read<ProfileCubit>().fetchUserData(userId);
-              return _buildContent(context, state);
-            }
-
-            if (state is ProfileSuccessState) {
-              return _buildContent(context, state);
-            } else if (state is ProfileErrorState) {
-              return Center(
-                child: Text('Error fetching user data: ${state.message}'),
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
+        body: BlocProvider(
+          create: (context) => ProfileCubit()
+            ..fetchUserData(
+                firebase_auth.FirebaseAuth.instance.currentUser!.uid),
+          child: BlocBuilder<ProfileCubit, ProfileState>(
+            builder: (context, state) {
+              if (state is ProfileSuccessState) {
+                return _buildContent(context, state);
+              } else if (state is ProfileErrorState) {
+                return Center(
+                  child: Text('Error fetching user data: ${state.message}'),
+                );
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          ),
         ));
   }
 

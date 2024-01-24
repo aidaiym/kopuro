@@ -25,14 +25,18 @@ class VacancyCubit extends Cubit<VacancyState> {
 
   void filterVacancies(String query) async {
     try {
-      final QuerySnapshot<Map<String, dynamic>> snapshot = await _firestore
-          .collection('vacancies')
-          .where('jobTitle', isGreaterThanOrEqualTo: query)
-          .where('jobTitle', isLessThan: '${query}z')
-          .get();
+      final String lowerCaseQuery = query.toLowerCase();
 
-      final List<Vacancy> filteredVacancies =
+      final QuerySnapshot<Map<String, dynamic>> snapshot =
+          await _firestore.collection('vacancies').get();
+
+      final List<Vacancy> allVacancies =
           snapshot.docs.map((doc) => Vacancy.fromJson(doc.data())).toList();
+
+      final List<Vacancy> filteredVacancies = allVacancies
+          .where((vacancy) =>
+              vacancy.jobTitle.toLowerCase().contains(lowerCaseQuery))
+          .toList();
 
       emit(VacancyLoaded(vacancies: filteredVacancies));
     } catch (e) {

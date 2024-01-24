@@ -13,7 +13,7 @@ class EditProfilePage extends StatelessWidget {
         title: const Text('Edit Profile'),
       ),
       body: BlocProvider(
-        create: (context) => ProfileCubit(),
+        create: (context) => ProfileCubit()..fetchUserData(FirebaseAuth.instance.currentUser!.uid),
         child: const EditProfileView(),
       ),
     );
@@ -53,10 +53,6 @@ class _EditProfileViewState extends State<EditProfileView> {
     languageController = TextEditingController();
     linkedinController = TextEditingController();
     githubController = TextEditingController();
-    String? userId = FirebaseAuth.instance.currentUser?.uid;
-    if (userId != null) {
-      context.read<ProfileCubit>().fetchUserData(userId);
-    }
   }
 
   @override
