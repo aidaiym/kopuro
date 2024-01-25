@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kopuro/export_files.dart';
+
 class ResumeBuilder extends StatelessWidget {
   const ResumeBuilder({Key? key}) : super(key: key);
   static Route<void> route() {
@@ -52,8 +53,7 @@ class ResumeBuilder extends StatelessWidget {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                const StudentMainView(),
+            builder: (context) => const StudentMainView(),
           ),
         );
       } catch (e) {
@@ -67,8 +67,27 @@ class ResumeBuilder extends StatelessWidget {
           padding: const EdgeInsets.all(40.0),
           child: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const StudentMainView(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: AppColors.main.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child:
+                        Text('Өткөрүп жиберүү', style: AppTextStyles.white14.copyWith(fontSize: 12)),
+                  ),
+                ),
                 TextFieldWidget(
                   controller: nameController,
                   label: 'Аты-жөнү',
