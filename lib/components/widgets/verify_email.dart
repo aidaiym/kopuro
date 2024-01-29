@@ -1,21 +1,18 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:kopuro/export_files.dart';
 
-class  VerifyEmailView extends StatelessWidget {
+class VerifyEmailView extends StatelessWidget {
   const VerifyEmailView({Key? key}) : super(key: key);
-
-  static Route<void> route() {
-    return MaterialPageRoute<void>(builder: (_) => const VerifyEmailView());
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      // appBar: AppBar(),
       backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         child: Padding(
@@ -38,30 +35,28 @@ class  VerifyEmailView extends StatelessWidget {
               const SizedBox(height: 20),
               MainButton(
                   onPressed: () async {
-                    firebase_auth.User? user = FirebaseAuth.instance.currentUser;
+                    firebase_auth.User? user =
+                        FirebaseAuth.instance.currentUser;
                     await user?.reload();
-                    user = FirebaseAuth.instance.currentUser;
-
                     if (user?.emailVerified == true) {
                       // ignore: use_build_context_synchronously
                       Navigator.of(context).push(
                         MaterialPageRoute(
                             builder: (context) => const ResumeBuilder()),
                       );
+                      StudentUser student = StudentUser(
+                        id: user?.uid ?? '',
+                        email: user?.email ?? '',
+                        createdTime: DateTime.now(),
+                      );
+
+                      Map<String, dynamic> studentMap = student.toMapStudent();
+                      FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(user?.uid)
+                          .set(studentMap, SetOptions(merge: true));
                     } else {
-                      FirebaseAuth.instance
-                          .authStateChanges()
-                          .listen((firebase_auth.User? user) {
-                        if (user?.emailVerified == true) {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) => const ResumeBuilder()),
-                          );
-                        } else {
-                          log(
-                              'Email not verified. You can provide an option to resend verification.');
-                        }
-                      });
+                      log('Email not verified. You can provide an option to resend verification.');
                     }
                   },
                   text: 'Текшерүү')

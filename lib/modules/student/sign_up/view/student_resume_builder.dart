@@ -27,10 +27,7 @@ class ResumeBuilder extends StatelessWidget {
       try {
         var user = FirebaseAuth.instance.currentUser;
         StudentUser student = StudentUser(
-          id: user?.uid ?? '',
-          email: user?.email ?? '',
           username: nameController.text,
-          createdTime: DateTime.now(),
           jobTitle: jobController.text,
           skills: skillsController.text,
           education: educationController.text,
@@ -47,7 +44,7 @@ class ResumeBuilder extends StatelessWidget {
         await FirebaseFirestore.instance
             .collection('users')
             .doc(user?.uid)
-            .set(studentMap, SetOptions(merge: true));
+            .update(studentMap);
 
         // ignore: use_build_context_synchronously
         Navigator.pushReplacement(
@@ -79,13 +76,14 @@ class ResumeBuilder extends StatelessWidget {
                     );
                   },
                   child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 20),
                     decoration: BoxDecoration(
                       color: AppColors.main.withOpacity(0.3),
                       borderRadius: BorderRadius.circular(25),
                     ),
-                    child:
-                        Text('Өткөрүп жиберүү', style: AppTextStyles.white14.copyWith(fontSize: 12)),
+                    child: Text('Өткөрүп жиберүү',
+                        style: AppTextStyles.white14.copyWith(fontSize: 12)),
                   ),
                 ),
                 TextFieldWidget(

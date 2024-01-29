@@ -122,8 +122,13 @@ class StudentSignUpForm extends StatelessWidget {
                         onPressed: () {
                           if (state.isValid) {
                             context.read<SignUpCubit>().signUpFormSubmitted();
-                            Navigator.of(context)
-                                .push<void>(VerifyEmailView.route());
+                            Navigator.push<void>(
+                              context,
+                              MaterialPageRoute<void>(
+                                builder: (BuildContext context) =>
+                                    const VerifyEmailView(),
+                              ),
+                            );
                           }
                         },
                         text: 'Кийинки',
