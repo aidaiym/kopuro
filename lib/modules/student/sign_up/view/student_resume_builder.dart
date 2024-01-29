@@ -23,6 +23,8 @@ class ResumeBuilder extends StatelessWidget {
     final jobController = TextEditingController();
     final languageController = TextEditingController();
     final locationController = TextEditingController();
+    final workExperience = TextEditingController();
+
     void uploadResume(BuildContext context) async {
       try {
         var user = FirebaseAuth.instance.currentUser;
@@ -31,7 +33,7 @@ class ResumeBuilder extends StatelessWidget {
           jobTitle: jobController.text,
           skills: skillsController.text,
           education: educationController.text,
-          workExperience: '',
+          workExperience: workExperience.text,
           linkedIn: linkedinController.text,
           github: githubController.text,
           phoneNumber: phoneNumberController.text,
@@ -131,6 +133,13 @@ class ResumeBuilder extends StatelessWidget {
                   label: 'билим',
                   validator: 'Сураныч, билим жазыныз',
                   description: 'билим',
+                ),
+                  TextFieldWidget(
+                  obscureText: false,
+                  controller: workExperience,
+                  label: 'workExperience',
+                  validator: 'Сураныч, workExperience жазыныз',
+                  description: 'workExperience',
                 ),
                 TextFieldWidget(
                   obscureText: false,

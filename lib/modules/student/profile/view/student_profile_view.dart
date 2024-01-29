@@ -93,15 +93,22 @@ class StudentProfileView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Text(
-              state.userData!['username'] ?? '',
-              style: AppTextStyles.black20,
+            Row(
+              children: [
+                Text(
+                 '${state.userData!['username'] ?? ''} - ',
+                  style: AppTextStyles.black20,
+                ),
+                Flexible(
+                  child: Text(state.userData!['jobTitle'] ?? '',
+                      style: AppTextStyles.main18),
+                ),
+              ],
             ),
-            Text(state.userData!['jobTitle'] ?? '',
-                style: AppTextStyles.main18),
             const SizedBox(height: 15),
             _buildSection('Email', state.userData!['email']),
             _buildSection('Phone Number', state.userData!['phoneNumber']),
+            _buildSection('About me', state.userData!['aboutUser']),
             _buildSection('Education', state.userData!['education']),
             _buildSection('Language', state.userData!['language']),
             _buildSection('Skills', state.userData!['skills']),

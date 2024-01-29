@@ -23,7 +23,6 @@ class ProfileCubit extends Cubit<ProfileState> {
           .collection('users')
           .doc(uid)
           .update(updatedData);
-
       Map<String, dynamic> updatedUserData = await getUserData(uid);
       emit(ProfileSuccessState(userData: updatedUserData));
     } catch (e) {

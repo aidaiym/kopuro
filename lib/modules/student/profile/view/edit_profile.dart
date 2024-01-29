@@ -13,7 +13,8 @@ class EditProfilePage extends StatelessWidget {
         title: const Text('Edit Profile'),
       ),
       body: BlocProvider(
-        create: (context) => ProfileCubit()..fetchUserData(FirebaseAuth.instance.currentUser!.uid),
+        create: (context) => ProfileCubit()
+          ..fetchUserData(FirebaseAuth.instance.currentUser!.uid),
         child: const EditProfileView(),
       ),
     );
@@ -39,6 +40,7 @@ class _EditProfileViewState extends State<EditProfileView> {
   late TextEditingController languageController;
   late TextEditingController linkedinController;
   late TextEditingController githubController;
+  late TextEditingController workExperience;
 
   @override
   void initState() {
@@ -49,6 +51,7 @@ class _EditProfileViewState extends State<EditProfileView> {
     aboutController = TextEditingController();
     jobController = TextEditingController();
     educationController = TextEditingController();
+    workExperience = TextEditingController();
     skillsController = TextEditingController();
     languageController = TextEditingController();
     linkedinController = TextEditingController();
@@ -63,12 +66,13 @@ class _EditProfileViewState extends State<EditProfileView> {
           nameController.text = state.userData?['username'] ?? '';
           phoneNumberController.text = state.userData?['phoneNumber'] ?? '';
           locationController.text = state.userData?['location'] ?? '';
-          aboutController.text = state.userData?['aboutMe'] ?? '';
+          aboutController.text = state.userData?['aboutUser'] ?? '';
           jobController.text = state.userData?['jobTitle'] ?? '';
           educationController.text = state.userData?['education'] ?? '';
+          workExperience.text = state.userData?['workExperience'] ?? '';
           skillsController.text = state.userData?['skills'] ?? '';
           languageController.text = state.userData?['language'] ?? '';
-          linkedinController.text = state.userData?['linkedin'] ?? '';
+          linkedinController.text = state.userData?['linkedIn'] ?? '';
           githubController.text = state.userData?['github'] ?? '';
           return _buildContent(context, state);
         } else if (state is ProfileErrorState) {
@@ -120,7 +124,7 @@ class _EditProfileViewState extends State<EditProfileView> {
             validator: 'Сураныч, мен тууралуу жазыныз',
             description: 'мен тууралуу',
             obscureText: false,
-            hintText: state.userData?['aboutMe'] ?? '',
+            hintText: state.userData?['aboutUser'] ?? '',
           ),
           TextFieldWidget(
             hintText: state.userData?['jobTitle'] ?? '',
@@ -144,6 +148,14 @@ class _EditProfileViewState extends State<EditProfileView> {
           ),
           TextFieldWidget(
             obscureText: false,
+            controller: workExperience,
+            label: 'workExperience',
+            validator: 'Сураныч, workExperience жазыныз',
+            description: 'workExperience',
+            hintText: state.userData?['workExperience'] ?? '',
+          ),
+          TextFieldWidget(
+            obscureText: false,
             controller: skillsController,
             label: 'көндүмдөр',
             validator: 'Сураныч, көндүмдөр жазыныз',
@@ -164,7 +176,7 @@ class _EditProfileViewState extends State<EditProfileView> {
             validator: 'Сураныч, Linkedin жазыныз',
             description: 'Linkedin',
             obscureText: false,
-            hintText: state.userData?['linkedin'] ?? '',
+            hintText: state.userData?['linkedIn'] ?? '',
           ),
           TextFieldWidget(
             controller: githubController,
@@ -183,12 +195,13 @@ class _EditProfileViewState extends State<EditProfileView> {
                 'username': nameController.text,
                 'phoneNumber': phoneNumberController.text,
                 'location': locationController.text,
-                'aboutMe': aboutController.text,
+                'aboutUser': aboutController.text,
                 'jobTitle': jobController.text,
                 'education': educationController.text,
+                'workExperience': workExperience.text,
                 'skills': skillsController.text,
                 'language': languageController.text,
-                'linkedin': linkedinController.text,
+                'linkedIn': linkedinController.text,
                 'github': githubController.text,
               };
 
