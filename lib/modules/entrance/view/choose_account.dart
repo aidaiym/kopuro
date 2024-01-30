@@ -23,15 +23,13 @@ class ChooseAccountType extends StatelessWidget {
               ),
               MainButton(
                 onPressed: () {
-                  Navigator.of(context).push<void>(StudentSignUpPage.route());
-
-                      
+                  Navigator.of(context).push<void>(SignUpPage.route(true));
                 },
                 text: 'Студент',
               ),
               MainButton(
                 onPressed: () {
-                   Navigator.of(context).push<void>(StudentSignUpPage.route());
+                  Navigator.of(context).push<void>(SignUpPage.route(false));
                 },
                 text: 'Компания',
               ),

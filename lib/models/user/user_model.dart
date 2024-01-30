@@ -143,25 +143,25 @@ class StudentUser extends User {
 
 class CompanyUser extends User {
   final UserType? type;
-  final String linkedIn;
+  final String? linkedIn;
   final String? phoneNumber;
   final String? aboutUser;
 
   const CompanyUser({
     this.type,
-    required String id,
-    required String username,
-    required String email,
-    required DateTime createdTime,
-    required this.linkedIn,
+    String? id,
+    String? username,
+    String? email,
+    DateTime? createdTime,
+    this.linkedIn,
     this.phoneNumber,
     this.aboutUser,
     String? photoUrl,
     String? userLocation,
   }) : super(
-            id: id,
-            username: username,
-            email: email,
+      id: id ?? '',
+            username: username ?? '',
+            email: email ?? '',
             createdTime: createdTime,
             photoUrl: photoUrl,
             userLocation: userLocation);

@@ -1,14 +1,15 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopuro/export_files.dart';
 
+class SignUpPage extends StatelessWidget {
+  const SignUpPage({Key? key, required this.isStudent}) : super(key: key);
+  final bool isStudent;
 
-class StudentSignUpPage extends StatelessWidget {
-  const StudentSignUpPage({super.key});
-
-  static Route<void> route() {
-    return MaterialPageRoute<void>(builder: (_) => const StudentSignUpPage());
+  static Route<void> route(bool isStudent) {
+    return MaterialPageRoute<void>(
+      builder: (_) => SignUpPage(isStudent: isStudent),
+    );
   }
 
   @override
@@ -19,7 +20,7 @@ class StudentSignUpPage extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         child: BlocProvider<SignUpCubit>(
           create: (_) => SignUpCubit(context.read<AuthenticationRepository>()),
-          child: const StudentSignUpForm(),
+          child:  SignUpForm(isStudent: isStudent,),
         ),
       ),
     );

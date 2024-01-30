@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:kopuro/export_files.dart';
 
-class StudentSignUpForm extends StatelessWidget {
-  const StudentSignUpForm({super.key});
-
+class SignUpForm extends StatelessWidget {
+  const SignUpForm({super.key, required this.isStudent});
+  final bool isStudent;
   @override
   Widget build(BuildContext context) {
     return BlocListener<SignUpCubit, SignUpState>(
@@ -126,7 +126,7 @@ class StudentSignUpForm extends StatelessWidget {
                               context,
                               MaterialPageRoute<void>(
                                 builder: (BuildContext context) =>
-                                    const VerifyEmailView(),
+                                    VerifyEmailView(isStudent: isStudent),
                               ),
                             );
                           }
