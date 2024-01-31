@@ -41,13 +41,12 @@ class AdminUser extends User {
   final UserType userType;
 
   const AdminUser({
-    required String id,
-    required String username,
-    required String email,
-    required DateTime createdTime,
+    required super.id,
+    required super.username,
+    required super.email,
+    required DateTime super.createdTime,
     required this.userType,
-  }) : super(
-            id: id, username: username, email: email, createdTime: createdTime);
+  });
 
   @override
   List<Object?> get props => [...super.props, userType];
@@ -67,14 +66,14 @@ class StudentUser extends User {
 
   const StudentUser({
     String? id,
-    DateTime? createdTime,
+    super.createdTime,
     String? username,
     String? email,
     this.type,
     this.phoneNumber,
     this.aboutUser,
-    String? photoUrl,
-    String? userLocation,
+    super.photoUrl,
+    super.userLocation,
     this.jobTitle,
     this.skills,
     this.education,
@@ -82,13 +81,7 @@ class StudentUser extends User {
     this.language,
     this.linkedIn,
     this.github,
-  }) : super(
-            id: id ?? '',
-            username: username ?? '',
-            email: email ?? '',
-            createdTime: createdTime,
-            photoUrl: photoUrl,
-            userLocation: userLocation);
+  }) : super(id: id ?? '', username: username ?? '', email: email ?? '');
   Map<String, dynamic> toMapStudent() {
     return {
       ...toMap(),
@@ -153,20 +146,14 @@ class CompanyUser extends User {
     String? id,
     String? username,
     String? email,
-    DateTime? createdTime,
+    super.createdTime,
     this.webLinkCompany,
     this.linkedIn,
     this.phoneNumber,
     this.aboutCompany,
-    String? photoUrl,
-    String? userLocation,
-  }) : super(
-            id: id ?? '',
-            username: username ?? '',
-            email: email ?? '',
-            createdTime: createdTime,
-            photoUrl: photoUrl,
-            userLocation: userLocation);
+    super.photoUrl,
+    super.userLocation,
+  }) : super(id: id ?? '', username: username ?? '', email: email ?? '');
 
   Map<String, dynamic> toMapCompany() {
     return {

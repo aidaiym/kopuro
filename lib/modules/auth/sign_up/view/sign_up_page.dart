@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopuro/export_files.dart';
 
 class SignUpPage extends StatelessWidget {
-  const SignUpPage({Key? key, required this.isStudent}) : super(key: key);
+  const SignUpPage({super.key, required this.isStudent});
   final bool isStudent;
 
   static Route<void> route(bool isStudent) {

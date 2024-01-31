@@ -5,7 +5,7 @@ import 'package:kopuro/app/bloc/app_bloc.dart';
 import 'package:kopuro/export_files.dart';
 
 class StudentProfileView extends StatelessWidget {
-  const StudentProfileView({Key? key}) : super(key: key);
+  const StudentProfileView({super.key});
   static Route<void> route() {
     return MaterialPageRoute<void>(builder: (_) => const StudentProfileView());
   }

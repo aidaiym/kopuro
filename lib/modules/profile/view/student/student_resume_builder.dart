@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:kopuro/export_files.dart';
 
 class ResumeBuilder extends StatelessWidget {
-  const ResumeBuilder({Key? key}) : super(key: key);
+  const ResumeBuilder({super.key});
   static Route<void> route() {
     return MaterialPageRoute<void>(builder: (_) => const ResumeBuilder());
   }

@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:kopuro/export_files.dart';
 
 class VerifyEmailView extends StatelessWidget {
-  const VerifyEmailView({Key? key, required this.isStudent}) : super(key: key);
+  const VerifyEmailView({super.key, required this.isStudent});
   final bool isStudent;
   @override
   Widget build(BuildContext context) {
