@@ -172,7 +172,6 @@ class ResumeBuilder extends StatelessWidget {
                 MainButton(
                   onPressed: () async {
                     uploadResume(context);
-                    // StudentMainView.page();
                   },
                   text: 'Катталуу',
                 ),

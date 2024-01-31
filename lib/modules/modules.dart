@@ -1,5 +1,6 @@
-export 'student/main/student_main.dart';
-export 'student/student.dart';
+export 'main/app_main.dart';
 export 'entrance/entrance.dart';
 export 'auth/auth.dart';
-export 'company/company.dart';
+export 'profile/profile.dart';
+export 'vacancies/vacancies.dart';
+export 'candidates/candidates.dart';

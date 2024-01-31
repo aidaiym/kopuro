@@ -145,7 +145,8 @@ class CompanyUser extends User {
   final UserType? type;
   final String? linkedIn;
   final String? phoneNumber;
-  final String? aboutUser;
+  final String? aboutCompany;
+  final String? webLinkCompany;
 
   const CompanyUser({
     this.type,
@@ -153,20 +154,54 @@ class CompanyUser extends User {
     String? username,
     String? email,
     DateTime? createdTime,
+    this.webLinkCompany,
     this.linkedIn,
     this.phoneNumber,
-    this.aboutUser,
+    this.aboutCompany,
     String? photoUrl,
     String? userLocation,
   }) : super(
-      id: id ?? '',
+            id: id ?? '',
             username: username ?? '',
             email: email ?? '',
             createdTime: createdTime,
             photoUrl: photoUrl,
             userLocation: userLocation);
 
+  Map<String, dynamic> toMapCompany() {
+    return {
+      ...toMap(),
+      'type': 'company',
+      'linkedIn': linkedIn,
+      'phoneNumber': phoneNumber,
+      'aboutCompany': aboutCompany,
+      'webLinkCompany': webLinkCompany,
+    };
+  }
+
+  factory CompanyUser.fromJsonCompany(Map<String, dynamic> json) {
+    return CompanyUser(
+      id: json['id'] as String? ?? '',
+      username: json['username'] as String? ?? '',
+      email: json['email'] as String? ?? '',
+      createdTime: json['createdTime'] != null
+          ? DateTime.parse(json['createdTime'] as String)
+          : null,
+      type: json['type'],
+      linkedIn: json['linkedIn'] as String? ?? '',
+      phoneNumber: json['phoneNumber'] as String? ?? '',
+      aboutCompany: json['aboutCompany'] as String? ?? '',
+      webLinkCompany: json['webLinkCompany'] as String? ?? '',
+    );
+  }
+
   @override
-  List<Object?> get props =>
-      [...super.props, type, linkedIn, phoneNumber, aboutUser];
+  List<Object?> get props => [
+        ...super.props,
+        type,
+        linkedIn,
+        phoneNumber,
+        aboutCompany,
+        webLinkCompany,
+      ];
 }

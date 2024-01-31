@@ -19,11 +19,12 @@ class _CompanyMainViewState extends State<CompanyMainView> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => MainCubit(),
-      child: const CompanyMainScreen([
-        VacanciesList(),
-        StudentProfileView(),
-
-      ]),
+      child: const CompanyMainScreen(
+        [
+          VacanciesList(),
+          CompanyProfileView(),
+        ],
+      ),
     );
   }
 }
@@ -38,19 +39,17 @@ class CompanyMainScreen extends StatelessWidget {
     return Scaffold(
       body: items[context.watch<MainCubit>().state],
       bottomNavigationBar: NavigationBar(
-
         onDestinationSelected: context.read<MainCubit>().change,
         selectedIndex: context.watch<MainCubit>().state,
         destinations: const <Widget>[
           NavigationDestination(
-            icon:  Icon(Icons.house),
+            icon: Icon(Icons.house),
             label: 'Vacancies',
           ),
           NavigationDestination(
-            icon:  Icon(Icons.man),
+            icon: Icon(Icons.man),
             label: 'Profile',
           ),
-
         ],
       ),
     );

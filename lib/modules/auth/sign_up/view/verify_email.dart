@@ -49,6 +49,8 @@ class VerifyEmailView extends StatelessWidget {
                           id: user?.uid ?? '',
                           email: user?.email ?? '',
                           createdTime: DateTime.now(),
+                          type: UserType.student,
+
                         );
 
                         Map<String, dynamic> studentMap =
@@ -68,8 +70,7 @@ class VerifyEmailView extends StatelessWidget {
                           id: user?.uid ?? '',
                           email: user?.email ?? '',
                           createdTime: DateTime.now(),
-                          username: '',
-                          linkedIn: '',
+                          type: UserType.company,
                         );
 
                         Map<String, dynamic> companyMap =company.toMap();
