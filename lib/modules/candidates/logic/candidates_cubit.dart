@@ -14,15 +14,13 @@ class CandidatesCubit extends Cubit<CandidatesState> {
     try {
       final QuerySnapshot<Map<String, dynamic>> snapshot = await _firestore
           .collection('users')
-          .where('type',
-              isEqualTo: 'student') 
+          .where('type', isEqualTo: 'student')
           .get();
       final List<StudentUser> allCandidates =
           snapshot.docs.map((doc) => StudentUser.fromJson(doc.data())).toList();
-
       emit(CandidatesLoaded(candidates: allCandidates));
     } catch (e) {
-      emit(const CandidatesError(message: 'Failed to load candidates.'));
+      emit( CandidatesError(message: 'Failed to load candidates. $e'));
     }
   }
 

@@ -4,6 +4,8 @@ import 'package:kopuro/modules/modules.dart';
 
 class CompanyMainView extends StatefulWidget {
   const CompanyMainView({super.key});
+    static Page<void> page() =>
+      const MaterialPage<void>(child: CompanyMainView());
 
   @override
   State<CompanyMainView> createState() => _CompanyMainViewState();
@@ -21,7 +23,7 @@ class _CompanyMainViewState extends State<CompanyMainView> {
       create: (context) => MainCubit(),
       child: const CompanyMainScreen(
         [
-          VacanciesList(),
+          CandidatesListView(),
           CompanyProfileView(),
         ],
       ),

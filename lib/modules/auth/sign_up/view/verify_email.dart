@@ -49,7 +49,7 @@ class VerifyEmailView extends StatelessWidget {
                           id: user?.uid ?? '',
                           email: user?.email ?? '',
                           createdTime: DateTime.now(),
-                          type: UserType.student,
+                          type: 'student',
 
                         );
 

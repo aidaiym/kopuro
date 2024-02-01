@@ -9,8 +9,7 @@ import 'package:kopuro/models/user/user_model.dart';
 part 'app_event.dart';
 part 'app_state.dart';
 
-class AppBloc extends Bloc<AppEvent, AppState> {
-  AppBloc({required AuthenticationRepository authenticationRepository})
+class AppBloc extends Bloc<AppEvent, AppState> { AppBloc({required AuthenticationRepository authenticationRepository})
       : _authenticationRepository = authenticationRepository,
         super(
           authenticationRepository.currentUser.isNotEmpty

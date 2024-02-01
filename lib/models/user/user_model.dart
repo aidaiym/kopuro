@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:kopuro/export_files.dart';
 
@@ -53,7 +54,7 @@ class AdminUser extends User {
 }
 
 class StudentUser extends User {
-  final UserType? type;
+  final String? type;
   final String? phoneNumber;
   final String? aboutUser;
   final String? jobTitle;
@@ -103,10 +104,8 @@ class StudentUser extends User {
       id: json['id'] as String? ?? '',
       username: json['username'] as String? ?? '',
       email: json['email'] as String? ?? '',
-      createdTime: json['createdTime'] != null
-          ? DateTime.parse(json['createdTime'] as String)
-          : null,
-      type: json['type'],
+     createdTime: (json['createdTime'] as Timestamp).toDate(),
+      type: json['type'] as String,
       phoneNumber: json['phoneNumber'] as String? ?? '',
       aboutUser: json['aboutUser'] as String? ?? '',
       jobTitle: json['jobTitle'] as String? ?? '',
