@@ -104,7 +104,7 @@ class StudentUser extends User {
       id: json['id'] as String? ?? '',
       username: json['username'] as String? ?? '',
       email: json['email'] as String? ?? '',
-     createdTime: (json['createdTime'] as Timestamp).toDate(),
+      createdTime: (json['createdTime'] as Timestamp).toDate(),
       type: json['type'] as String,
       phoneNumber: json['phoneNumber'] as String? ?? '',
       aboutUser: json['aboutUser'] as String? ?? '',
@@ -139,6 +139,7 @@ class CompanyUser extends User {
   final String? phoneNumber;
   final String? aboutCompany;
   final String? webLinkCompany;
+  final List<Vacancy>? vacancies;
 
   const CompanyUser({
     this.type,
@@ -147,6 +148,7 @@ class CompanyUser extends User {
     String? email,
     super.createdTime,
     this.webLinkCompany,
+    this.vacancies,
     this.linkedIn,
     this.phoneNumber,
     this.aboutCompany,
@@ -162,6 +164,7 @@ class CompanyUser extends User {
       'phoneNumber': phoneNumber,
       'aboutCompany': aboutCompany,
       'webLinkCompany': webLinkCompany,
+      'vacancies': vacancies?.map((vacancy) => vacancy.toJson()).toList(),
     };
   }
 
@@ -178,6 +181,10 @@ class CompanyUser extends User {
       phoneNumber: json['phoneNumber'] as String? ?? '',
       aboutCompany: json['aboutCompany'] as String? ?? '',
       webLinkCompany: json['webLinkCompany'] as String? ?? '',
+      vacancies: (json['vacancies'] as List<dynamic>?)
+          ?.map((vacancyJson) =>
+              Vacancy.fromJson(vacancyJson as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -189,5 +196,6 @@ class CompanyUser extends User {
         phoneNumber,
         aboutCompany,
         webLinkCompany,
+        vacancies,
       ];
 }

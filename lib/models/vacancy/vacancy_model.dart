@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Vacancy {
   const Vacancy({
-    required this.id,
+     this.id,
     required this.createdTime,
     required this.jobTitle,
     required this.companyName,
@@ -46,7 +46,7 @@ class Vacancy {
     };
   }
 
-  final String id;
+  final String? id;
   final DateTime createdTime;
   final String jobTitle;
   final String companyName;

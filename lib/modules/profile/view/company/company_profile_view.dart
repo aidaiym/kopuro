@@ -10,60 +10,59 @@ class CompanyProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Text('Өздүк баракча', style: AppTextStyles.black19),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(
-                Icons.edit_outlined,
-                color: AppColors.main,
-              ),
-              onPressed: () {
-                Navigator.push<void>(
-                  context,
-                  MaterialPageRoute<void>(
-                      builder: (BuildContext context) =>
-                          const EditProfilePage()),
-                );
-              },
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text('Өздүк баракча', style: AppTextStyles.black19),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.edit_outlined,
+              color: AppColors.main,
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 12.0),
-              child: VerticalDivider(),
-            ),
-            IconButton(
-              key: const Key('homePage_logout_iconButton'),
-              icon: const Icon(
-                Icons.logout_outlined,
-                color: AppColors.main,
-              ),
-              onPressed: () {
-                context.read<AppBloc>().add(const AppLogoutRequested());
-              },
-            ),
-          ],
-        ),
-        body: BlocProvider(
-          create: (context) => ProfileCubit()
-            ..fetchUserData(
-                firebase_auth.FirebaseAuth.instance.currentUser!.uid),
-          child: BlocBuilder<ProfileCubit, ProfileState>(
-            builder: (context, state) {
-              if (state is ProfileSuccessState) {
-                return _buildContent(context, state);
-              } else if (state is ProfileErrorState) {
-                return Center(
-                  child: Text('Error fetching user data: ${state.message}'),
-                );
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+            onPressed: () {
+              Navigator.push<void>(
+                context,
+                MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const EditProfilePage()),
+              );
             },
           ),
-        ));
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 12.0),
+            child: VerticalDivider(),
+          ),
+          IconButton(
+            key: const Key('homePage_logout_iconButton'),
+            icon: const Icon(
+              Icons.logout_outlined,
+              color: AppColors.main,
+            ),
+            onPressed: () {
+              context.read<AppBloc>().add(const AppLogoutRequested());
+            },
+          ),
+        ],
+      ),
+      body: BlocProvider(
+        create: (context) => ProfileCubit()
+          ..fetchUserData(firebase_auth.FirebaseAuth.instance.currentUser!.uid),
+        child: BlocBuilder<ProfileCubit, ProfileState>(
+          builder: (context, state) {
+            if (state is ProfileSuccessState) {
+              return _buildContent(context, state);
+            } else if (state is ProfileErrorState) {
+              return Center(
+                child: Text('Error fetching user data: ${state.message}'),
+              );
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
+      ),
+    );
   }
 
   Widget _buildContent(BuildContext context, ProfileState state) {

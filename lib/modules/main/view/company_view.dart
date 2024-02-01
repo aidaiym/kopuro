@@ -24,7 +24,7 @@ class _CompanyMainViewState extends State<CompanyMainView> {
       child: const CompanyMainScreen(
         [
           CandidatesListView(),
-          CompanyProfileView(),
+          CompanyVacanciesView(),
         ],
       ),
     );
