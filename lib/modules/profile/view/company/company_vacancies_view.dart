@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kopuro/app/bloc/app_bloc.dart';
 import 'package:kopuro/export_files.dart';
 
 class CompanyVacanciesView extends StatelessWidget {
@@ -71,6 +72,9 @@ class CompanyVacanciesSuccess extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10)),
               child: Column(
                 children: [
+                  ElevatedButton(onPressed: (){
+                      context.read<AppBloc>().add(const AppLogoutRequested());
+                  }, child: Text('')),
                   Center(
                     child: Text(
                       ' Жаны вакансия кошуу +',

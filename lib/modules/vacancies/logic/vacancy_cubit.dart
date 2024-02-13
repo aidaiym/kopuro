@@ -14,12 +14,12 @@ class VacancyCubit extends Cubit<VacancyState> {
     try {
       final QuerySnapshot<Map<String, dynamic>> snapshot =
           await _firestore.collection('vacancies').get();
+          print(snapshot.docs.first.data());
       final List<Vacancy> allVacancies =
           snapshot.docs.map((doc) => Vacancy.fromJson(doc.data())).toList();
-
       emit(VacancyLoaded(vacancies: allVacancies));
     } catch (e) {
-      emit(const VacancyError(message: 'Failed to load vacancies.'));
+      emit( VacancyError(message: 'Failed to load vacancies. $e'));
     }
   }
 

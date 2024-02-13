@@ -34,7 +34,7 @@ class Vacancy {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'createdTime': createdTime.toUtc().toIso8601String(),
+      'createdTime': createdTime,
       'jobTitle': jobTitle,
       'companyName': companyName,
       'location': location,

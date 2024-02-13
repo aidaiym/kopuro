@@ -34,7 +34,6 @@ class VacanciesList extends StatelessWidget {
                       itemCount: state.vacancies.length,
                       itemBuilder: (context, index) {
                         final vacancy = state.vacancies[index];
-
                         return Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Card(
