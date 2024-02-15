@@ -27,7 +27,7 @@ class StudentProfileView extends StatelessWidget {
                   context,
                   MaterialPageRoute<void>(
                       builder: (BuildContext context) =>
-                          const EditProfilePage()),
+                          const EditStudentProfilePage()),
                 );
               },
             ),

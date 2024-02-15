@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopuro/export_files.dart';
 
-class EditProfilePage extends StatelessWidget {
-  const EditProfilePage({super.key});
+class EditStudentProfilePage extends StatelessWidget {
+  const EditStudentProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {

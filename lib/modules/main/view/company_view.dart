@@ -45,12 +45,12 @@ class CompanyMainScreen extends StatelessWidget {
         selectedIndex: context.watch<MainCubit>().state,
         destinations: const <Widget>[
           NavigationDestination(
-            icon: Icon(Icons.house),
-            label: 'Vacancies',
+            icon: Icon(Icons.people),
+            label: 'Candidates',
           ),
           NavigationDestination(
-            icon: Icon(Icons.man),
-            label: 'Profile',
+            icon: Icon(Icons.work_outline),
+            label: 'Add Vacancy',
           ),
         ],
       ),

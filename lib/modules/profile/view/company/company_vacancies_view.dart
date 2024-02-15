@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:kopuro/app/bloc/app_bloc.dart';
 import 'package:kopuro/export_files.dart';
 
 class CompanyVacanciesView extends StatelessWidget {
@@ -11,6 +10,30 @@ class CompanyVacanciesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CircleAvatar(
+              child: IconButton(
+                icon: const Icon(
+                  Icons.person,
+                  color: AppColors.main,
+                ),
+                onPressed: () {
+                  Navigator.push<void>(
+                    context,
+                    MaterialPageRoute<void>(
+                        builder: (BuildContext context) =>
+                            const CompanyProfileView()),
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
       body: BlocProvider(
         create: (context) => ProfileCubit()
           ..fetchUserData(FirebaseAuth.instance.currentUser!.uid),
@@ -72,9 +95,6 @@ class CompanyVacanciesSuccess extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10)),
               child: Column(
                 children: [
-                  ElevatedButton(onPressed: (){
-                      context.read<AppBloc>().add(const AppLogoutRequested());
-                  }, child: Text('')),
                   Center(
                     child: Text(
                       ' Жаны вакансия кошуу +',
@@ -91,8 +111,34 @@ class CompanyVacanciesSuccess extends StatelessWidget {
               ),
             ),
           ),
-
-          // ListView.builder(itemBuilder: )
+          (state.userData!['vacancies'] != null &&
+                  state.userData!['vacancies']!.isNotEmpty)
+              ? ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: state.userData!['vacancies']!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    String vacancy = state.userData!['vacancies']![index];
+                    return ListTile(
+                      title: Text(vacancy),
+                      subtitle: Text(vacancy),
+                      onTap: () {
+                        Navigator.push<void>(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) => VacancyDetail(
+                              vacancy: state.userData!['vacancies']![index],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                )
+              : Text(
+                  'Азырынча сиздин комапниянын вакансиялары жок',
+                  style: AppTextStyles.black19,
+                ),
         ],
       ),
     );

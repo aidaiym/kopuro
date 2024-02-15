@@ -11,7 +11,6 @@ class CompanyProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         title: Text('Өздүк баракча', style: AppTextStyles.black19),
         actions: <Widget>[
           IconButton(
@@ -23,7 +22,7 @@ class CompanyProfileView extends StatelessWidget {
               Navigator.push<void>(
                 context,
                 MaterialPageRoute<void>(
-                    builder: (BuildContext context) => const EditProfilePage()),
+                    builder: (BuildContext context) => const EditStudentProfilePage()),
               );
             },
           ),

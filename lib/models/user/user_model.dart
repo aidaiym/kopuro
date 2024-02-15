@@ -139,7 +139,7 @@ class CompanyUser extends User {
   final String? phoneNumber;
   final String? aboutCompany;
   final String? webLinkCompany;
-  final List<Vacancy>? vacancies;
+  final List<String>? vacancies;
 
   const CompanyUser({
     this.type,
@@ -164,7 +164,7 @@ class CompanyUser extends User {
       'phoneNumber': phoneNumber,
       'aboutCompany': aboutCompany,
       'webLinkCompany': webLinkCompany,
-      'vacancies': vacancies?.map((vacancy) => vacancy.toJson()).toList(),
+      'vacancies': vacancies,
     };
   }
 
@@ -182,8 +182,7 @@ class CompanyUser extends User {
       aboutCompany: json['aboutCompany'] as String? ?? '',
       webLinkCompany: json['webLinkCompany'] as String? ?? '',
       vacancies: (json['vacancies'] as List<dynamic>?)
-          ?.map((vacancyJson) =>
-              Vacancy.fromJson(vacancyJson as Map<String, dynamic>))
+          ?.map((vacancyJson) => vacancyJson as String)
           .toList(),
     );
   }
