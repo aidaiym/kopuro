@@ -97,12 +97,13 @@ class CreateVacancy extends StatelessWidget {
                
 
                 var user = FirebaseAuth.instance.currentUser;
-                FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(user!.uid)
-                    .update(({
-                      'vacancies': FieldValue.arrayUnion([vacancy.id])
-                    }));
+                 if (user != null) {
+                  DocumentReference userRef =
+                      FirebaseFirestore.instance.collection('users').doc(user.uid);
+                  userRef.update({
+                    'vacancies': FieldValue.arrayUnion([documentReference]),
+                  });
+                }
 
                 // ignore: use_build_context_synchronously
                 Navigator.pop(context);
