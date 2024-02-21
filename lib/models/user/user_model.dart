@@ -112,6 +112,7 @@ class StudentUser extends User {
       skills: json['skills'] as String? ?? '',
       education: json['education'] as String? ?? '',
       workExperience: json['workExperience'] as String? ?? '',
+      userLocation: json['location'] as String? ?? '',
       language: json['language'] as String? ?? '',
       linkedIn: json['linkedIn'] as String? ?? '',
       github: json['github'] as String? ?? '',

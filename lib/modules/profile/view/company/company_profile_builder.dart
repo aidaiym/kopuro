@@ -36,8 +36,8 @@ class CompanyProfileBuilder extends StatelessWidget {
             .doc(user?.uid)
             .update(companyMap);
 
-        // ignore: use_build_context_synchronously
         Navigator.pushReplacement(
+          // ignore: use_build_context_synchronously
           context,
           MaterialPageRoute(
             builder: (context) => const CompanyMainView(),

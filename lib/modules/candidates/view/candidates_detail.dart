@@ -8,7 +8,7 @@ class CandidatesDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(candidate.username),
+        title: Text(candidate.jobTitle ?? ''),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -17,12 +17,21 @@ class CandidatesDetailView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                sectionText('Компания', candidate.username),
-                sectionText('Эмгек акы', candidate.email),
-                sectionText('Байланыш маалыматы', candidate.aboutUser!),
-                sectionText('Жумуш жөнүндө', candidate.education!),
-                sectionText('Жумуштун түрү', candidate.github!),
-                sectionText('Жайгашкан жери', candidate.linkedIn!),
+                sectionText('Аты-жөнү', candidate.username),
+                sectionText('Өзү жөнүндө', candidate.aboutUser!),
+                sectionText('Билими', candidate.education!),
+                sectionText('Иш тажрыйбасы', candidate.workExperience!),
+                sectionText('Көндүмдөрү', candidate.skills!),
+                sectionText('Жайгашкан жери', candidate.userLocation!),
+                const SizedBox(height: 25),
+                Text(
+                  'Байланыш маалыматтары: ',
+                  style: AppTextStyles.black19,
+                ),
+                sectionText('email', candidate.email),
+                sectionText('Телефон номери', candidate.phoneNumber!),
+                sectionText('Github', candidate.github!),
+                sectionText('Linkedin', candidate.linkedIn!),
                 const SizedBox(height: 40),
               ]),
         ),

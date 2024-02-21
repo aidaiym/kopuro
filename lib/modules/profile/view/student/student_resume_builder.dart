@@ -48,8 +48,8 @@ class ResumeBuilder extends StatelessWidget {
             .doc(user?.uid)
             .update(studentMap);
 
-        // ignore: use_build_context_synchronously
         Navigator.pushReplacement(
+          // ignore: use_build_context_synchronously
           context,
           MaterialPageRoute(
             builder: (context) => const StudentMainView(),
@@ -134,7 +134,7 @@ class ResumeBuilder extends StatelessWidget {
                   validator: 'Сураныч, билим жазыныз',
                   description: 'билим',
                 ),
-                  TextFieldWidget(
+                TextFieldWidget(
                   obscureText: false,
                   controller: workExperience,
                   label: 'workExperience',

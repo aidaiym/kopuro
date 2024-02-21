@@ -38,46 +38,39 @@ class CandidatesListView extends StatelessWidget {
                         final candidates = state.candidates[index];
 
                         return Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Card(
-                            elevation: 3.0,
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(candidates.username,
-                                      style: AppTextStyles.black16),
-                                  const SizedBox(height: 8),
-                                  Wrap(
-                                    spacing: 20,
-                                    children: [
-                                      Chip(
-                                        label: Text(candidates.email),
-                                      ),
-                                      Chip(
-                                        label: Text(candidates.workExperience!),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 10),
-                                  MainButton(
-                                      onPressed: () {
-                                        Navigator.push<void>(
-                                          context,
-                                          MaterialPageRoute<void>(
-                                            builder: (BuildContext context) =>
-                                                CandidatesDetailView(
-                                                    candidate: candidates),
-                                          ),
-                                        );
-                                      },
-                                      text: 'Kөбүрөөк маалымат алуу')
-                                ],
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: AppColors.main.withOpacity(0.05),
+                                borderRadius: BorderRadius.circular(15),
                               ),
-                            ),
-                          ),
-                        );
+                              child: ListTile(
+                                onTap: () {
+                                  Navigator.push<void>(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                      builder: (BuildContext context) =>
+                                          CandidatesDetailView(
+                                              candidate: candidates),
+                                    ),
+                                  );
+                                },
+                                contentPadding: const EdgeInsets.all(10),
+                                leading: CircleAvatar(
+                                  child: Image.asset(
+                                    'assets/images/avatar.png',
+                                    width: 20,
+                                  ),
+                                ),
+                                title: Text(candidates.username,
+                                    style: AppTextStyles.black20),
+                                subtitle: Text(
+                                  candidates.jobTitle!,
+                                  style: AppTextStyles.main14,
+                                ),
+                                trailing: const Icon(Icons.navigate_next),
+                              ),
+                            ));
                       },
                     )),
                   ],

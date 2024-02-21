@@ -22,7 +22,7 @@ class CompanyProfileView extends StatelessWidget {
               Navigator.push<void>(
                 context,
                 MaterialPageRoute<void>(
-                    builder: (BuildContext context) => const EditStudentProfilePage()),
+                    builder: (BuildContext context) => const EditCompanyProfilePage()),
               );
             },
           ),
@@ -97,10 +97,11 @@ class CompanyProfileView extends StatelessWidget {
             _buildSection('Company Email', state.userData!['email']),
             _buildSection(
                 'Company Contact Number', state.userData!['phoneNumber']),
+                    _buildSection(
+                'Company Location ', state.userData!['location']),
             _buildSection(' webLinkCompany', state.userData!['webLinkCompany']),
             _buildSection('LinkedIn', state.userData!['linkedIn']),
             const SizedBox(height: 15),
-            Text('Менин вакансияларым:', style: AppTextStyles.black19),
           ],
         ),
       ),
