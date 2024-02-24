@@ -29,6 +29,9 @@ class ResumeBuilder extends StatelessWidget {
       try {
         var user = FirebaseAuth.instance.currentUser;
         StudentUser student = StudentUser(
+          id: user!.uid,
+          email: user.email,
+          createdTime: DateTime.now(),
           username: nameController.text,
           jobTitle: jobController.text,
           skills: skillsController.text,
@@ -45,7 +48,7 @@ class ResumeBuilder extends StatelessWidget {
         Map<String, dynamic> studentMap = student.toMapStudent();
         await FirebaseFirestore.instance
             .collection('users')
-            .doc(user?.uid)
+            .doc(user.uid)
             .update(studentMap);
 
         Navigator.pushReplacement(
