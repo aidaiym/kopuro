@@ -111,40 +111,12 @@ class _EditProfileViewState extends State<EditProfileView> {
             hintText: state.userData?['phoneNumber'] ?? '',
           ),
           TextFieldWidget(
-            controller: locationController,
-            label: 'Жайгашкан жери',
-            validator: 'Сураныч, Жайгашкан жери жазыныз',
-            description: 'Жайгашкан жери',
-            obscureText: false,
-            hintText: state.userData?['location'] ?? '',
-          ),
-          TextFieldWidget(
-            controller: aboutController,
-            label: 'мен тууралуу',
-            validator: 'Сураныч, мен тууралуу жазыныз',
-            description: 'мен тууралуу',
-            obscureText: false,
-            hintText: state.userData?['aboutUser'] ?? '',
-          ),
-          TextFieldWidget(
             hintText: state.userData?['jobTitle'] ?? '',
             obscureText: false,
             controller: jobController,
             label: 'Жумуштун аталышы',
             validator: 'Сураныч, жумуштун жазыныз',
             description: 'Жумуштун аталышы',
-          ),
-          Text(
-            'Профессионалдык Кыскача маалымат',
-            style: AppTextStyles.header2,
-          ),
-          TextFieldWidget(
-            obscureText: false,
-            controller: educationController,
-            label: 'билим',
-            validator: 'Сураныч, билим жазыныз',
-            description: 'билим',
-            hintText: state.userData?['education'] ?? '',
           ),
           TextFieldWidget(
             obscureText: false,
@@ -163,9 +135,29 @@ class _EditProfileViewState extends State<EditProfileView> {
             hintText: state.userData?['skills'] ?? '',
           ),
           TextFieldWidget(
+            controller: locationController,
+            label: 'Жайгашкан жери',
+            description: 'Жайгашкан жери',
+            obscureText: false,
+            hintText: state.userData?['location'] ?? '',
+          ),
+          TextFieldWidget(
+            controller: aboutController,
+            label: 'мен тууралуу',
+            description: 'мен тууралуу',
+            obscureText: false,
+            hintText: state.userData?['aboutUser'] ?? '',
+          ),
+          TextFieldWidget(
+            obscureText: false,
+            controller: educationController,
+            label: 'билим',
+            description: 'билим',
+            hintText: state.userData?['education'] ?? '',
+          ),
+          TextFieldWidget(
             controller: languageController,
             label: 'тил',
-            validator: 'Сураныч, тил жазыныз',
             description: 'тил',
             obscureText: false,
             hintText: state.userData?['language'] ?? '',
@@ -173,7 +165,6 @@ class _EditProfileViewState extends State<EditProfileView> {
           TextFieldWidget(
             controller: linkedinController,
             label: 'Linkedin',
-            validator: 'Сураныч, Linkedin жазыныз',
             description: 'Linkedin',
             obscureText: false,
             hintText: state.userData?['linkedIn'] ?? '',
@@ -181,16 +172,16 @@ class _EditProfileViewState extends State<EditProfileView> {
           TextFieldWidget(
             controller: githubController,
             label: 'Github',
-            validator: 'Сураныч, Github жазыныз',
             description: 'Github',
             obscureText: false,
             hintText: state.userData?['github'] ?? '',
           ),
           const SizedBox(height: 16),
           MainButton(
-            onPressed: () {
+            onPressed: () async {
               String authenticatedUserId =
                   FirebaseAuth.instance.currentUser?.uid ?? '';
+
               Map<String, dynamic> updatedData = {
                 'username': nameController.text,
                 'phoneNumber': phoneNumberController.text,
@@ -203,6 +194,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                 'language': languageController.text,
                 'linkedIn': linkedinController.text,
                 'github': githubController.text,
+                'photoUrl': 'uploadImageUrl',
               };
 
               context

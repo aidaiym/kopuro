@@ -60,7 +60,7 @@ class SignUpCubit extends Cubit<SignUpState> {
     );
   }
 
-Future<void> signUpFormSubmitted() async {
+  Future<void> signUpFormSubmitted() async {
     if (!state.isValid) return;
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
     try {
@@ -81,4 +81,7 @@ Future<void> signUpFormSubmitted() async {
     }
   }
 
+  void togglePasswordVisibility() {
+    emit(state.copyWith(isPasswordHidden: !state.isPasswordHidden));
+  }
 }

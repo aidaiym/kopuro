@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
-
-import '../../constants/contants.dart';
+import 'package:kopuro/export_files.dart';
 
 class TextFieldWidget extends StatelessWidget {
   const TextFieldWidget({
     super.key,
     required this.controller,
     required this.label,
-    required this.validator,
+    this.validator,
     required this.description,
-    required this.obscureText, this.hintText,
+    required this.obscureText,
+    this.hintText,
+    this.minLines,
   });
 
   final TextEditingController controller;
   final String label;
-  final String validator;
+  final String? validator;
   final String description;
   final bool obscureText;
   final String? hintText;
+  final int? minLines;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,9 @@ class TextFieldWidget extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           TextFormField(
+            maxLines: null,
+            keyboardType: TextInputType.multiline,
+            autovalidateMode: AutovalidateMode.always,
             obscureText: obscureText,
             validator: (value) {
               if (value!.isEmpty) {

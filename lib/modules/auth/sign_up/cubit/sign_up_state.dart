@@ -10,6 +10,8 @@ final class SignUpState extends Equatable {
     this.status = FormzSubmissionStatus.initial,
     this.isValid = false,
     this.errorMessage,
+    this.isPasswordHidden = true,
+
   });
 
   final Email email;
@@ -18,6 +20,8 @@ final class SignUpState extends Equatable {
   final FormzSubmissionStatus status;
   final bool isValid;
   final String? errorMessage;
+  final bool isPasswordHidden;
+
 
   @override
   List<Object?> get props => [
@@ -27,6 +31,7 @@ final class SignUpState extends Equatable {
         status,
         isValid,
         errorMessage,
+        isPasswordHidden
       ];
 
   SignUpState copyWith({
@@ -36,6 +41,7 @@ final class SignUpState extends Equatable {
     FormzSubmissionStatus? status,
     bool? isValid,
     String? errorMessage,
+        bool? isPasswordHidden,
   }) {
     return SignUpState(
       email: email ?? this.email,
@@ -44,6 +50,7 @@ final class SignUpState extends Equatable {
       status: status ?? this.status,
       isValid: isValid ?? this.isValid,
       errorMessage: errorMessage ?? this.errorMessage,
+      isPasswordHidden: isPasswordHidden ?? this.isPasswordHidden,
     );
   }
 }

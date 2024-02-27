@@ -15,7 +15,7 @@ class ChooseAccountType extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Аккаунттун түрүн тандаңыз', style: AppTextStyles.header1),
+              Text('Аккаунттун түрүн тандаңыз', style: AppTextStyles.main32),
               Padding(
                 padding: const EdgeInsets.only(bottom: 50.0, top: 20),
                 child: Text('Сиз компаниясызбы же студентсизби?',

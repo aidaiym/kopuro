@@ -7,6 +7,7 @@ final class LoginState extends Equatable {
     this.status = FormzSubmissionStatus.initial,
     this.isValid = false,
     this.errorMessage,
+    this.isPasswordHidden = true,
   });
 
   final Email email;
@@ -14,6 +15,7 @@ final class LoginState extends Equatable {
   final FormzSubmissionStatus status;
   final bool isValid;
   final String? errorMessage;
+  final bool isPasswordHidden;
 
   @override
   List<Object?> get props => [email, password, status, isValid, errorMessage];
@@ -24,6 +26,7 @@ final class LoginState extends Equatable {
     FormzSubmissionStatus? status,
     bool? isValid,
     String? errorMessage,
+    bool? isPasswordHidden,
   }) {
     return LoginState(
       email: email ?? this.email,
@@ -31,6 +34,7 @@ final class LoginState extends Equatable {
       status: status ?? this.status,
       isValid: isValid ?? this.isValid,
       errorMessage: errorMessage ?? this.errorMessage,
+      isPasswordHidden: isPasswordHidden ?? this.isPasswordHidden,
     );
   }
 }

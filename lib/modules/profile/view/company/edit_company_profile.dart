@@ -35,6 +35,7 @@ class _EditCompanyProfileViewState extends State<EditCompanyProfileView> {
   late TextEditingController contactNumberController;
   late TextEditingController webLinkController;
   late TextEditingController linkedinController;
+  String? uploadedImageUrl;
 
   @override
   void initState() {
@@ -52,6 +53,9 @@ class _EditCompanyProfileViewState extends State<EditCompanyProfileView> {
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
         if (state is ProfileSuccessState) {
+          uploadedImageUrl = (state is ProfileImageUploadedState)
+              ? state.uploadedImageUrl
+              : null;
           nameOfCompanyController.text = state.userData?['username'] ?? '';
           aboutCompanyController.text = state.userData?['aboutCompany'] ?? '';
           locationOfCompanyController.text = state.userData?['location'] ?? '';
@@ -64,7 +68,7 @@ class _EditCompanyProfileViewState extends State<EditCompanyProfileView> {
           return Center(
             child: Text('Error fetching user data: ${state.message}'),
           );
-        } else {
+        } else  {
           return const Center(
             child: CircularProgressIndicator(),
           );
@@ -79,6 +83,32 @@ class _EditCompanyProfileViewState extends State<EditCompanyProfileView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          Align(
+            alignment: Alignment.center,
+            child: GestureDetector(
+              onTap: () {
+                context.read<ProfileCubit>().uploadImage();
+              },
+              child: Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: (state is ProfileImageUploadingState)
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : (uploadedImageUrl != null)
+                        ? Image.network(
+                            uploadedImageUrl!,
+                            fit: BoxFit.cover,
+                          )
+                        : const Icon(Icons.add_a_photo),
+              ),
+            ),
+          ),
           TextFieldWidget(
             controller: nameOfCompanyController,
             label: 'Компаниянын аты',
@@ -132,7 +162,9 @@ class _EditCompanyProfileViewState extends State<EditCompanyProfileView> {
             onPressed: () {
               String authenticatedUserId =
                   FirebaseAuth.instance.currentUser?.uid ?? '';
+
               Map<String, dynamic> updatedData = {
+                'photoUrl': uploadedImageUrl,
                 'username': nameOfCompanyController.text,
                 'aboutCompany': aboutCompanyController.text,
                 'location': locationOfCompanyController.text,

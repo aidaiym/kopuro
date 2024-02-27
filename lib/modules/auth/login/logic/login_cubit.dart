@@ -1,5 +1,3 @@
-
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -55,4 +53,7 @@ class LoginCubit extends Cubit<LoginState> {
     }
   }
 
+  void togglePasswordVisibility() {
+    emit(state.copyWith(isPasswordHidden: !state.isPasswordHidden));
+  }
 }

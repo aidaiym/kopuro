@@ -25,7 +25,7 @@ class SignUpForm extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Катталуу', style: AppTextStyles.header1),
+            Text('Катталуу', style: AppTextStyles.main32),
             const SizedBox(
               height: 30,
             ),
@@ -79,6 +79,14 @@ class SignUpForm extends StatelessWidget {
                         color: AppColors.main,
                       ),
                     ),
+                      suffixIcon: IconButton(
+                        icon: Icon(state.isPasswordHidden
+                            ? Icons.visibility
+                            : Icons.visibility_off),
+                        onPressed: () {
+                          context.read<SignUpCubit>().togglePasswordVisibility();
+                        },
+                      ),
                   ),
                 );
               },

@@ -42,7 +42,40 @@ class StudentProfileView extends StatelessWidget {
                 color: AppColors.main,
               ),
               onPressed: () {
-                context.read<AppBloc>().add(const AppLogoutRequested());
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      content: Text(
+                        'Чын эле чыгып кеткиңиз келеби?',
+                        style: AppTextStyles.black19,
+                        textAlign: TextAlign.center,
+                      ),
+                      actions: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('Жок'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                context
+                                    .read<AppBloc>()
+                                    .add(const AppLogoutRequested());
+                                Navigator.of(context).pop();
+                              },
+                              child:  Text('Ооба', style: AppTextStyles.errorText,),
+                            ),
+                          ],
+                        )
+                      ],
+                    );
+                  },
+                );
               },
             ),
           ],
@@ -96,7 +129,7 @@ class StudentProfileView extends StatelessWidget {
             Row(
               children: [
                 Text(
-                 '${state.userData!['username'] ?? ''} - ',
+                  '${state.userData!['username'] ?? ''} - ',
                   style: AppTextStyles.black20,
                 ),
                 Flexible(
@@ -113,6 +146,7 @@ class StudentProfileView extends StatelessWidget {
             _buildSection('Language', state.userData!['language']),
             _buildSection('Skills', state.userData!['skills']),
             _buildSection('Work Experience', state.userData!['workExperience']),
+            _buildSection('Location', state.userData!['location']),
             _buildSection('LinkedIn', state.userData!['linkedIn']),
             _buildSection('Github', state.userData!['github']),
           ],
@@ -122,16 +156,20 @@ class StudentProfileView extends StatelessWidget {
   }
 
   Widget _buildSection(String title, String? content) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text('$title: ', style: AppTextStyles.main18),
-          Flexible(child: Text(content ?? '', style: AppTextStyles.black16)),
-        ],
-      ),
-    );
+    if (content != null && content.isNotEmpty) {
+      return Padding(
+        padding: const EdgeInsets.only(top: 8.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text('$title: ', style: AppTextStyles.main18),
+            Flexible(child: Text(content, style: AppTextStyles.black16)),
+          ],
+        ),
+      );
+    } else {
+      return const SizedBox();
+    }
   }
 }

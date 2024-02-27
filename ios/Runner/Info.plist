@@ -29,13 +29,18 @@
 		<key>UIMainStoryboardFile</key>
 		<string>Main</string>
 		<key>UISupportedInterfaceOrientations</key>
-		<!-- <key>NSPhotoLibraryUsageDescription</key> 
-		<string>Photo Library Access Warning</string> -->
 		<array>
 			<string>UIInterfaceOrientationPortrait</string>
 			<string>UIInterfaceOrientationLandscapeLeft</string>
 			<string>UIInterfaceOrientationLandscapeRight</string>
 		</array>
+		<key>NSCameraUsageDescription</key>
+		<string>Used to demonstrate image picker plugin</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>Used to capture audio for image picker plugin</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>Used to demonstrate image picker plugin</string>
+		
 		<key>UISupportedInterfaceOrientations~ipad</key>
 		<array>
 			<string>UIInterfaceOrientationPortrait</string>

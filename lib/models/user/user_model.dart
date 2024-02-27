@@ -34,6 +34,7 @@ class User extends Equatable {
       'createdTime': createdTime,
       'username': username,
       'email': email,
+      'photoUrl': photoUrl,
     };
   }
 }

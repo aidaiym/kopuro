@@ -31,15 +31,48 @@ class CompanyProfileView extends StatelessWidget {
             child: VerticalDivider(),
           ),
           IconButton(
-            key: const Key('homePage_logout_iconButton'),
-            icon: const Icon(
-              Icons.logout_outlined,
-              color: AppColors.main,
+              key: const Key('homePage_logout_iconButton'),
+              icon: const Icon(
+                Icons.logout_outlined,
+                color: AppColors.main,
+              ),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      content: Text(
+                        'Чын эле чыгып кеткиңиз келеби?',
+                        style: AppTextStyles.black19,
+                        textAlign: TextAlign.center,
+                      ),
+                      actions: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('Жок'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                context
+                                    .read<AppBloc>()
+                                    .add(const AppLogoutRequested());
+                                Navigator.of(context).pop();
+                              },
+                              child:  Text('Ооба', style: AppTextStyles.errorText,),
+                            ),
+                          ],
+                        )
+                      ],
+                    );
+                  },
+                );
+              },
             ),
-            onPressed: () {
-              context.read<AppBloc>().add(const AppLogoutRequested());
-            },
-          ),
         ],
       ),
       body: BlocProvider(

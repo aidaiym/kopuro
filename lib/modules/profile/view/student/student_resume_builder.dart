@@ -1,8 +1,10 @@
 import 'dart:developer';
-
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:kopuro/export_files.dart';
 
 class ResumeBuilder extends StatelessWidget {
@@ -24,6 +26,14 @@ class ResumeBuilder extends StatelessWidget {
     final languageController = TextEditingController();
     final locationController = TextEditingController();
     final workExperience = TextEditingController();
+
+    bool validateFields() {
+      return nameController.text.isNotEmpty &&
+          phoneNumberController.text.isNotEmpty &&
+          jobController.text.isNotEmpty &&
+          workExperience.text.isNotEmpty &&
+          skillsController.text.isNotEmpty;
+    }
 
     void uploadResume(BuildContext context) async {
       try {
@@ -63,118 +73,151 @@ class ResumeBuilder extends StatelessWidget {
       }
     }
 
+    Future<void> uploadImage() async {
+      final picker = ImagePicker();
+      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+      if (pickedFile != null) {
+        Reference storageReference = FirebaseStorage.instance
+            .ref()
+            .child('images/${DateTime.now().toString()}');
+        UploadTask uploadTask = storageReference.putFile(File(pickedFile.path));
+        await uploadTask.whenComplete(() => log('Image uploaded'));
+      } else {
+        log('No image selected.');
+      }
+    }
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(40.0),
           child: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const StudentMainView(),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const StudentMainView(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 20),
+                      decoration: BoxDecoration(
+                        color: AppColors.main.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(25),
                       ),
-                    );
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 20),
-                    decoration: BoxDecoration(
-                      color: AppColors.main.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(25),
+                      child: Text('Өткөрүп жиберүү',
+                          style: AppTextStyles.white14.copyWith(fontSize: 12)),
                     ),
-                    child: Text('Өткөрүп жиберүү',
-                        style: AppTextStyles.white14.copyWith(fontSize: 12)),
+                  ),
+                ),
+                const SizedBox(height: 30),
+                Align(
+                  alignment: Alignment.center,
+                  child: GestureDetector(
+                    onTap: uploadImage,
+                    child: Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Icon(Icons.add_a_photo),
+                    ),
                   ),
                 ),
                 TextFieldWidget(
                   controller: nameController,
-                  label: 'Аты-жөнү',
+                  label: 'Аты-жөнү ',
                   validator: 'Сураныч, Аты-жөнү жазыныз',
-                  description: 'Аты-жөнү',
+                  description: 'Аты-жөнү *',
                   obscureText: false,
                 ),
                 TextFieldWidget(
                   controller: phoneNumberController,
                   label: 'Телефон номери',
                   validator: 'Сураныч, Телефон номери жазыныз',
-                  description: 'Телефон номери',
-                  obscureText: false,
-                ),
-                TextFieldWidget(
-                  controller: locationController,
-                  label: 'Жайгашкан жери',
-                  validator: 'Сураныч, Жайгашкан жери жазыныз',
-                  description: 'Жайгашкан жери',
-                  obscureText: false,
-                ),
-                TextFieldWidget(
-                  controller: aboutController,
-                  label: 'мен тууралуу',
-                  validator: 'Сураныч, мен тууралуу жазыныз',
-                  description: 'мен тууралуу',
+                  description: 'Телефон номери *',
                   obscureText: false,
                 ),
                 TextFieldWidget(
                   obscureText: false,
                   controller: jobController,
-                  label: 'Жумуштун аталышы',
-                  validator: 'Сураныч, жумуштун жазыныз',
-                  description: 'Жумуштун аталышы',
-                ),
-                Text(
-                  'Профессионалдык Кыскача маалымат',
-                  style: AppTextStyles.header2,
-                ),
-                TextFieldWidget(
-                  obscureText: false,
-                  controller: educationController,
-                  label: 'билим',
-                  validator: 'Сураныч, билим жазыныз',
-                  description: 'билим',
+                  label: 'Сиздин кесибиңиз',
+                  validator: 'Сураныч, кесибиңизди жазыныз',
+                  description: 'Сиздин кесибиңиз *',
                 ),
                 TextFieldWidget(
                   obscureText: false,
                   controller: workExperience,
-                  label: 'workExperience',
-                  validator: 'Сураныч, workExperience жазыныз',
-                  description: 'workExperience',
+                  label: 'Иш тажрыйбаңыз тууралуу',
+                  validator: 'Сураныч, иш тажрыйбаңызды жазыныз',
+                  description: 'Иш тажрыйбаңыз тууралуу *',
                 ),
                 TextFieldWidget(
                   obscureText: false,
                   controller: skillsController,
-                  label: 'көндүмдөр',
+                  label: 'Көндүмдөрүңүз',
                   validator: 'Сураныч, көндүмдөр жазыныз',
-                  description: 'көндүмдөр',
+                  description: 'Көндүмдөрүңүз *',
+                ),
+                TextFieldWidget(
+                  controller: locationController,
+                  label: 'Жайгашкан жери',
+                  description: 'Жайгашкан жери',
+                  obscureText: false,
+                ),
+                TextFieldWidget(
+                  controller: aboutController,
+                  label: 'Мен тууралуу',
+                  description: 'Мен тууралуу',
+                  obscureText: false,
+                ),
+                TextFieldWidget(
+                  obscureText: false,
+                  controller: educationController,
+                  label: 'Билимиңиз тууралуу жазыңыз',
+                  description: 'Билимиңиз тууралуу',
                 ),
                 TextFieldWidget(
                   controller: languageController,
-                  label: 'тил',
-                  validator: 'Сураныч, тил жазыныз',
-                  description: 'тил',
+                  label: 'Тил',
+                  description: 'Тил',
                   obscureText: false,
                 ),
                 TextFieldWidget(
                   controller: linkedinController,
                   label: 'Linkedin',
-                  validator: 'Сураныч, Linkedin жазыныз',
                   description: 'Linkedin',
                   obscureText: false,
                 ),
                 TextFieldWidget(
                   controller: githubController,
                   label: 'Github',
-                  validator: 'Сураныч, Github жазыныз',
                   description: 'Github',
                   obscureText: false,
                 ),
                 MainButton(
                   onPressed: () async {
-                    uploadResume(context);
+                    if (validateFields()) {
+                      uploadResume(context);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                              'Сураныч, бардык талап кылынган талааларды толтуруңуз.'),
+                        ),
+                      );
+                    }
                   },
                   text: 'Катталуу',
                 ),

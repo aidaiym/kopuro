@@ -26,11 +26,11 @@ class LoginForm extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Кош келиңиз!', style: AppTextStyles.header1),
+              Text('Кош келиңиз!', style: AppTextStyles.main32),
               const SizedBox(
                 height: 30,
               ),
-              Text('Аккаунтунузга кириңиз', style: AppTextStyles.header2),
+              Text('Аккаунтунузга кириңиз', style: AppTextStyles.black24),
               const SizedBox(
                 height: 50,
               ),
@@ -71,7 +71,6 @@ class LoginForm extends StatelessWidget {
                     onChanged: (password) =>
                         context.read<LoginCubit>().passwordChanged(password),
                     obscureText: true,
-                    
                     decoration: InputDecoration(
                       labelText: 'Паролунуз',
                       errorText: state.password.displayError != null
@@ -85,6 +84,14 @@ class LoginForm extends StatelessWidget {
                           width: 1,
                           color: AppColors.main,
                         ),
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(state.isPasswordHidden
+                            ? Icons.visibility
+                            : Icons.visibility_off),
+                        onPressed: () {
+                          context.read<LoginCubit>().togglePasswordVisibility();
+                        },
                       ),
                     ),
                   );
@@ -114,8 +121,6 @@ class LoginForm extends StatelessWidget {
                         builder: (context) => const ChooseAccountType()),
                   );
                 },
-                // onPressed: () =>
-                //     Navigator.of(context).push<void>(SignUpPage.route()),
                 child: const Text(
                   'Катталуу',
                   style: TextStyle(color: AppColors.main),
