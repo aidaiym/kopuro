@@ -71,6 +71,7 @@ class LoginForm extends StatelessWidget {
                     onChanged: (password) =>
                         context.read<LoginCubit>().passwordChanged(password),
                     obscureText: true,
+                    
                     decoration: InputDecoration(
                       labelText: 'Паролунуз',
                       errorText: state.password.displayError != null
