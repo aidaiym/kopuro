@@ -4,4 +4,3 @@ export 'auth/auth.dart';
 export 'profile/profile.dart';
 export 'vacancies/vacancies.dart';
 export 'candidates/candidates.dart';
-export 'admin/admin.dart';

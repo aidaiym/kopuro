@@ -10,7 +10,10 @@ class EditCompanyProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Profile'),
+        title: Text(
+          'Компаниянын профилин өзгөртүү',
+          style: AppTextStyles.black16,
+        ),
       ),
       body: BlocProvider(
         create: (context) => ProfileCubit()
@@ -52,7 +55,9 @@ class _EditCompanyProfileViewState extends State<EditCompanyProfileView> {
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
-        if (state is ProfileSuccessState) {
+        if (state is ProfileSuccessState ||
+            state is ProfileImageUploadedState ||
+            state is ProfileImageUploadingState) {
           uploadedImageUrl = (state is ProfileImageUploadedState)
               ? state.uploadedImageUrl
               : null;
@@ -68,7 +73,7 @@ class _EditCompanyProfileViewState extends State<EditCompanyProfileView> {
           return Center(
             child: Text('Error fetching user data: ${state.message}'),
           );
-        } else  {
+        } else {
           return const Center(
             child: CircularProgressIndicator(),
           );
@@ -83,31 +88,11 @@ class _EditCompanyProfileViewState extends State<EditCompanyProfileView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Align(
-            alignment: Alignment.center,
-            child: GestureDetector(
-              onTap: () {
-                context.read<ProfileCubit>().uploadImage();
-              },
-              child: Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: (state is ProfileImageUploadingState)
-                    ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : (uploadedImageUrl != null)
-                        ? Image.network(
-                            uploadedImageUrl!,
-                            fit: BoxFit.cover,
-                          )
-                        : const Icon(Icons.add_a_photo),
-              ),
-            ),
+          UploadImageWidget(
+            state: state,
+            onTap: () {
+              context.read<ProfileCubit>().uploadImage();
+            },
           ),
           TextFieldWidget(
             controller: nameOfCompanyController,

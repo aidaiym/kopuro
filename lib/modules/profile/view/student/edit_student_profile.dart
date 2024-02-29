@@ -94,6 +94,12 @@ class _EditProfileViewState extends State<EditProfileView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          UploadImageWidget(
+            state: state,
+            onTap: () {
+              context.read<ProfileCubit>().uploadImage();
+            },
+          ),
           TextFieldWidget(
             controller: nameController,
             label: 'Аты-жөнү',

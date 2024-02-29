@@ -1,19 +1,19 @@
 import 'dart:async';
 
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kopuro/core/repos/authentication_repository/authentication_repository.dart';
-import 'package:kopuro/models/user/user_model.dart';
+import 'package:kopuro/export_files.dart';
 
 part 'app_event.dart';
 part 'app_state.dart';
 
-class AppBloc extends Bloc<AppEvent, AppState> { AppBloc({required AuthenticationRepository authenticationRepository})
+class AppBloc extends Bloc<AppEvent, AppState> {
+  AppBloc({required AuthenticationRepository authenticationRepository})
       : _authenticationRepository = authenticationRepository,
         super(
           authenticationRepository.currentUser.isNotEmpty
-              ? AppState.authenticated(authenticationRepository.currentUser)
+              ? AppState.authenticatedStudent(
+                  authenticationRepository.currentUser)
               : const AppState.unauthenticated(),
         ) {
     on<_AppUserChanged>(_onUserChanged);
@@ -29,7 +29,9 @@ class AppBloc extends Bloc<AppEvent, AppState> { AppBloc({required Authenticatio
   void _onUserChanged(_AppUserChanged event, Emitter<AppState> emit) {
     emit(
       event.user.isNotEmpty
-          ? AppState.authenticated(event.user)
+          ? event.user.userType == UserType.student
+              ? AppState.authenticatedStudent(event.user)
+              : AppState.authenticatedCompany(event.user)
           : const AppState.unauthenticated(),
     );
   }

@@ -190,10 +190,14 @@ class CompanyVacanciesSuccess extends StatelessWidget {
                       ),
                     ],
                   )
-                : Text(
-                    'Азырынча сиздин комапниянын вакансиялары жок',
-                    style: AppTextStyles.black19,
-                  ),
+                : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                      'Азырынча сиздин компаниянын вакансиялары жок',
+                      style: AppTextStyles.black19,
+                      textAlign: TextAlign.center,
+                    ),
+                ),
           ],
         ),
       ),

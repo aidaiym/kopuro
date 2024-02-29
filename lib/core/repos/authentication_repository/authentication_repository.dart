@@ -1,8 +1,9 @@
 import 'dart:async';
+import 'dart:developer';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:kopuro/core/cache/cache.dart';
-import 'package:kopuro/models/user/user_model.dart';
+import 'package:kopuro/export_files.dart';
 
 class SignUpWithEmailAndPasswordFailure implements Exception {
   const SignUpWithEmailAndPasswordFailure([
@@ -76,6 +77,7 @@ class AuthenticationRepository {
   AuthenticationRepository({
     CacheClient? cache,
     firebase_auth.FirebaseAuth? firebaseAuth,
+    FirebaseFirestore? firestore,
   })  : _cache = cache ?? CacheClient(),
         _firebaseAuth = firebaseAuth ?? firebase_auth.FirebaseAuth.instance;
 
@@ -93,6 +95,7 @@ class AuthenticationRepository {
   //     return user;
   //   });
   // }
+
   Stream<User> get user {
     return _firebaseAuth.authStateChanges().asyncMap((firebaseUser) async {
       if (firebaseUser == null) {
@@ -102,7 +105,7 @@ class AuthenticationRepository {
         await firebaseUser.reload();
         firebaseUser = _firebaseAuth.currentUser;
         if (firebaseUser?.emailVerified ?? false) {
-          final user = firebaseUser!.toUser;
+          final user = await getUserFromFirestore(firebaseUser!.uid);
           _cache.write(key: userCacheKey, value: user);
           return user;
         } else {
@@ -158,8 +161,40 @@ class AuthenticationRepository {
   }
 }
 
-extension on firebase_auth.User {
-  User get toUser {
-    return User(id: uid, email: email!);
+ Future<User> getUserFromFirestore(String userId) async {
+    try {
+      final userDoc = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+      if (userDoc.exists) {
+        final userData = userDoc.data() as Map<String, dynamic>;
+        final userTypeString = userData['userType'] as String;
+        final userType = userTypeFromString(userTypeString);
+        return User(
+          id: userId,
+          email: userData['email'] ?? '',
+          userType: userType,
+        );
+      } else {
+        return User.empty;
+      }
+    } catch (e) {
+      log('Error fetching user data: $e');
+      rethrow;
+    }
   }
-}
+
+ UserType userTypeFromString(String userTypeString) {
+    switch (userTypeString) {
+      case 'student':
+        return UserType.student;
+      case 'company':
+        return UserType.company;
+      default:
+        return UserType.student;
+    }
+  }
+
+// extension on firebase_auth.User {
+//   User get toUser {
+//     return User(id: uid, email: email!, userType: UserType.student);
+//   }
+// }

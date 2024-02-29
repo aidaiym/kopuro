@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopuro/export_files.dart';
 
 class CompanyProfileBuilder extends StatelessWidget {
@@ -16,6 +17,7 @@ class CompanyProfileBuilder extends StatelessWidget {
     final contactNumberController = TextEditingController();
     final webLinkController = TextEditingController();
     final linkedinController = TextEditingController();
+    String? uploadedImageUrl;
 
     void uploadCompanyProfile(BuildContext context) async {
       try {
@@ -26,7 +28,7 @@ class CompanyProfileBuilder extends StatelessWidget {
           linkedIn: linkedinController.text,
           phoneNumber: contactNumberController.text,
           aboutCompany: aboutCompanyController.text,
-          photoUrl: '',
+          photoUrl: uploadedImageUrl,
           userLocation: locationOfCompanyController.text,
         );
 
@@ -76,6 +78,16 @@ class CompanyProfileBuilder extends StatelessWidget {
                     child: Text('Өткөрүп жиберүү',
                         style: AppTextStyles.white14.copyWith(fontSize: 12)),
                   ),
+                ),
+                const SizedBox(height: 30),
+                BlocBuilder<ProfileCubit, ProfileState>(
+                  builder: (context, state) {
+                    uploadedImageUrl = state.uploadedImageUrl;
+                    return UploadImageWidget(
+                      onTap: () => context.read<ProfileCubit>().uploadImage(),
+                      state: state,
+                    );
+                  },
                 ),
                 TextFieldWidget(
                   controller: nameOfCompanyController,

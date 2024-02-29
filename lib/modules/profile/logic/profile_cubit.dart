@@ -53,16 +53,20 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> uploadImage() async {
     try {
       emit(ProfileImageUploadingState());
+
       final picker = ImagePicker();
       final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
       if (pickedFile != null) {
         Reference storageReference = FirebaseStorage.instance
             .ref()
             .child('images/${DateTime.now().toString()}');
+
         UploadTask uploadTask = storageReference.putFile(File(pickedFile.path));
+
         await uploadTask.whenComplete(() => null);
+
         String downloadURL = await storageReference.getDownloadURL();
+
         emit(ProfileImageUploadedState(imageUrl: downloadURL));
       } else {
         emit(ProfileErrorState('No image selected.'));

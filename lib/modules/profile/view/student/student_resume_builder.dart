@@ -1,17 +1,12 @@
 import 'dart:developer';
-import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopuro/export_files.dart';
 
 class ResumeBuilder extends StatelessWidget {
   const ResumeBuilder({super.key});
-  static Route<void> route() {
-    return MaterialPageRoute<void>(builder: (_) => const ResumeBuilder());
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +21,7 @@ class ResumeBuilder extends StatelessWidget {
     final languageController = TextEditingController();
     final locationController = TextEditingController();
     final workExperience = TextEditingController();
+    String? uploadedImageUrl;
 
     bool validateFields() {
       return nameController.text.isNotEmpty &&
@@ -51,7 +47,7 @@ class ResumeBuilder extends StatelessWidget {
           github: githubController.text,
           phoneNumber: phoneNumberController.text,
           aboutUser: aboutController.text,
-          photoUrl: '',
+          photoUrl: uploadedImageUrl,
           userLocation: locationController.text,
         );
 
@@ -70,21 +66,6 @@ class ResumeBuilder extends StatelessWidget {
         );
       } catch (e) {
         log('Error uploading resume: $e');
-      }
-    }
-
-    Future<void> uploadImage() async {
-      final picker = ImagePicker();
-      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-      if (pickedFile != null) {
-        Reference storageReference = FirebaseStorage.instance
-            .ref()
-            .child('images/${DateTime.now().toString()}');
-        UploadTask uploadTask = storageReference.putFile(File(pickedFile.path));
-        await uploadTask.whenComplete(() => log('Image uploaded'));
-      } else {
-        log('No image selected.');
       }
     }
 
@@ -120,20 +101,14 @@ class ResumeBuilder extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 30),
-                Align(
-                  alignment: Alignment.center,
-                  child: GestureDetector(
-                    onTap: uploadImage,
-                    child: Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Icon(Icons.add_a_photo),
-                    ),
-                  ),
+                BlocBuilder<ProfileCubit, ProfileState>(
+                  builder: (context, state) {
+                    uploadedImageUrl = state.uploadedImageUrl;
+                    return UploadImageWidget(
+                      onTap: () => context.read<ProfileCubit>().uploadImage(),
+                      state: state,
+                    );
+                  },
                 ),
                 TextFieldWidget(
                   controller: nameController,

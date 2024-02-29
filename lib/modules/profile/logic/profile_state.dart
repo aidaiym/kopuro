@@ -1,7 +1,8 @@
 part of 'profile_cubit.dart';
+
 abstract class ProfileState {
   final Map<String, dynamic>? userData;
-   final String? uploadedImageUrl;
+  final String? uploadedImageUrl;
 
   ProfileState({required this.userData, this.uploadedImageUrl});
 }
@@ -27,7 +28,8 @@ class ProfileErrorState extends ProfileState {
 class ProfileImageUploadedState extends ProfileState {
   final String imageUrl;
 
-  ProfileImageUploadedState({required this.imageUrl}) : super(userData: null);
+  ProfileImageUploadedState({required this.imageUrl})
+      : super(userData: null, uploadedImageUrl: imageUrl);
 }
 
 class ProfileImageUploadingState extends ProfileState {

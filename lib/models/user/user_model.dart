@@ -5,6 +5,7 @@ import 'package:kopuro/export_files.dart';
 class User extends Equatable {
   const User({
     required this.id,
+    required this.userType,
     this.email = '',
     this.username = '',
     this.createdTime,
@@ -18,8 +19,9 @@ class User extends Equatable {
   final DateTime? createdTime;
   final String? photoUrl;
   final String? userLocation;
+  final UserType userType;
 
-  static const empty = User(id: '');
+  static const empty = User(id: '', userType: UserType.student);
 
   bool get isEmpty => this == User.empty;
 
@@ -27,7 +29,7 @@ class User extends Equatable {
 
   @override
   List<Object?> get props =>
-      [email, id, username, createdTime, photoUrl, userLocation];
+      [email, id, username, createdTime, photoUrl, userLocation, userType];
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -35,27 +37,12 @@ class User extends Equatable {
       'username': username,
       'email': email,
       'photoUrl': photoUrl,
+      'userType': userType,
     };
   }
 }
 
-class AdminUser extends User {
-  final UserType userType;
-
-  const AdminUser({
-    required super.id,
-    required super.username,
-    required super.email,
-    required DateTime super.createdTime,
-    required this.userType,
-  });
-
-  @override
-  List<Object?> get props => [...super.props, userType];
-}
-
 class StudentUser extends User {
-  final String? type;
   final String? phoneNumber;
   final String? aboutUser;
   final String? jobTitle;
@@ -71,7 +58,7 @@ class StudentUser extends User {
     super.createdTime,
     String? username,
     String? email,
-    this.type,
+    super.userType = UserType.student,
     this.phoneNumber,
     this.aboutUser,
     super.photoUrl,
@@ -106,7 +93,7 @@ class StudentUser extends User {
       username: json['username'] as String? ?? '',
       email: json['email'] as String? ?? '',
       createdTime: (json['createdTime'] as Timestamp).toDate(),
-      type: json['type'] as String,
+      userType: json['type'] as UserType,
       phoneNumber: json['phoneNumber'] as String? ?? '',
       aboutUser: json['aboutUser'] as String? ?? '',
       jobTitle: json['jobTitle'] as String? ?? '',
@@ -122,7 +109,6 @@ class StudentUser extends User {
   @override
   List<Object?> get props => [
         ...super.props,
-        type,
         phoneNumber,
         aboutUser,
         jobTitle,
@@ -136,7 +122,6 @@ class StudentUser extends User {
 }
 
 class CompanyUser extends User {
-  final UserType? type;
   final String? linkedIn;
   final String? phoneNumber;
   final String? aboutCompany;
@@ -144,10 +129,10 @@ class CompanyUser extends User {
   final List<String>? vacancies;
 
   const CompanyUser({
-    this.type,
     String? id,
     String? username,
     String? email,
+    super.userType = UserType.company,
     super.createdTime,
     this.webLinkCompany,
     this.vacancies,
@@ -161,7 +146,6 @@ class CompanyUser extends User {
   Map<String, dynamic> toMapCompany() {
     return {
       ...toMap(),
-      'type': 'company',
       'linkedIn': linkedIn,
       'phoneNumber': phoneNumber,
       'aboutCompany': aboutCompany,
@@ -178,7 +162,7 @@ class CompanyUser extends User {
       createdTime: json['createdTime'] != null
           ? DateTime.parse(json['createdTime'] as String)
           : null,
-      type: json['type'],
+      userType: json['type']as UserType,
       linkedIn: json['linkedIn'] as String? ?? '',
       phoneNumber: json['phoneNumber'] as String? ?? '',
       aboutCompany: json['aboutCompany'] as String? ?? '',
@@ -192,7 +176,6 @@ class CompanyUser extends User {
   @override
   List<Object?> get props => [
         ...super.props,
-        type,
         linkedIn,
         phoneNumber,
         aboutCompany,
