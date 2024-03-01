@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopuro/export_files.dart';
+import 'package:kopuro/l10n/l10.dart';
 
 class OnboardingView extends StatelessWidget {
   OnboardingView({super.key});
@@ -40,7 +41,7 @@ class OnboardingView extends StatelessWidget {
           builder: (context, currentPage) {
             final isLastPage = currentPage == onboardingItems.length - 1;
             return Text(
-              isLastPage ? "Бүттү" : "Кийинки",
+              isLastPage ? AppLocalizations.of(context).done : AppLocalizations.of(context).next,
               style: AppTextStyles.white14,
             );
           },

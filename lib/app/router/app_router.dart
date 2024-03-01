@@ -10,9 +10,11 @@ List<Page<dynamic>> onGenerateAppViewPages(
   switch (state) {
     case AppStatus.authenticatedStudent:
       return [StudentMainView.page()];
-    case AppStatus.unauthenticated:
-      return [OnboardingView.page()];
+
     case AppStatus.authenticatedCompany:
       return [CompanyMainView.page()];
+
+    case AppStatus.unauthenticated:
+      return [ChooseLanguage.page()];
   }
 }
