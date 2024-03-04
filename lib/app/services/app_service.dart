@@ -1,14 +1,30 @@
+import 'dart:ui';
+
+import 'package:flutter/foundation.dart';
+import 'package:kopuro/export_files.dart';
+import 'package:kopuro/l10n/l10.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+@immutable
 class AppService {
-  static const String _kLanguageCodeKey = 'language_code';
-  static Future<String?> getLanguageCode() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_kLanguageCodeKey);
+  const AppService();
+
+  Future<Locale> getInitLocale() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final code = prefs.getString(AppConst.localeKey);
+    if (code != null) {
+      return Locale(code);
+    }
+    // ignore: deprecated_member_use
+    final deviceLocale = window.locale.languageCode;
+    return AppLocalizations.delegate.isSupported(Locale(deviceLocale))
+        ? Locale(deviceLocale)
+        : const Locale('en');
   }
 
-  static Future<void> saveLanguageCode(String languageCode) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_kLanguageCodeKey, languageCode);
+  Future<Locale> setLocale(String langKey) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(AppConst.localeKey, langKey);
+    return Locale(langKey);
   }
 }

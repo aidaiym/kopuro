@@ -1,7 +1,16 @@
 part of 'language_cubit.dart';
 
-class LanguageState {
-  final Language selectedLanguage;
+class LanguageState extends Equatable {
+  const LanguageState(this.currentLocale);
 
-  LanguageState(this.selectedLanguage);
+  final Locale currentLocale;
+
+  @override
+  List<Object?> get props => [currentLocale];
+
+  LanguageState copyWith({Locale? currentLocale}) {
+    return LanguageState(
+      currentLocale ?? this.currentLocale,
+    );
+  }
 }

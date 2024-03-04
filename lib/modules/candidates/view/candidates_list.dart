@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopuro/export_files.dart';
+import 'package:kopuro/l10n/l10.dart';
 
 class CandidatesListView extends StatelessWidget {
   const CandidatesListView({super.key});
@@ -24,10 +25,10 @@ class CandidatesListView extends StatelessWidget {
                               .read<CandidatesCubit>()
                               .filterCandidates(query);
                         },
-                        decoration: const InputDecoration(
-                          labelText: 'Издөө',
-                          prefixIcon: Icon(Icons.search),
-                          border: OutlineInputBorder(),
+                        decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context).search,
+                          prefixIcon: const Icon(Icons.search),
+                          border: const OutlineInputBorder(),
                         ),
                       ),
                     ),
@@ -78,7 +79,7 @@ class CandidatesListView extends StatelessWidget {
               );
             } else if (state is CandidatesError) {
               return Center(
-                child: Text('Error: ${state.message}'),
+                child: Text(AppLocalizations.of(context).error + state.message),
               );
             } else {
               return const Center(

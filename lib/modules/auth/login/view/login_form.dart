@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:kopuro/export_files.dart';
+import 'package:kopuro/l10n/l10.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
@@ -26,11 +27,11 @@ class LoginForm extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Кош келиңиз!', style: AppTextStyles.main32),
+              Text('${AppLocalizations.of(context).welcome} !', style: AppTextStyles.main32),
               const SizedBox(
                 height: 30,
               ),
-              Text('Аккаунтунузга кириңиз', style: AppTextStyles.black24),
+              Text(AppLocalizations.of(context).loginText, style: AppTextStyles.black24),
               const SizedBox(
                 height: 50,
               ),
@@ -44,9 +45,9 @@ class LoginForm extends StatelessWidget {
                         context.read<LoginCubit>().emailChanged(email),
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                      labelText: 'Электрондук почтаныз',
+                      labelText: AppLocalizations.of(context).email,
                       errorText: state.email.displayError != null
-                          ? 'Сураныч, электрондук туура почтанызды жазыныз'
+                          ? AppLocalizations.of(context).emailErrorText
                           : null,
                       contentPadding: const EdgeInsets.symmetric(
                           horizontal: 16.0, vertical: 12.0),
@@ -72,9 +73,9 @@ class LoginForm extends StatelessWidget {
                         context.read<LoginCubit>().passwordChanged(password),
                     obscureText: true,
                     decoration: InputDecoration(
-                      labelText: 'Паролунуз',
+                      labelText: AppLocalizations.of(context).password,
                       errorText: state.password.displayError != null
-                          ? 'Сураныч, туура паролунузду жазыныз'
+                          ? AppLocalizations.of(context).passwordErrorText
                           : null,
                       contentPadding: const EdgeInsets.symmetric(
                           horizontal: 16.0, vertical: 12.0),
@@ -108,7 +109,7 @@ class LoginForm extends StatelessWidget {
                                   .read<LoginCubit>()
                                   .logInWithCredentials()
                               : null,
-                          text: 'Кирүү');
+                          text: AppLocalizations.of(context).signIn);
                 },
               ),
               const SizedBox(height: 4),
@@ -121,9 +122,9 @@ class LoginForm extends StatelessWidget {
                         builder: (context) => const ChooseAccountType()),
                   );
                 },
-                child: const Text(
-                  'Катталуу',
-                  style: TextStyle(color: AppColors.main),
+                child:  Text(
+                  AppLocalizations.of(context).signUp,
+                  style: const TextStyle(color: AppColors.main),
                 ),
               ),
             ],

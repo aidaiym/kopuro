@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopuro/export_files.dart';
 import 'package:kopuro/l10n/l10.dart';
+
 class ChooseLanguage extends StatelessWidget {
   const ChooseLanguage({super.key});
 
@@ -9,59 +10,51 @@ class ChooseLanguage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selectedLanguage = context.select((LanguageCubit cubit) => cubit.state.selectedLanguage);
-
+    final appCubit = context.watch<LanguageCubit>();
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context).selectPreferredLanguage)),
-      body: Center(
+      appBar: AppBar(
+          title: Text(AppLocalizations.of(context).selectPreferredLanguage)),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(AppLocalizations.of(context).chooseLanguage),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
-                  selectedLanguage == Language.english ? Colors.green : Colors.blue,
-                ),
+            SizedBox(
+              height: MediaQuery.sizeOf(context).height * 0.7,
+              child: ListView.builder(
+                itemCount: AppConst.locales.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final locale = AppConst.locales[index];
+                  final langName = AppConst.getName(locale.toLanguageTag());
+                  return Card(
+                    child: ListTile(
+                      title: Text(langName, locale: locale),
+                      onTap: () => context
+                          .read<LanguageCubit>()
+                          .changeLang(locale.languageCode),
+                      trailing: appCubit.state.currentLocale == locale
+                          ? CircleAvatar(
+                              radius: 15,
+                              backgroundColor: colorScheme.background,
+                              child:
+                                  Icon(Icons.check, color: colorScheme.primary),
+                            )
+                          : null,
+                    ),
+                  );
+                },
               ),
-              onPressed: () {
-                BlocProvider.of<LanguageCubit>(context).selectLanguage(Language.english);
-              },
-              child: Text(AppLocalizations.of(context).english),
-            ),
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
-                  selectedLanguage == Language.russian ? Colors.green : Colors.blue,
-                ),
-              ),
-              onPressed: () {
-
-                BlocProvider.of<LanguageCubit>(context).selectLanguage(Language.russian);
-              },
-              child: Text(AppLocalizations.of(context).russian),
-            ),
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
-                  selectedLanguage == Language.kyrgyz ? Colors.green : Colors.blue,
-                ),
-              ),
-              onPressed: () {
-                BlocProvider.of<LanguageCubit>(context).selectLanguage(Language.kyrgyz);
-              },
-              child: Text(AppLocalizations.of(context).kyrgyz),
             ),
             MainButton(
-              onPressed: () {
-                Navigator.push<void>(
-                  context,
-                  MaterialPageRoute<void>(builder: (BuildContext context) => OnboardingView()),
-                );
-              },
-              text: AppLocalizations.of(context).save,
-            ),
+                onPressed: () {
+                  Navigator.push<void>(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => OnboardingView(),
+                    ),
+                  );
+                },
+                text: AppLocalizations.of(context).save)
           ],
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kopuro/export_files.dart';
+import 'package:kopuro/l10n/l10.dart';
 
 class CandidatesDetailView extends StatelessWidget {
   const CandidatesDetailView({super.key, required this.candidate});
@@ -17,8 +18,14 @@ class CandidatesDetailView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                sectionText('Аты-жөнү', candidate.username),
-                sectionText('Өзү жөнүндө', candidate.aboutUser!),
+                sectionText(
+                  AppLocalizations.of(context).fullName,
+                  candidate.username,
+                ),
+                sectionText(
+                  AppLocalizations.of(context).aboutYou,
+                  candidate.aboutUser!,
+                ),
                 sectionText('Билими', candidate.education!),
                 sectionText('Иш тажрыйбасы', candidate.workExperience!),
                 sectionText('Көндүмдөрү', candidate.skills!),

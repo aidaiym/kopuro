@@ -32,7 +32,9 @@ class App extends StatelessWidget {
             ),
           ),
           BlocProvider(
-            create: (_) => LanguageCubit(),
+            create: (_) => LanguageCubit(
+              const AppService(),
+            ),
           ),
         ],
         child: const AppView(),
@@ -46,24 +48,15 @@ class AppView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<String?>(
-      future: AppService.getLanguageCode(),
-      builder: (context, snapshot) {
-        final String? languageCode = snapshot.data;
-        final Locale? locale =
-            languageCode != null ? Locale(languageCode) : null;
-
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          locale: locale,
-          home: FlowBuilder<AppStatus>(
-            state: context.select((AppBloc bloc) => bloc.state.status),
-            onGeneratePages: onGenerateAppViewPages,
-          ),
-        );
-      },
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      locale: context.watch<LanguageCubit>().state.currentLocale,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: FlowBuilder<AppStatus>(
+        state: context.select((AppBloc bloc) => bloc.state.status),
+        onGeneratePages: onGenerateAppViewPages,
+      ),
     );
   }
 }

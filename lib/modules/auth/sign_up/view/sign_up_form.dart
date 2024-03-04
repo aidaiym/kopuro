@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:kopuro/export_files.dart';
+import 'package:kopuro/l10n/l10.dart';
 
 class SignUpForm extends StatelessWidget {
   const SignUpForm({super.key, required this.isStudent});
@@ -25,7 +26,7 @@ class SignUpForm extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Катталуу', style: AppTextStyles.main32),
+            Text(AppLocalizations.of(context).signUp, style: AppTextStyles.main32),
             const SizedBox(
               height: 30,
             ),
@@ -38,9 +39,9 @@ class SignUpForm extends StatelessWidget {
                       context.read<SignUpCubit>().emailChanged(email),
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    labelText: 'Электрондук почтаныз',
+                    labelText: AppLocalizations.of(context).email,
                     errorText: state.email.displayError != null
-                        ? 'Сураныч, электрондук туура почтанызды жазыныз'
+                        ? AppLocalizations.of(context).emailErrorText
                         : null,
                     contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16.0, vertical: 12.0),
@@ -66,9 +67,9 @@ class SignUpForm extends StatelessWidget {
                       context.read<SignUpCubit>().passwordChanged(password),
                   obscureText: true,
                   decoration: InputDecoration(
-                    labelText: 'Паролунуз',
+                    labelText: AppLocalizations.of(context).password,
                     errorText: state.password.displayError != null
-                        ? 'Сураныч, туура паролунузду жазыныз'
+                        ? AppLocalizations.of(context).passwordErrorText
                         : null,
                     contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16.0, vertical: 12.0),
@@ -104,9 +105,9 @@ class SignUpForm extends StatelessWidget {
                       .confirmedPasswordChanged(confirmPassword),
                   obscureText: true,
                   decoration: InputDecoration(
-                    labelText: 'Сырсөздү ыраста',
+                    labelText: AppLocalizations.of(context).verifyPassword,
                     errorText: state.confirmedPassword.displayError != null
-                        ? 'Cырсөздөр дал келбейт'
+                        ? AppLocalizations.of(context).verifyPasswordErrorText
                         : null,
                     contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16.0, vertical: 12.0),
@@ -139,7 +140,7 @@ class SignUpForm extends StatelessWidget {
                             );
                           }
                         },
-                        text: 'Кийинки',
+                        text: AppLocalizations.of(context).next,
                       );
               },
             ),
