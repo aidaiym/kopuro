@@ -79,6 +79,13 @@ class VerifyEmailView extends StatelessWidget {
                     }
                   } else {
                     log('Email not verified. You can provide an option to resend verification.');
+                    // ignore: use_build_context_synchronously
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                            'Email not verified. You can provide an option to resend verification.'),
+                      ),
+                    );
                   }
                 },
                 text: AppLocalizations.of(context).verify,

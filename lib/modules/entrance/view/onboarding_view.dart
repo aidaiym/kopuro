@@ -9,13 +9,12 @@ class OnboardingView extends StatelessWidget {
   static Page<void> page() => MaterialPage<void>(child: OnboardingView());
   final PageController _pageController = PageController();
 
-  final List<String> onboardingItems = [
-    "assets/images/onboarding1.png",
-    "assets/images/onboarding2.png",
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<String> onboardingItems = [
+      AppLocalizations.of(context).onboardin1Text,
+      AppLocalizations.of(context).onboardin2Text,
+    ];
     Widget buildNextButton() {
       return ElevatedButton(
         style: ElevatedButton.styleFrom(
@@ -41,7 +40,9 @@ class OnboardingView extends StatelessWidget {
           builder: (context, currentPage) {
             final isLastPage = currentPage == onboardingItems.length - 1;
             return Text(
-              isLastPage ? AppLocalizations.of(context).done : AppLocalizations.of(context).next,
+              isLastPage
+                  ? AppLocalizations.of(context).done
+                  : AppLocalizations.of(context).next,
               style: AppTextStyles.white14,
             );
           },
@@ -60,9 +61,11 @@ class OnboardingView extends StatelessWidget {
                 itemCount: onboardingItems.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child:
-                        OnboardingItemWidget(imagePath: onboardingItems[index]),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0,
+                      vertical: 85,
+                    ),
+                    child: OnboardingItemWidget(text: onboardingItems[index]),
                   );
                 },
                 onPageChanged: (int page) {
@@ -87,7 +90,7 @@ class OnboardingView extends StatelessWidget {
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(
-            onboardingItems.length,
+            2,
             (index) => buildDot(index, currentPage == index),
           ),
         );

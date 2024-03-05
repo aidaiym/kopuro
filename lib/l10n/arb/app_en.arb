@@ -60,9 +60,10 @@
     "english": "English",
     "russian": "Russian",
     "kyrgyz": "Kyrgyz",
-    "verifyPassword": "Сырсөздү ыраста",
-    "verifyPasswordErrorText": "Cырсөздөр дал келбейт",
-    "verifyEmailLink": "Электрондук почтаңызды текшериңиз",
-    "verifyEmailLinkText": "Сиздин электрондук почтаңызга текшерүү шилтемеси  жөнөтүлдү. Сураныч, почтаңызды текшерип,  шилтемени басыңыз.",
-    "verify": "Текшерүү"
+    "verifyPassword": "Verify Password",
+    "verifyPasswordErrorText": "Passwords do not match",
+    "verifyEmailLink": "Verify Your Email",
+    "verifyEmailLinkText": "A verification link has been sent to your email. Please verify your email and click the link.",
+    "verify": "Verify",
+    "verifyError": "Email not verified. You can provide an option to resend verification."
 }

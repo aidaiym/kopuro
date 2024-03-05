@@ -27,7 +27,7 @@ class LoginForm extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('${AppLocalizations.of(context).welcome} !', style: AppTextStyles.main32),
+              Text('${AppLocalizations.of(context).welcome} !', style: AppTextStyles.main28),
               const SizedBox(
                 height: 30,
               ),

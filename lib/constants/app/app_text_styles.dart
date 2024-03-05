@@ -4,8 +4,8 @@ import 'package:kopuro/constants/app/app_colors.dart';
 
 @immutable
 final class AppTextStyles {
-  static TextStyle main32 = GoogleFonts.firaSans(
-    fontSize: 32,
+  static TextStyle main28 = GoogleFonts.firaSans(
+    fontSize: 28,
     fontWeight: FontWeight.bold,
     color: AppColors.main,
   );
@@ -59,6 +59,11 @@ final class AppTextStyles {
   static TextStyle white14bold = GoogleFonts.firaSans(
     fontSize: 14,
     fontWeight: FontWeight.bold,
+    color: Colors.white,
+  );
+    static TextStyle white30bold = GoogleFonts.poppins(
+    fontSize: 30,
+    fontWeight: FontWeight.w600,
     color: Colors.white,
   );
 

@@ -26,7 +26,7 @@ class SignUpForm extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(AppLocalizations.of(context).signUp, style: AppTextStyles.main32),
+            Text(AppLocalizations.of(context).signUp, style: AppTextStyles.main28),
             const SizedBox(
               height: 30,
             ),

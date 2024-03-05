@@ -88,14 +88,6 @@ class AuthenticationRepository {
 
   static const userCacheKey = '__user_cache_key__';
 
-  // Stream<User> get user {
-  //   return _firebaseAuth.userChanges().map((firebaseUser) {
-  //     final user = firebaseUser == null ? User.empty : firebaseUser.toUser;
-  //     _cache.write(key: userCacheKey, value: user);
-  //     return user;
-  //   });
-  // }
-
   Stream<User> get user {
     return _firebaseAuth.authStateChanges().asyncMap((firebaseUser) async {
       if (firebaseUser == null) {
