@@ -14,7 +14,10 @@ class ChooseLanguage extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-          title: Text(AppLocalizations.of(context).selectPreferredLanguage)),
+          title: Text(
+        AppLocalizations.of(context).chooseLanguage,
+        style: AppTextStyles.black19,
+      )),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -27,8 +30,13 @@ class ChooseLanguage extends StatelessWidget {
                   final locale = AppConst.locales[index];
                   final langName = AppConst.getName(locale.toLanguageTag());
                   return Card(
+                    color: AppColors.primaryColor,
                     child: ListTile(
-                      title: Text(langName, locale: locale),
+                      title: Text(
+                        langName,
+                        locale: locale,
+                        style: AppTextStyles.primary16,
+                      ),
                       onTap: () => context
                           .read<LanguageCubit>()
                           .changeLang(locale.languageCode),

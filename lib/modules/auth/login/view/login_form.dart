@@ -16,7 +16,8 @@ class LoginForm extends StatelessWidget {
             ..hideCurrentSnackBar()
             ..showSnackBar(
               SnackBar(
-                content: Text(state.errorMessage ?? 'Authentication Failure'),
+                content: Text(
+                    state.errorMessage ?? AppLocalizations.of(context).error),
               ),
             );
         }
@@ -27,11 +28,13 @@ class LoginForm extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('${AppLocalizations.of(context).welcome} !', style: AppTextStyles.main28),
+              Text('${AppLocalizations.of(context).welcome} !',
+                  style: AppTextStyles.main28),
               const SizedBox(
                 height: 30,
               ),
-              Text(AppLocalizations.of(context).loginText, style: AppTextStyles.black24),
+              Text(AppLocalizations.of(context).loginText,
+                  style: AppTextStyles.black24),
               const SizedBox(
                 height: 50,
               ),
@@ -64,14 +67,12 @@ class LoginForm extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               BlocBuilder<LoginCubit, LoginState>(
-                buildWhen: (previous, current) =>
-                    previous.password != current.password,
                 builder: (context, state) {
                   return TextField(
                     key: const Key('loginForm_passwordInput_textField'),
                     onChanged: (password) =>
                         context.read<LoginCubit>().passwordChanged(password),
-                    obscureText: true,
+                    obscureText: state.isPasswordHidden,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context).password,
                       errorText: state.password.displayError != null
@@ -122,7 +123,7 @@ class LoginForm extends StatelessWidget {
                         builder: (context) => const ChooseAccountType()),
                   );
                 },
-                child:  Text(
+                child: Text(
                   AppLocalizations.of(context).signUp,
                   style: const TextStyle(color: AppColors.main),
                 ),

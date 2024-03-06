@@ -61,8 +61,13 @@ final class AppTextStyles {
     fontWeight: FontWeight.bold,
     color: Colors.white,
   );
-    static TextStyle white30bold = GoogleFonts.poppins(
-    fontSize: 30,
+    static TextStyle white16bold = GoogleFonts.firaSans(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+  );
+    static TextStyle white28bold = GoogleFonts.rubik(
+    fontSize: 28,
     fontWeight: FontWeight.w600,
     color: Colors.white,
   );
@@ -76,5 +81,10 @@ final class AppTextStyles {
   static TextStyle errorText = GoogleFonts.firaSans(
     color: Colors.red,
     fontSize: 16,
+  );
+   static TextStyle primary16 = GoogleFonts.firaSans(
+    fontSize: 16,
+    fontWeight: FontWeight.normal,
+    color: AppColors.primaryText,
   );
 }

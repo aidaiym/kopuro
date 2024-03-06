@@ -20,7 +20,7 @@ class OnboardingItemWidget extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: AppTextStyles.white30bold,
+        style: AppTextStyles.white28bold,
       ),
     );
   }
