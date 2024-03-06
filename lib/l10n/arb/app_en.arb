@@ -90,5 +90,13 @@
     "moreInfo": "More Information",
     "successTitle": "Perfectly!",
     "successContent": "You have successfully applied to the vacancy!",
-    "applyToVacancy": "Apply to Vacancy"
+    "applyToVacancy": "Apply to Vacancy",
+    "fullTime": "Full-time",
+    "partTime": "Part-time",
+    "remote": "Remote",
+    "onsite": "Onsite",
+    "from": "From",
+    "to": "To",
+    "apply": "Apply"
+
 }

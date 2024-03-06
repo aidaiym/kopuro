@@ -26,6 +26,9 @@ class App extends StatelessWidget {
           BlocProvider(
             create: (context) => ProfileCubit(),
           ),
+            BlocProvider(
+            create: (context) => VacancyCubit(),
+          ),
           BlocProvider(
             create: (_) => AppBloc(
               authenticationRepository: _authenticationRepository,

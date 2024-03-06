@@ -33,9 +33,7 @@ class VacancyCubit extends Cubit<VacancyState> {
           snapshot.docs.map((doc) => Vacancy.fromJson(doc.data())).toList();
 
       List<Vacancy> filteredVacancies = allVacancies.where((vacancy) {
-        if (selectedFilter == 'Salary') {
-          return vacancy.salary.toLowerCase().contains(lowerCaseQuery);
-        } else if (selectedFilter == 'Full-time') {
+        if (selectedFilter == 'Full-time') {
           return vacancy.jobType.toLowerCase() == 'full-time';
         } else if (selectedFilter == 'Part-time') {
           return vacancy.jobType.toLowerCase() == 'part-time';
@@ -47,7 +45,6 @@ class VacancyCubit extends Cubit<VacancyState> {
           return vacancy.jobTitle.toLowerCase().contains(lowerCaseQuery);
         }
       }).toList();
-
       emit(VacancyLoaded(vacancies: filteredVacancies));
     } catch (e) {
       emit(const VacancyError(message: 'Failed to filter vacancies.'));

@@ -1,4 +1,5 @@
 part of 'vacancy_cubit.dart';
+
 abstract class VacancyEvent extends Equatable {
   const VacancyEvent();
 
