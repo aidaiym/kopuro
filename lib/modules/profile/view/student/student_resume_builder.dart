@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopuro/export_files.dart';
+import 'package:kopuro/l10n/l10.dart';
 
 class ResumeBuilder extends StatelessWidget {
   const ResumeBuilder({super.key});
@@ -21,6 +22,7 @@ class ResumeBuilder extends StatelessWidget {
     final languageController = TextEditingController();
     final locationController = TextEditingController();
     final workExperience = TextEditingController();
+
     String? uploadedImageUrl;
 
     bool validateFields() {
@@ -49,8 +51,8 @@ class ResumeBuilder extends StatelessWidget {
           aboutUser: aboutController.text,
           photoUrl: uploadedImageUrl,
           userLocation: locationController.text,
+          language: languageController.text,
         );
-
         Map<String, dynamic> studentMap = student.toMapStudent();
         await FirebaseFirestore.instance
             .collection('users')
@@ -95,7 +97,7 @@ class ResumeBuilder extends StatelessWidget {
                         color: AppColors.main.withOpacity(0.3),
                         borderRadius: BorderRadius.circular(25),
                       ),
-                      child: Text('Өткөрүп жиберүү',
+                      child: Text(AppLocalizations.of(context).skip,
                           style: AppTextStyles.white14.copyWith(fontSize: 12)),
                     ),
                   ),
@@ -112,73 +114,75 @@ class ResumeBuilder extends StatelessWidget {
                 ),
                 TextFieldWidget(
                   controller: nameController,
-                  label: 'Аты-жөнү ',
-                  validator: 'Сураныч, Аты-жөнү жазыныз',
-                  description: 'Аты-жөнү *',
+                  label: AppLocalizations.of(context).fullName,
+                  validator: AppLocalizations.of(context).nameErrorText,
+                  description: '${AppLocalizations.of(context).fullName} *',
                   obscureText: false,
                 ),
                 TextFieldWidget(
                   controller: phoneNumberController,
-                  label: 'Телефон номери',
-                  validator: 'Сураныч, Телефон номери жазыныз',
-                  description: 'Телефон номери *',
+                  label: AppLocalizations.of(context).phoneNumber,
+                  validator: AppLocalizations.of(context).numberErrorText,
+                  description: '${AppLocalizations.of(context).phoneNumber} *',
                   obscureText: false,
                 ),
                 TextFieldWidget(
                   obscureText: false,
                   controller: jobController,
-                  label: 'Сиздин кесибиңиз',
-                  validator: 'Сураныч, кесибиңизди жазыныз',
-                  description: 'Сиздин кесибиңиз *',
+                  label: AppLocalizations.of(context).jobTitle,
+                  validator: AppLocalizations.of(context).jobValidator,
+                  description: '${AppLocalizations.of(context).jobTitle} *',
                 ),
                 TextFieldWidget(
                   obscureText: false,
                   controller: workExperience,
-                  label: 'Иш тажрыйбаңыз тууралуу',
-                  validator: 'Сураныч, иш тажрыйбаңызды жазыныз',
-                  description: 'Иш тажрыйбаңыз тууралуу *',
+                  label: AppLocalizations.of(context).workExperienceLabel,
+                  validator:
+                      AppLocalizations.of(context).workExperienceValidator,
+                  description:
+                      '${AppLocalizations.of(context).workExperienceLabel} *',
                 ),
                 TextFieldWidget(
                   obscureText: false,
                   controller: skillsController,
-                  label: 'Көндүмдөрүңүз',
-                  validator: 'Сураныч, көндүмдөр жазыныз',
-                  description: 'Көндүмдөрүңүз *',
+                  label: AppLocalizations.of(context).skillsLabel,
+                  validator: AppLocalizations.of(context).skillsValidator,
+                  description: '${AppLocalizations.of(context).skillsLabel} *',
                 ),
                 TextFieldWidget(
                   controller: locationController,
-                  label: 'Жайгашкан жери',
-                  description: 'Жайгашкан жери',
+                  label: AppLocalizations.of(context).locationLabel,
+                  description: AppLocalizations.of(context).locationLabel,
                   obscureText: false,
                 ),
                 TextFieldWidget(
                   controller: aboutController,
-                  label: 'Мен тууралуу',
-                  description: 'Мен тууралуу',
+                  label: AppLocalizations.of(context).aboutLabel,
+                  description: AppLocalizations.of(context).aboutLabel,
                   obscureText: false,
                 ),
                 TextFieldWidget(
                   obscureText: false,
                   controller: educationController,
-                  label: 'Билимиңиз тууралуу жазыңыз',
-                  description: 'Билимиңиз тууралуу',
+                  label: AppLocalizations.of(context).educationLabel,
+                  description: AppLocalizations.of(context).educationLabel,
                 ),
                 TextFieldWidget(
                   controller: languageController,
-                  label: 'Тил',
-                  description: 'Тил',
+                  label: AppLocalizations.of(context).languageLabel,
+                  description: AppLocalizations.of(context).languageLabel,
                   obscureText: false,
                 ),
                 TextFieldWidget(
                   controller: linkedinController,
-                  label: 'Linkedin',
-                  description: 'Linkedin',
+                  label: AppLocalizations.of(context).linkedinLabel,
+                  description: AppLocalizations.of(context).linkedinLabel,
                   obscureText: false,
                 ),
                 TextFieldWidget(
                   controller: githubController,
-                  label: 'Github',
-                  description: 'Github',
+                  label: AppLocalizations.of(context).githubLabel,
+                  description: AppLocalizations.of(context).githubLabel,
                   obscureText: false,
                 ),
                 MainButton(
@@ -187,14 +191,14 @@ class ResumeBuilder extends StatelessWidget {
                       uploadResume(context);
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                              'Сураныч, бардык талап кылынган талааларды толтуруңуз.'),
-                        ),
+                        SnackBar(
+                            content: Text(
+                          AppLocalizations.of(context).submitErrorMessage,
+                        )),
                       );
                     }
                   },
-                  text: 'Катталуу',
+                  text: AppLocalizations.of(context).submitButton,
                 ),
               ],
             ),

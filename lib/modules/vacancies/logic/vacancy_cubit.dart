@@ -18,11 +18,11 @@ class VacancyCubit extends Cubit<VacancyState> {
           snapshot.docs.map((doc) => Vacancy.fromJson(doc.data())).toList();
       emit(VacancyLoaded(vacancies: allVacancies));
     } catch (e) {
-      emit( VacancyError(message: 'Failed to load vacancies. $e'));
+      emit(VacancyError(message: 'Failed to load vacancies. $e'));
     }
   }
 
-  void filterVacancies(String query) async {
+  void filterVacancies(String query, String? selectedFilter) async {
     try {
       final String lowerCaseQuery = query.toLowerCase();
 
@@ -32,10 +32,21 @@ class VacancyCubit extends Cubit<VacancyState> {
       final List<Vacancy> allVacancies =
           snapshot.docs.map((doc) => Vacancy.fromJson(doc.data())).toList();
 
-      final List<Vacancy> filteredVacancies = allVacancies
-          .where((vacancy) =>
-              vacancy.jobTitle.toLowerCase().contains(lowerCaseQuery))
-          .toList();
+      List<Vacancy> filteredVacancies = allVacancies.where((vacancy) {
+        if (selectedFilter == 'Salary') {
+          return vacancy.salary.toLowerCase().contains(lowerCaseQuery);
+        } else if (selectedFilter == 'Full-time') {
+          return vacancy.jobType.toLowerCase() == 'full-time';
+        } else if (selectedFilter == 'Part-time') {
+          return vacancy.jobType.toLowerCase() == 'part-time';
+        } else if (selectedFilter == 'Remote') {
+          return vacancy.location.toLowerCase() == 'remote';
+        } else if (selectedFilter == 'Onsite') {
+          return vacancy.location.toLowerCase() == 'onsite';
+        } else {
+          return vacancy.jobTitle.toLowerCase().contains(lowerCaseQuery);
+        }
+      }).toList();
 
       emit(VacancyLoaded(vacancies: filteredVacancies));
     } catch (e) {

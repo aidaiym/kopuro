@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopuro/export_files.dart';
+import 'package:kopuro/l10n/l10.dart';
 
 class EditCompanyProfilePage extends StatelessWidget {
   const EditCompanyProfilePage({super.key});
@@ -11,7 +12,7 @@ class EditCompanyProfilePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Компаниянын профилин өзгөртүү',
+          AppLocalizations.of(context).editCompanyProfile,
           style: AppTextStyles.black16,
         ),
       ),
@@ -71,7 +72,8 @@ class _EditCompanyProfileViewState extends State<EditCompanyProfileView> {
           return _buildContent(context, state);
         } else if (state is ProfileErrorState) {
           return Center(
-            child: Text('Error fetching user data: ${state.message}'),
+            child: Text(
+                '${AppLocalizations.of(context).errorFetchingUserData}: ${state.message}'),
           );
         } else {
           return const Center(
@@ -96,49 +98,45 @@ class _EditCompanyProfileViewState extends State<EditCompanyProfileView> {
           ),
           TextFieldWidget(
             controller: nameOfCompanyController,
-            label: 'Компаниянын аты',
-            validator: 'Сураныч, Компаниянын аталышын  жазыңыз',
-            description: 'Компаниянын аты',
+            label: AppLocalizations.of(context).companyName,
+            validator: AppLocalizations.of(context).nameErrorText,
+            description: AppLocalizations.of(context).companyName,
             obscureText: false,
             hintText: state.userData?['username'] ?? '',
           ),
           TextFieldWidget(
+            controller: contactNumberController,
+            label: AppLocalizations.of(context).phoneNumber,
+            validator: AppLocalizations.of(context).numberErrorText,
+            description: AppLocalizations.of(context).phoneNumber,
+            obscureText: false,
+            hintText: state.userData?['phoneNumber'] ?? '',
+          ),
+          TextFieldWidget(
             controller: aboutCompanyController,
-            label: 'Компания тууралуу',
-            validator: 'Сураныч, Компания жөнүндө жазыңыз',
-            description: 'Компания тууралуу',
+            label: AppLocalizations.of(context).aboutCompany,
+            description: AppLocalizations.of(context).aboutCompany,
             obscureText: false,
             hintText: state.userData?['aboutCompany'] ?? '',
           ),
           TextFieldWidget(
             controller: locationOfCompanyController,
-            label: 'Компаниянын жайгашкан жери',
-            validator: 'Сураныч, Компаниянын жайгашкан жерин жазыңыз',
-            description: 'Компаниянын жайгашкан жери',
+            label: AppLocalizations.of(context).location,
+            description: AppLocalizations.of(context).location,
             obscureText: false,
             hintText: state.userData?['location'] ?? '',
           ),
           TextFieldWidget(
-            controller: contactNumberController,
-            label: 'Компаниянын байланыш номери',
-            validator: 'Сураныч, Компаниянын байланыш номерин жазыңыз',
-            description: 'Компаниянын байланыш номери',
-            obscureText: false,
-            hintText: state.userData?['phoneNumber'] ?? '',
-          ),
-          TextFieldWidget(
             controller: webLinkController,
-            label: 'Компаниянын web-site',
-            validator: 'Сураныч, Компаниянын web-site жазыныз',
-            description: 'Компаниянын web-site',
+            label: AppLocalizations.of(context).webLinkCompany,
+            description: AppLocalizations.of(context).webLinkCompany,
             obscureText: false,
             hintText: state.userData?['webLinkCompany'] ?? '',
           ),
           TextFieldWidget(
             controller: linkedinController,
-            label: 'Linkedin',
-            validator: 'Сураныч, Компаниянын  Linkedin жазыныз',
-            description: 'Linkedin',
+            label: AppLocalizations.of(context).linkedin,
+            description: AppLocalizations.of(context).linkedin,
             obscureText: false,
             hintText: state.userData?['linkedIn'] ?? '',
           ),

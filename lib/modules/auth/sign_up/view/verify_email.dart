@@ -40,23 +40,27 @@ class VerifyEmailView extends StatelessWidget {
                   await user?.reload();
                   if (user?.emailVerified == true) {
                     if (isStudent) {
-                      // ignore: use_build_context_synchronously
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => const ResumeBuilder()),
-                      );
-                      StudentUser student = StudentUser(
-                        id: user?.uid ?? '',
-                        email: user?.email ?? '',
-                        createdTime: DateTime.now(),
-                        userType: UserType.student,
-                      );
+                      try {
+                        StudentUser student = StudentUser(
+                          id: user?.uid ?? '',
+                          email: user?.email ?? '',
+                          createdTime: DateTime.now(),
+                        );
 
-                      Map<String, dynamic> studentMap = student.toMapStudent();
-                      FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(user?.uid)
-                          .set(studentMap, SetOptions(merge: true));
+                        Map<String, dynamic> studentMap =
+                            student.toMapStudent();
+                        FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(user?.uid)
+                            .set(studentMap, SetOptions(merge: true));
+                        // ignore: use_build_context_synchronously
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) => const ResumeBuilder()),
+                        );
+                      } catch (e) {
+                        log(e.toString());
+                      }
                     } else {
                       // ignore: use_build_context_synchronously
                       Navigator.of(context).push(

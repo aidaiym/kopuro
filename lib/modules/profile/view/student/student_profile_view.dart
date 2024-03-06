@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopuro/app/bloc/app_bloc.dart';
 import 'package:kopuro/export_files.dart';
+import 'package:kopuro/l10n/l10.dart';
 
 class StudentProfileView extends StatelessWidget {
   const StudentProfileView({super.key});
@@ -15,7 +16,10 @@ class StudentProfileView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: Text('Өздүк баракча', style: AppTextStyles.black19),
+          title: Text(
+            AppLocalizations.of(context).userProfile,
+            style: AppTextStyles.black19,
+          ),
           actions: <Widget>[
             IconButton(
               icon: const Icon(
@@ -47,7 +51,7 @@ class StudentProfileView extends StatelessWidget {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       content: Text(
-                        'Чын эле чыгып кеткиңиз келеби?',
+                        AppLocalizations.of(context).logout,
                         style: AppTextStyles.black19,
                         textAlign: TextAlign.center,
                       ),
@@ -59,7 +63,7 @@ class StudentProfileView extends StatelessWidget {
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
-                              child: const Text('Жок'),
+                              child: Text(AppLocalizations.of(context).no),
                             ),
                             TextButton(
                               onPressed: () {
@@ -68,7 +72,10 @@ class StudentProfileView extends StatelessWidget {
                                     .add(const AppLogoutRequested());
                                 Navigator.of(context).pop();
                               },
-                              child:  Text('Ооба', style: AppTextStyles.errorText,),
+                              child: Text(
+                                AppLocalizations.of(context).yes,
+                                style: AppTextStyles.errorText,
+                              ),
                             ),
                           ],
                         )
@@ -90,7 +97,8 @@ class StudentProfileView extends StatelessWidget {
                 return _buildContent(context, state);
               } else if (state is ProfileErrorState) {
                 return Center(
-                  child: Text('Error fetching user data: ${state.message}'),
+                  child: Text(
+                      '${AppLocalizations.of(context).errorFetchingUserData}: ${state.message}'),
                 );
               } else {
                 return const Center(
@@ -109,7 +117,7 @@ class StudentProfileView extends StatelessWidget {
       return _buildSuccessContent(context, state);
     } else if (state is ProfileErrorState) {
       return Center(
-        child: Text('Error fetching user data: ${state.message}'),
+        child:Text('${AppLocalizations.of(context).errorFetchingUserData}: ${state.message}'),
       );
     } else {
       return const Center(
@@ -139,16 +147,17 @@ class StudentProfileView extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 15),
-            _buildSection('Email', state.userData!['email']),
-            _buildSection('Phone Number', state.userData!['phoneNumber']),
-            _buildSection('About me', state.userData!['aboutUser']),
-            _buildSection('Education', state.userData!['education']),
-            _buildSection('Language', state.userData!['language']),
-            _buildSection('Skills', state.userData!['skills']),
-            _buildSection('Work Experience', state.userData!['workExperience']),
-            _buildSection('Location', state.userData!['location']),
-            _buildSection('LinkedIn', state.userData!['linkedIn']),
-            _buildSection('Github', state.userData!['github']),
+          const SizedBox(height: 15),
+            _buildSection(AppLocalizations.of(context).email, state.userData!['email']),
+            _buildSection(AppLocalizations.of(context).phoneNumber, state.userData!['phoneNumber']),
+            _buildSection(AppLocalizations.of(context).aboutYou, state.userData!['aboutUser']),
+            _buildSection(AppLocalizations.of(context).education, state.userData!['education']),
+            _buildSection(AppLocalizations.of(context).languageLabel, state.userData!['language']),
+            _buildSection(AppLocalizations.of(context).skillsLabel, state.userData!['skills']),
+            _buildSection(AppLocalizations.of(context).workExperience, state.userData!['workExperience']),
+            _buildSection(AppLocalizations.of(context).location, state.userData!['location']),
+            _buildSection(AppLocalizations.of(context).linkedin, state.userData!['linkedIn']),
+            _buildSection(AppLocalizations.of(context).github, state.userData!['github']),
           ],
         ),
       ),

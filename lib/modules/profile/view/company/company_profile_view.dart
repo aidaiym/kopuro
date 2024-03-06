@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopuro/app/bloc/app_bloc.dart';
 import 'package:kopuro/export_files.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:kopuro/l10n/l10.dart';
 
 class CompanyProfileView extends StatelessWidget {
   const CompanyProfileView({super.key});
@@ -11,7 +12,8 @@ class CompanyProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Өздүк баракча', style: AppTextStyles.black19),
+        title: Text(AppLocalizations.of(context).profile,
+            style: AppTextStyles.black19),
         actions: <Widget>[
           IconButton(
             icon: const Icon(
@@ -22,7 +24,8 @@ class CompanyProfileView extends StatelessWidget {
               Navigator.push<void>(
                 context,
                 MaterialPageRoute<void>(
-                    builder: (BuildContext context) => const EditCompanyProfilePage()),
+                    builder: (BuildContext context) =>
+                        const EditCompanyProfilePage()),
               );
             },
           ),
@@ -31,48 +34,51 @@ class CompanyProfileView extends StatelessWidget {
             child: VerticalDivider(),
           ),
           IconButton(
-              key: const Key('homePage_logout_iconButton'),
-              icon: const Icon(
-                Icons.logout_outlined,
-                color: AppColors.main,
-              ),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      content: Text(
-                        'Чын эле чыгып кеткиңиз келеби?',
-                        style: AppTextStyles.black19,
-                        textAlign: TextAlign.center,
-                      ),
-                      actions: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('Жок'),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                context
-                                    .read<AppBloc>()
-                                    .add(const AppLogoutRequested());
-                                Navigator.of(context).pop();
-                              },
-                              child:  Text('Ооба', style: AppTextStyles.errorText,),
-                            ),
-                          ],
-                        )
-                      ],
-                    );
-                  },
-                );
-              },
+            key: const Key('homePage_logout_iconButton'),
+            icon: const Icon(
+              Icons.logout_outlined,
+              color: AppColors.main,
             ),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    content: Text(
+                      AppLocalizations.of(context).logout,
+                      style: AppTextStyles.black19,
+                      textAlign: TextAlign.center,
+                    ),
+                    actions: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(AppLocalizations.of(context).no),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              context
+                                  .read<AppBloc>()
+                                  .add(const AppLogoutRequested());
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              AppLocalizations.of(context).yes,
+                              style: AppTextStyles.errorText,
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  );
+                },
+              );
+            },
+          ),
         ],
       ),
       body: BlocProvider(
@@ -84,7 +90,8 @@ class CompanyProfileView extends StatelessWidget {
               return _buildContent(context, state);
             } else if (state is ProfileErrorState) {
               return Center(
-                child: Text('Error fetching user data: ${state.message}'),
+                child: Text(
+                    '${AppLocalizations.of(context).errorFetchingUserData}: ${state.message}'),
               );
             } else {
               return const Center(
@@ -104,7 +111,8 @@ class CompanyProfileView extends StatelessWidget {
       return _buildSuccessContent(context, state);
     } else if (state is ProfileErrorState) {
       return Center(
-        child: Text('Error fetching user data: ${state.message}'),
+        child: Text(
+            '${AppLocalizations.of(context).errorFetchingUserData}: ${state.message}'),
       );
     } else {
       return const Center(
@@ -126,14 +134,30 @@ class CompanyProfileView extends StatelessWidget {
               style: AppTextStyles.black20,
             ),
             const SizedBox(height: 15),
-            _buildSection('About company', state.userData!['aboutCompany']),
-            _buildSection('Company Email', state.userData!['email']),
             _buildSection(
-                'Company Contact Number', state.userData!['phoneNumber']),
-                    _buildSection(
-                'Company Location ', state.userData!['location']),
-            _buildSection(' webLinkCompany', state.userData!['webLinkCompany']),
-            _buildSection('LinkedIn', state.userData!['linkedIn']),
+              AppLocalizations.of(context).aboutCompany,
+              state.userData!['aboutCompany'],
+            ),
+            _buildSection(
+              AppLocalizations.of(context).companyEmail,
+              state.userData!['email'],
+            ),
+            _buildSection(
+              AppLocalizations.of(context).companyContactNumber,
+              state.userData!['phoneNumber'],
+            ),
+            _buildSection(
+              AppLocalizations.of(context).companyLocation,
+              state.userData!['location'],
+            ),
+            _buildSection(
+              AppLocalizations.of(context).webLinkCompany,
+              state.userData!['webLinkCompany'],
+            ),
+              _buildSection(
+              AppLocalizations.of(context).linkedin,
+              state.userData!['linkedIn'],
+            ),
             const SizedBox(height: 15),
           ],
         ),

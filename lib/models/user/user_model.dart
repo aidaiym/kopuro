@@ -37,7 +37,7 @@ class User extends Equatable {
       'username': username,
       'email': email,
       'photoUrl': photoUrl,
-      'userType': userType,
+      'userType': userType.toString(),
     };
   }
 }
@@ -70,11 +70,14 @@ class StudentUser extends User {
     this.language,
     this.linkedIn,
     this.github,
-  }) : super(id: id ?? '', username: username ?? '', email: email ?? '');
+  }) : super(
+          id: id ?? '',
+          username: username ?? '',
+          email: email ?? '',
+        );
   Map<String, dynamic> toMapStudent() {
     return {
       ...toMap(),
-      'type': 'student',
       'phoneNumber': phoneNumber,
       'aboutUser': aboutUser,
       'jobTitle': jobTitle,
@@ -162,7 +165,7 @@ class CompanyUser extends User {
       createdTime: json['createdTime'] != null
           ? DateTime.parse(json['createdTime'] as String)
           : null,
-      userType: json['type']as UserType,
+      userType: json['type'] as UserType,
       linkedIn: json['linkedIn'] as String? ?? '',
       phoneNumber: json['phoneNumber'] as String? ?? '',
       aboutCompany: json['aboutCompany'] as String? ?? '',

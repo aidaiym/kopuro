@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kopuro/export_files.dart';
+import 'package:kopuro/l10n/l10.dart';
 
 class CompanyVacanciesView extends StatelessWidget {
   const CompanyVacanciesView({super.key});
@@ -15,7 +16,7 @@ class CompanyVacanciesView extends StatelessWidget {
         automaticallyImplyLeading: false,
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right:16.0),
+            padding: const EdgeInsets.only(right: 16.0),
             child: CircleAvatar(
               child: IconButton(
                 icon: const Icon(
@@ -46,7 +47,8 @@ class CompanyVacanciesView extends StatelessWidget {
               );
             } else if (state is ProfileErrorState) {
               return Center(
-                child: Text('Error fetching user data: ${state.message}'),
+                child: Text(
+                    '${AppLocalizations.of(context).errorFetchingUserData}: ${state.message}'),
               );
             } else {
               return const Center(
@@ -99,7 +101,7 @@ class CompanyVacanciesSuccess extends StatelessWidget {
                   children: [
                     Center(
                       child: Text(
-                        ' Жаны вакансия кошуу +',
+                        AppLocalizations.of(context).addVacancy,
                         textAlign: TextAlign.center,
                         style: AppTextStyles.main19,
                       ),
@@ -119,7 +121,7 @@ class CompanyVacanciesSuccess extends StatelessWidget {
                     children: [
                       const SizedBox(height: 20),
                       Text(
-                        'Сиз кошкон вакансиялардын тизмеси:',
+                        AppLocalizations.of(context).yourVacancyList,
                         style: AppTextStyles.main18,
                       ),
                       const SizedBox(height: 20),
@@ -191,13 +193,13 @@ class CompanyVacanciesSuccess extends StatelessWidget {
                     ],
                   )
                 : Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                      'Азырынча сиздин компаниянын вакансиялары жок',
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      AppLocalizations.of(context).noYourVacancy,
                       style: AppTextStyles.black19,
                       textAlign: TextAlign.center,
                     ),
-                ),
+                  ),
           ],
         ),
       ),

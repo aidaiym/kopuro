@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kopuro/export_files.dart';
+import 'package:kopuro/l10n/l10.dart';
 
 class VacancyDetail extends StatelessWidget {
   const VacancyDetail(
@@ -23,12 +24,18 @@ class VacancyDetail extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              sectionText('Компания', vacancy.companyName),
-              sectionText('Эмгек акы', vacancy.salary),
-              sectionText('Байланыш маалыматы', vacancy.contactInformation),
-              sectionText('Жумуш жөнүндө', vacancy.jobDescription),
-              sectionText('Жумуштун түрү', vacancy.jobType),
-              sectionText('Жайгашкан жери', vacancy.location),
+              sectionText(
+                  AppLocalizations.of(context).company, vacancy.companyName),
+              sectionText(
+                  AppLocalizations.of(context).jobSalary, vacancy.salary),
+              sectionText(AppLocalizations.of(context).contactInformation,
+                  vacancy.contactInformation),
+              sectionText(AppLocalizations.of(context).jobDescription,
+                  vacancy.jobDescription),
+              sectionText(
+                  AppLocalizations.of(context).jobType, vacancy.jobType),
+              sectionText(
+                  AppLocalizations.of(context).jobLocation, vacancy.location),
               const SizedBox(height: 40),
               if (!isCompany)
                 MainButton(
@@ -46,9 +53,10 @@ class VacancyDetail extends StatelessWidget {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: const Text('Азаматсыз!'),
-                            content: const Text(
-                                'Сиз вакансияга ийгиликтүү тапшырдыңыз!'),
+                            title:
+                                Text(AppLocalizations.of(context).successTitle),
+                            content: Text(
+                                AppLocalizations.of(context).successContent),
                             actions: <Widget>[
                               TextButton(
                                 onPressed: () {
@@ -73,9 +81,11 @@ class VacancyDetail extends StatelessWidget {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: const Text('Ката'),
-                            content: const Text(
-                                'Вакансияга тапшырып жатканда ката кетти.'),
+                            title: Text(AppLocalizations.of(context).error),
+                            content: Text(
+                              AppLocalizations.of(context)
+                                  .errorApplyingToVacancy,
+                            ),
                             actions: <Widget>[
                               TextButton(
                                 onPressed: () {
@@ -89,7 +99,7 @@ class VacancyDetail extends StatelessWidget {
                       );
                     }
                   },
-                  text: 'Вакансияга тапшыруу',
+                  text: AppLocalizations.of(context).applyToVacancy,
                 ),
             ],
           ),

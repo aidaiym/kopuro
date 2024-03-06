@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopuro/export_files.dart';
+import 'package:kopuro/l10n/l10.dart';
 
 class CompanyProfileBuilder extends StatelessWidget {
   const CompanyProfileBuilder({super.key});
@@ -75,7 +76,7 @@ class CompanyProfileBuilder extends StatelessWidget {
                       color: AppColors.main.withOpacity(0.3),
                       borderRadius: BorderRadius.circular(25),
                     ),
-                    child: Text('Өткөрүп жиберүү',
+                    child: Text(AppLocalizations.of(context).skip,
                         style: AppTextStyles.white14.copyWith(fontSize: 12)),
                   ),
                 ),
@@ -91,51 +92,47 @@ class CompanyProfileBuilder extends StatelessWidget {
                 ),
                 TextFieldWidget(
                   controller: nameOfCompanyController,
-                  label: 'Компаниянын аты',
-                  validator: 'Сураныч, Компаниянын аталышын  жазыңыз',
-                  description: 'Компаниянын аты',
-                  obscureText: false,
-                ),
-                TextFieldWidget(
-                  controller: aboutCompanyController,
-                  label: 'Компания тууралуу',
-                  validator: 'Сураныч, Компания жөнүндө жазыңыз',
-                  description: 'Компания тууралуу',
-                  obscureText: false,
-                ),
-                TextFieldWidget(
-                  controller: locationOfCompanyController,
-                  label: 'Компаниянын жайгашкан жери',
-                  validator: 'Сураныч, Компаниянын жайгашкан жерин жазыңыз',
-                  description: 'Компаниянын жайгашкан жери',
+                  label: AppLocalizations.of(context).companyName,
+                  validator: AppLocalizations.of(context).nameErrorText,
+                  description: AppLocalizations.of(context).companyName,
                   obscureText: false,
                 ),
                 TextFieldWidget(
                   controller: contactNumberController,
-                  label: 'Компаниянын байланыш номери',
-                  validator: 'Сураныч, Компаниянын байланыш номерин жазыңыз',
-                  description: 'Компаниянын байланыш номери',
+                  label: AppLocalizations.of(context).phoneNumber,
+                  validator: AppLocalizations.of(context).numberErrorText,
+                  description: AppLocalizations.of(context).phoneNumber,
+                  obscureText: false,
+                ),
+                TextFieldWidget(
+                  controller: aboutCompanyController,
+                  label: AppLocalizations.of(context).aboutCompany,
+                  description: AppLocalizations.of(context).aboutCompany,
+                  obscureText: false,
+                ),
+                TextFieldWidget(
+                  controller: locationOfCompanyController,
+                  label: AppLocalizations.of(context).location,
+                  description: AppLocalizations.of(context).location,
                   obscureText: false,
                 ),
                 TextFieldWidget(
                   controller: webLinkController,
-                  label: 'Компаниянын web-site',
-                  validator: 'Сураныч, Компаниянын web-site жазыныз',
-                  description: 'Компаниянын web-site',
+                  label: AppLocalizations.of(context).webLinkCompany,
+                  description: AppLocalizations.of(context).webLinkCompany,
                   obscureText: false,
                 ),
                 TextFieldWidget(
                   controller: linkedinController,
-                  label: 'Linkedin',
-                  validator: 'Сураныч, Компаниянын  Linkedin жазыныз',
-                  description: 'Linkedin',
+                  label: AppLocalizations.of(context).linkedin,
+                  description: AppLocalizations.of(context).linkedin,
                   obscureText: false,
                 ),
                 MainButton(
                   onPressed: () async {
                     uploadCompanyProfile(context);
                   },
-                  text: 'Катталуу',
+                  text: AppLocalizations.of(context).signUp,
                 ),
               ],
             ),

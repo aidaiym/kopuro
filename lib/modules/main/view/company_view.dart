@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kopuro/l10n/l10.dart';
 import 'package:kopuro/modules/modules.dart';
 
 class CompanyMainView extends StatefulWidget {
@@ -43,14 +44,14 @@ class CompanyMainScreen extends StatelessWidget {
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: context.read<MainCubit>().change,
         selectedIndex: context.watch<MainCubit>().state,
-        destinations: const <Widget>[
+        destinations:  <Widget>[
           NavigationDestination(
-            icon: Icon(Icons.people),
-            label: 'Candidates',
+            icon: const Icon(Icons.people),
+            label: AppLocalizations.of(context).candidates,
           ),
           NavigationDestination(
-            icon: Icon(Icons.work_outline),
-            label: 'Add Vacancy',
+            icon: const Icon(Icons.work_outline),
+            label:  AppLocalizations.of(context).addVacancy,
           ),
         ],
       ),

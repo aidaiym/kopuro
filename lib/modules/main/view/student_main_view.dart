@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopuro/export_files.dart';
+import 'package:kopuro/l10n/l10.dart';
 
 class StudentMainView extends StatefulWidget {
   const StudentMainView({super.key});
@@ -27,9 +28,11 @@ class _StudentMainViewState extends State<StudentMainView> {
           create: (_) => ProfileCubit(),
         ),
       ],
-      child: const MainScreen([
-        VacanciesList(),
-        StudentProfileView(),
+      child: MainScreen([
+        BlocProvider(
+            create: (context) => VacancyCubit()..loadVacancies(),
+            child: const VacanciesList()),
+        const StudentProfileView(),
       ]),
     );
   }
@@ -47,14 +50,14 @@ class MainScreen extends StatelessWidget {
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: context.read<MainCubit>().change,
         selectedIndex: context.watch<MainCubit>().state,
-        destinations: const <Widget>[
+        destinations: <Widget>[
           NavigationDestination(
-            icon: Icon(Icons.house),
-            label: 'Вакансиялар',
+            icon: const Icon(Icons.house),
+            label: AppLocalizations.of(context).vacancies,
           ),
           NavigationDestination(
-            icon: Icon(Icons.man),
-            label: 'Профиль',
+            icon: const Icon(Icons.man),
+            label: AppLocalizations.of(context).profile,
           ),
         ],
       ),
