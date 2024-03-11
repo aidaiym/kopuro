@@ -81,7 +81,12 @@ class SignUpCubit extends Cubit<SignUpState> {
     }
   }
 
-  void togglePasswordVisibility() {
-    emit(state.copyWith(isPasswordHidden: !state.isPasswordHidden));
+  void togglePasswordVisibility(bool isPassword) {
+    if (isPassword) {
+      emit(state.copyWith(isPasswordHidden: !state.isPasswordHidden));
+    } else {
+      emit(state.copyWith(
+          isConfirmedPasswordHidden: !state.isConfirmedPasswordHidden));
+    }
   }
 }

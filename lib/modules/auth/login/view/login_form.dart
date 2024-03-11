@@ -48,6 +48,7 @@ class LoginForm extends StatelessWidget {
                         context.read<LoginCubit>().emailChanged(email),
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
+                      errorMaxLines: 3,
                       labelText: AppLocalizations.of(context).email,
                       errorText: state.email.displayError != null
                           ? AppLocalizations.of(context).emailErrorText
@@ -65,7 +66,7 @@ class LoginForm extends StatelessWidget {
                   );
                 },
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 30),
               BlocBuilder<LoginCubit, LoginState>(
                 builder: (context, state) {
                   return TextField(
@@ -75,6 +76,8 @@ class LoginForm extends StatelessWidget {
                     obscureText: state.isPasswordHidden,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context).password,
+                      errorMaxLines: 3,
+
                       errorText: state.password.displayError != null
                           ? AppLocalizations.of(context).passwordErrorText
                           : null,

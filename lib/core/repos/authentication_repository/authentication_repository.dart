@@ -153,37 +153,38 @@ class AuthenticationRepository {
   }
 }
 
- Future<User> getUserFromFirestore(String userId) async {
-    try {
-      final userDoc = await FirebaseFirestore.instance.collection('users').doc(userId).get();
-      if (userDoc.exists) {
-        final userData = userDoc.data() as Map<String, dynamic>;
-        final userTypeString = userData['userType'] as String;
-        final userType = userTypeFromString(userTypeString);
-        return User(
-          id: userId,
-          email: userData['email'] ?? '',
-          userType: userType,
-        );
-      } else {
-        return User.empty;
-      }
-    } catch (e) {
-      log('Error fetching user data: $e');
-      rethrow;
+Future<User> getUserFromFirestore(String userId) async {
+  try {
+    final userDoc =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    if (userDoc.exists) {
+      final userData = userDoc.data() as Map<String, dynamic>;
+      final userTypeString = userData['userType'] as String;
+      final userType = userTypeFromString(userTypeString);
+      return User(
+        id: userId,
+        email: userData['email'] ?? '',
+        userType: userType,
+      );
+    } else {
+      return User.empty;
     }
+  } catch (e) {
+    log('Error fetching user data: $e');
+    rethrow;
   }
+}
 
- UserType userTypeFromString(String userTypeString) {
-    switch (userTypeString) {
-      case 'student':
-        return UserType.student;
-      case 'company':
-        return UserType.company;
-      default:
-        return UserType.student;
-    }
+UserType userTypeFromString(String userTypeString) {
+  switch (userTypeString) {
+    case 'student':
+      return UserType.student;
+    case 'company':
+      return UserType.company;
+    default:
+      return UserType.student;
   }
+}
 
 // extension on firebase_auth.User {
 //   User get toUser {

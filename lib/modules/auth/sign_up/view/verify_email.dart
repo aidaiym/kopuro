@@ -10,6 +10,12 @@ import 'package:kopuro/l10n/l10.dart';
 class VerifyEmailView extends StatelessWidget {
   const VerifyEmailView({super.key, required this.isStudent});
   final bool isStudent;
+
+  static Route<void> route(bool isStudent) {
+    return MaterialPageRoute<void>(
+        builder: (_) => VerifyEmailView(isStudent: isStudent));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

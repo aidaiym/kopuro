@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -26,7 +28,8 @@ class SignUpForm extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(AppLocalizations.of(context).signUp, style: AppTextStyles.main28),
+            Text(AppLocalizations.of(context).signUp,
+                style: AppTextStyles.main28),
             const SizedBox(
               height: 30,
             ),
@@ -39,6 +42,7 @@ class SignUpForm extends StatelessWidget {
                       context.read<SignUpCubit>().emailChanged(email),
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
+                    errorMaxLines: 3,
                     labelText: AppLocalizations.of(context).email,
                     errorText: state.email.displayError != null
                         ? AppLocalizations.of(context).emailErrorText
@@ -56,17 +60,16 @@ class SignUpForm extends StatelessWidget {
                 );
               },
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 30),
             BlocBuilder<SignUpCubit, SignUpState>(
-              buildWhen: (previous, current) =>
-                  previous.password != current.password,
               builder: (context, state) {
                 return TextField(
                   key: const Key('signUpForm_passwordInput_textField'),
                   onChanged: (password) =>
                       context.read<SignUpCubit>().passwordChanged(password),
-                  obscureText: true,
+                  obscureText: state.isPasswordHidden,
                   decoration: InputDecoration(
+                    errorMaxLines: 3,
                     labelText: AppLocalizations.of(context).password,
                     errorText: state.password.displayError != null
                         ? AppLocalizations.of(context).passwordErrorText
@@ -80,31 +83,31 @@ class SignUpForm extends StatelessWidget {
                         color: AppColors.main,
                       ),
                     ),
-                      suffixIcon: IconButton(
-                        icon: Icon(state.isPasswordHidden
-                            ? Icons.visibility
-                            : Icons.visibility_off),
-                        onPressed: () {
-                          context.read<SignUpCubit>().togglePasswordVisibility();
-                        },
-                      ),
+                    suffixIcon: IconButton(
+                      icon: Icon(state.isPasswordHidden
+                          ? Icons.visibility
+                          : Icons.visibility_off),
+                      onPressed: () {
+                        context
+                            .read<SignUpCubit>()
+                            .togglePasswordVisibility(true);
+                      },
+                    ),
                   ),
                 );
               },
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             BlocBuilder<SignUpCubit, SignUpState>(
-              buildWhen: (previous, current) =>
-                  previous.password != current.password ||
-                  previous.confirmedPassword != current.confirmedPassword,
               builder: (context, state) {
                 return TextField(
                   key: const Key('signUpForm_confirmedPasswordInput_textField'),
                   onChanged: (confirmPassword) => context
                       .read<SignUpCubit>()
                       .confirmedPasswordChanged(confirmPassword),
-                  obscureText: true,
+                  obscureText: state.isConfirmedPasswordHidden,
                   decoration: InputDecoration(
+                    errorMaxLines: 3,
                     labelText: AppLocalizations.of(context).verifyPassword,
                     errorText: state.confirmedPassword.displayError != null
                         ? AppLocalizations.of(context).verifyPasswordErrorText
@@ -118,6 +121,16 @@ class SignUpForm extends StatelessWidget {
                         color: AppColors.main,
                       ),
                     ),
+                    suffixIcon: IconButton(
+                      icon: Icon(state.isConfirmedPasswordHidden
+                          ? Icons.visibility
+                          : Icons.visibility_off),
+                      onPressed: () {
+                        context
+                            .read<SignUpCubit>()
+                            .togglePasswordVisibility(false);
+                      },
+                    ),
                   ),
                 );
               },
@@ -130,14 +143,18 @@ class SignUpForm extends StatelessWidget {
                     : MainButton(
                         onPressed: () {
                           if (state.isValid) {
-                            context.read<SignUpCubit>().signUpFormSubmitted();
-                            Navigator.push<void>(
-                              context,
-                              MaterialPageRoute<void>(
-                                builder: (BuildContext context) =>
-                                    VerifyEmailView(isStudent: isStudent),
-                              ),
-                            );
+                            try {
+                              context.read<SignUpCubit>().signUpFormSubmitted();
+                              // Navigator.push<void>(
+                              //   context,
+                              //   MaterialPageRoute<void>(
+                              //     builder: (BuildContext context) =>
+                              //         VerifyEmailView(isStudent: isStudent),
+                              //   ),
+                              // );
+                            } catch (e) {
+                              log(e.toString());
+                            }
                           }
                         },
                         text: AppLocalizations.of(context).next,

@@ -25,7 +25,7 @@ class VacancyDetail extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               sectionText(
-                  AppLocalizations.of(context).company, vacancy.companyName),
+                  AppLocalizations.of(context).employer, vacancy.companyName),
               sectionText(
                   AppLocalizations.of(context).jobSalary, vacancy.salary),
               sectionText(AppLocalizations.of(context).contactInformation,

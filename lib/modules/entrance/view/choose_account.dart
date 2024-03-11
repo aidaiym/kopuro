@@ -24,7 +24,7 @@ class ChooseAccountType extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 50.0, top: 20),
                 child: Text(
-                  AppLocalizations.of(context).areYouACompanyOrStudent,
+                  AppLocalizations.of(context).areYouAnEmployerOrJobSeeker,
                   style: AppTextStyles.black14,
                 ),
               ),
@@ -32,13 +32,13 @@ class ChooseAccountType extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push<void>(SignUpPage.route(true));
                 },
-                text: AppLocalizations.of(context).student,
+                text: AppLocalizations.of(context).jobSeeker,
               ),
               MainButton(
                 onPressed: () {
                   Navigator.of(context).push<void>(SignUpPage.route(false));
                 },
-                text: AppLocalizations.of(context).company,
+                text: AppLocalizations.of(context).employer,
               ),
             ],
           ),
