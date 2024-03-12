@@ -145,7 +145,7 @@ class SignUpForm extends StatelessWidget {
                           if (state.isValid) {
                             try {
                               context.read<SignUpCubit>().signUpFormSubmitted();
-                              // Navigator.push<void>(
+                               // Navigator.push<void>(
                               //   context,
                               //   MaterialPageRoute<void>(
                               //     builder: (BuildContext context) =>

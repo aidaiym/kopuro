@@ -89,22 +89,10 @@ class AuthenticationRepository {
   static const userCacheKey = '__user_cache_key__';
 
   Stream<User> get user {
-    return _firebaseAuth.authStateChanges().asyncMap((firebaseUser) async {
-      if (firebaseUser == null) {
-        _cache.write(key: userCacheKey, value: User.empty);
-        return User.empty;
-      } else {
-        await firebaseUser.reload();
-        firebaseUser = _firebaseAuth.currentUser;
-        if (firebaseUser?.emailVerified ?? false) {
-          final user = await getUserFromFirestore(firebaseUser!.uid);
-          _cache.write(key: userCacheKey, value: user);
-          return user;
-        } else {
-          _cache.write(key: userCacheKey, value: User.empty);
-          return User.empty;
-        }
-      }
+    return _firebaseAuth.authStateChanges().map((firebaseUser) {
+      final user = firebaseUser == null ? User.empty : firebaseUser.toUser;
+      _cache.write(key: userCacheKey, value: user);
+      return user;
     });
   }
 
@@ -186,8 +174,8 @@ UserType userTypeFromString(String userTypeString) {
   }
 }
 
-// extension on firebase_auth.User {
-//   User get toUser {
-//     return User(id: uid, email: email!, userType: UserType.student);
-//   }
-// }
+extension on firebase_auth.User {
+  User get toUser {
+    return User(id: uid, email: email!, userType: UserType.student);
+  }
+}

@@ -3,11 +3,12 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopuro/export_files.dart';
-
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 part 'app_event.dart';
 part 'app_state.dart';
 
 class AppBloc extends Bloc<AppEvent, AppState> {
+  final authInstance = firebase_auth.FirebaseAuth.instance;
   AppBloc({required AuthenticationRepository authenticationRepository})
       : _authenticationRepository = authenticationRepository,
         super(
@@ -25,15 +26,15 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   final AuthenticationRepository _authenticationRepository;
   late final StreamSubscription<User> _userSubscription;
-
   void _onUserChanged(_AppUserChanged event, Emitter<AppState> emit) {
-    emit(
-      event.user.isNotEmpty
-          ? event.user.userType == UserType.student
-              ? AppState.authenticatedStudent(event.user)
-              : AppState.authenticatedCompany(event.user)
-          : const AppState.unauthenticated(),
-    );
+    emit(event.user.isNotEmpty
+        ? (authInstance.currentUser != null &&
+                (authInstance.currentUser!.emailVerified))
+            ? (event.user.userType == UserType.student)
+                ? AppState.authenticatedStudent(event.user)
+                : AppState.authenticatedCompany(event.user)
+            : AppState.authenticatedNotVerified(event.user)
+        : const AppState.unauthenticated());
   }
 
   void _onLogoutRequested(AppLogoutRequested event, Emitter<AppState> emit) {

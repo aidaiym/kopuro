@@ -11,15 +11,11 @@ class VerifyEmailView extends StatelessWidget {
   const VerifyEmailView({super.key, required this.isStudent});
   final bool isStudent;
 
-  static Route<void> route(bool isStudent) {
-    return MaterialPageRoute<void>(
-        builder: (_) => VerifyEmailView(isStudent: isStudent));
-  }
-
+  static Page<void> page(bool isStudent) =>
+      MaterialPage<void>(child: VerifyEmailView(isStudent: isStudent));
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         child: Padding(
@@ -43,7 +39,6 @@ class VerifyEmailView extends StatelessWidget {
               MainButton(
                 onPressed: () async {
                   firebase_auth.User? user = FirebaseAuth.instance.currentUser;
-                  await user?.reload();
                   if (user?.emailVerified == true) {
                     if (isStudent) {
                       try {
@@ -99,6 +94,21 @@ class VerifyEmailView extends StatelessWidget {
                   }
                 },
                 text: AppLocalizations.of(context).verify,
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push<void>(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) =>
+                          SignUpPage(isStudent: isStudent),
+                    ),
+                  );
+                },
+                child: Text(
+                  AppLocalizations.of(context).resendemail,
+                  style: AppTextStyles.primary16,
+                ),
               )
             ],
           ),

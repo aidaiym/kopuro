@@ -96,6 +96,7 @@
     "onsite": "Onsite",
     "from": "From",
     "to": "To",
-    "apply": "Apply"
+    "apply": "Apply",
+    "resendemail": "Try to resend the verification link again."
 
 }
