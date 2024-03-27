@@ -7,12 +7,28 @@ import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:kopuro/export_files.dart';
 import 'package:kopuro/l10n/l10.dart';
 
-class VerifyEmailView extends StatelessWidget {
+class VerifyEmailView extends StatefulWidget {
   const VerifyEmailView({super.key, required this.isStudent});
   final bool isStudent;
 
   static Page<void> page(bool isStudent) =>
       MaterialPage<void>(child: VerifyEmailView(isStudent: isStudent));
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _VerifyEmailViewState createState() => _VerifyEmailViewState();
+}
+
+class _VerifyEmailViewState extends State<VerifyEmailView> {
+  late firebase_auth.User? user;
+
+  @override
+  void initState() {
+    super.initState();
+    user = FirebaseAuth.instance.currentUser;
+    user!.reload();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,9 +54,8 @@ class VerifyEmailView extends StatelessWidget {
               const SizedBox(height: 20),
               MainButton(
                 onPressed: () async {
-                  firebase_auth.User? user = FirebaseAuth.instance.currentUser;
                   if (user?.emailVerified == true) {
-                    if (isStudent) {
+                    if (widget.isStudent) {
                       try {
                         StudentUser student = StudentUser(
                           id: user?.uid ?? '',
@@ -50,7 +65,7 @@ class VerifyEmailView extends StatelessWidget {
 
                         Map<String, dynamic> studentMap =
                             student.toMapStudent();
-                        FirebaseFirestore.instance
+                        await FirebaseFirestore.instance
                             .collection('users')
                             .doc(user?.uid)
                             .set(studentMap, SetOptions(merge: true));
@@ -63,7 +78,6 @@ class VerifyEmailView extends StatelessWidget {
                         log(e.toString());
                       }
                     } else {
-                      // ignore: use_build_context_synchronously
                       Navigator.of(context).push(
                         MaterialPageRoute(
                             builder: (context) =>
@@ -77,7 +91,7 @@ class VerifyEmailView extends StatelessWidget {
                       );
 
                       Map<String, dynamic> companyMap = company.toMap();
-                      FirebaseFirestore.instance
+                      await FirebaseFirestore.instance
                           .collection('users')
                           .doc(user?.uid)
                           .set(companyMap, SetOptions(merge: true));
@@ -101,7 +115,7 @@ class VerifyEmailView extends StatelessWidget {
                     context,
                     MaterialPageRoute<void>(
                       builder: (BuildContext context) =>
-                          SignUpPage(isStudent: isStudent),
+                          SignUpPage(isStudent: widget.isStudent),
                     ),
                   );
                 },

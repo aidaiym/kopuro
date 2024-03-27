@@ -25,6 +25,7 @@ class ChooseAccountType extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 50.0, top: 20),
                 child: Text(
                   AppLocalizations.of(context).areYouAnEmployerOrJobSeeker,
+                  textAlign: TextAlign.center,
                   style: AppTextStyles.black14,
                 ),
               ),
