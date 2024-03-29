@@ -106,7 +106,7 @@ class AuthenticationRepository {
         email: email,
         password: password,
       );
-      await _firebaseAuth.currentUser?.sendEmailVerification();
+      // await _firebaseAuth.currentUser?.sendEmailVerification();
     } on firebase_auth.FirebaseAuthException catch (e) {
       throw SignUpWithEmailAndPasswordFailure.fromCode(e.code);
     } catch (_) {

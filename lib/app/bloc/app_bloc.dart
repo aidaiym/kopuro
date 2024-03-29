@@ -28,12 +28,12 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   late final StreamSubscription<User> _userSubscription;
   void _onUserChanged(_AppUserChanged event, Emitter<AppState> emit) {
     emit(event.user.isNotEmpty
-        ? (authInstance.currentUser != null &&
-                (authInstance.currentUser!.emailVerified))
+        // ? (authInstance.currentUser != null &&
+        //         (authInstance.currentUser!.emailVerified))
             ? (event.user.userType == UserType.student)
                 ? AppState.authenticatedStudent(event.user)
                 : AppState.authenticatedCompany(event.user)
-            : AppState.authenticatedNotVerified(event.user)
+            // : AppState.authenticatedNotVerified(event.user)
         : const AppState.unauthenticated());
   }
 

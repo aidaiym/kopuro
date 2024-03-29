@@ -17,7 +17,7 @@ List<Page<dynamic>> onGenerateAppViewPages(
     case AppStatus.unauthenticated:
       return [ChooseLanguage.page()];
 
-    case AppStatus.authenticatedNotVerified:
-      return [VerifyEmailView.page(true)];
+    // case AppStatus.authenticatedNotVerified:
+    //   return [VerifyEmailView.page(true)];
   }
 }
