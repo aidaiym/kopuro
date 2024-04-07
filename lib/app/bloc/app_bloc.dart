@@ -26,6 +26,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   final AuthenticationRepository _authenticationRepository;
   late final StreamSubscription<User> _userSubscription;
+  
   void _onUserChanged(_AppUserChanged event, Emitter<AppState> emit) {
     emit(event.user.isNotEmpty
         // ? (authInstance.currentUser != null &&

@@ -25,7 +25,7 @@ dependencies:
   image_picker: ^1.0.4
   firebase_storage: ^11.5.0
   formz: ^0.7.0
-  flow_builder: ^0.0.10
+  flow_builder: ^0.1.0
   flutter_svg: ^2.0.9
   intl: any
   shared_preferences: ^2.2.2
