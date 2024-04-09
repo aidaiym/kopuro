@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Vacancy {
   const Vacancy({
-     this.id,
+    this.id,
     required this.createdTime,
     required this.jobTitle,
     required this.companyName,
@@ -12,6 +12,7 @@ class Vacancy {
     required this.contactInformation,
     required this.salary,
     this.appliedUsers,
+    this.companyPhoto,
   });
 
   factory Vacancy.fromJson(Map<String, dynamic> json) {
@@ -25,10 +26,10 @@ class Vacancy {
         jobDescription: json['jobDescription'] as String,
         contactInformation: json['contactInformation'] as String,
         salary: json['salary'] as String,
-        // appliedUsers: json['appliedUsers'] as List<String>?);
-         appliedUsers: (json['appliedUsers'] as List<dynamic>?)
-        ?.map((userId) => userId as String)
-        .toList());
+        companyPhoto: json['companyPhoto'] as String,
+        appliedUsers: (json['appliedUsers'] as List<dynamic>?)
+            ?.map((userId) => userId as String)
+            .toList());
   }
 
   Map<String, dynamic> toJson() {
@@ -43,6 +44,7 @@ class Vacancy {
       'contactInformation': contactInformation,
       'salary': salary,
       'appliedUsers': appliedUsers,
+      'companyPhoto': companyPhoto,
     };
   }
 
@@ -56,6 +58,7 @@ class Vacancy {
   final String contactInformation;
   final String salary;
   final List<String>? appliedUsers;
+  final String? companyPhoto;
 
   Vacancy copyWith({
     String? id,
@@ -68,6 +71,7 @@ class Vacancy {
     String? contactInformation,
     String? salary,
     List<String>? appliedUsers,
+    String? companyPhoto,
   }) {
     return Vacancy(
       id: id ?? this.id,
@@ -80,6 +84,7 @@ class Vacancy {
       contactInformation: contactInformation ?? this.contactInformation,
       salary: salary ?? this.salary,
       appliedUsers: appliedUsers ?? appliedUsers,
+      companyPhoto: companyPhoto ?? companyPhoto,
     );
   }
 }

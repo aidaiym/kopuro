@@ -52,7 +52,7 @@ class MainScreen extends StatelessWidget {
         selectedIndex: context.watch<MainCubit>().state,
         destinations: <Widget>[
           NavigationDestination(
-            icon: const Icon(Icons.house),
+            icon: const Icon(Icons.work_outline),
             label: AppLocalizations.of(context).vacancies,
           ),
           NavigationDestination(

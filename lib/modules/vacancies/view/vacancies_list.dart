@@ -44,7 +44,7 @@ class _VacanciesListState extends State<VacanciesList> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
                 Expanded(
@@ -81,52 +81,114 @@ class _VacanciesListState extends State<VacanciesList> {
                 final vacancy = state.vacancies[index];
                 return Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Card(
-                    elevation: 3.0,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(vacancy.jobTitle, style: AppTextStyles.black16),
-                          const SizedBox(height: 8),
-                          Text(
-                            vacancy.companyName,
-                            style: AppTextStyles.black14,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push<void>(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) =>
+                              VacancyDetail(vacancy: vacancy),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        border: const Border(
+                          left: BorderSide(
+                            color: Color.fromARGB(255, 12, 11, 15),
+                            width: 10.0,
                           ),
-                          const SizedBox(height: 8),
-                          Wrap(
-                            spacing: 20,
-                            children: [
-                              Chip(
-                                label: Text(vacancy.jobType),
-                              ),
-                              Chip(
-                                label: Text(vacancy.location),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            '${AppLocalizations.of(context).jobSalary}: ${vacancy.salary}',
-                            style: AppTextStyles.black16,
-                          ),
-                          const SizedBox(height: 10),
-                          MainButton(
-                            onPressed: () {
-                              Navigator.push<void>(
-                                context,
-                                MaterialPageRoute<void>(
-                                  builder: (BuildContext context) =>
-                                      VacancyDetail(
-                                    vacancy: vacancy,
+                        ),
+                        color: const Color(0xffF1ECFF).withOpacity(0.7),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                ClipOval(
+                                  child: Image.network(
+                                    vacancy.companyPhoto ??
+                                        'https://firebasestorage.googleapis.com/v0/b/kopuro-5fe2a.appspot.com/o/images%2Fapple_logo.jpeg?alt=media&token=bd03861d-565d-4dc4-8ca6-5686cb560c3b',
+                                    width: 60,
+                                    height: 60,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
-                              );
-                            },
-                            text: AppLocalizations.of(context).moreInfo,
-                          ),
-                        ],
+                                const SizedBox(width: 15),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      vacancy.jobTitle,
+                                      style: AppTextStyles.black19,
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      vacancy.companyName,
+                                      style: AppTextStyles.black16,
+                                    ),
+                                  ],
+                                ),
+                                const Flexible(
+                                  child: Align(
+                                    alignment: Alignment.topRight,
+                                    child: Icon(Icons.favorite_outline),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 13),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(Icons.timer_outlined),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      vacancy.jobType,
+                                      style: AppTextStyles.primary13,
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    const Icon(Icons.location_on_outlined),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      vacancy.location,
+                                      style: AppTextStyles.primary13,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+
+                            // Wrap(
+                            //   spacing: 20,
+                            //   children: [
+                            //     Chip(
+                            //       label: Text(vacancy.jobType),
+                            //     ),
+                            //     Chip(
+                            //       label: Text(vacancy.location),
+                            //     ),
+                            //   ],
+                            // ),
+                            // const SizedBox(height: 8),
+                            // Text(
+                            //   '${AppLocalizations.of(context).jobSalary}: ${vacancy.salary}',
+                            //   style: AppTextStyles.black16,
+                            // ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -252,7 +314,7 @@ class _VacanciesListState extends State<VacanciesList> {
                         .read<VacancyCubit>()
                         .filterVacancies(query, selectedFilter1);
                   },
-                  child:  Text(AppLocalizations.of(context).apply),
+                  child: Text(AppLocalizations.of(context).apply),
                 ),
               ],
             );

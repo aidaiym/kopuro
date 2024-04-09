@@ -14,28 +14,144 @@ class VacancyDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(vacancy.jobTitle),
-      ),
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              sectionText(
-                  AppLocalizations.of(context).employer, vacancy.companyName),
-              sectionText(
-                  AppLocalizations.of(context).jobSalary, vacancy.salary),
-              sectionText(AppLocalizations.of(context).contactInformation,
-                  vacancy.contactInformation),
-              sectionText(AppLocalizations.of(context).jobDescription,
-                  vacancy.jobDescription),
-              sectionText(
-                  AppLocalizations.of(context).jobType, vacancy.jobType),
-              sectionText(
-                  AppLocalizations.of(context).jobLocation, vacancy.location),
+              ClipOval(
+                child: Image.network(
+                  vacancy.companyPhoto ??
+                      'https://firebasestorage.googleapis.com/v0/b/kopuro-5fe2a.appspot.com/o/images%2Fapple_logo.jpeg?alt=media&token=bd03861d-565d-4dc4-8ca6-5686cb560c3b',
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                vacancy.jobTitle,
+                style: AppTextStyles.black20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    vacancy.companyName,
+                    style: AppTextStyles.primary13,
+                  ),
+                  Text(
+                    ' • ',
+                    style: AppTextStyles.black20,
+                  ),
+                  Text(
+                    vacancy.jobType,
+                    style: AppTextStyles.main14,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: const Color(0xffEAECEE),
+                        ),
+                        padding: const EdgeInsets.all(15),
+                        child: Image.asset(
+                          'assets/icons/mon.png',
+                          width: 30,
+                        ),
+                      ),
+                      const SizedBox(height: 1),
+                      Text(
+                        AppLocalizations.of(context).jobSalary,
+                        style: AppTextStyles.primary13,
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        '\$ ${vacancy.salary}',
+                        style: AppTextStyles.primary13,
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: const Color(0xffEAECEE),
+                        ),
+                        padding: const EdgeInsets.all(15),
+                        child: Image.asset(
+                          'assets/icons/locat.png',
+                          width: 30,
+                          height: 30,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 1,
+                      ),
+                      Text(
+                        AppLocalizations.of(context).location,
+                        style: AppTextStyles.primary13,
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        vacancy.location,
+                        style: AppTextStyles.primary13,
+                      ),
+                    ],
+                  ),
+                   Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: const Color(0xffEAECEE),
+                        ),
+                        padding: const EdgeInsets.all(15),
+                        child: Image.asset(
+                          'assets/icons/phone.png',
+                          width: 30,
+                          height: 30,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 1,
+                      ),
+                      Text(
+                        AppLocalizations.of(context).phoneNumber,
+                        style: AppTextStyles.primary13,
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        vacancy.contactInformation,
+                        style: AppTextStyles.primary13,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 30),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  AppLocalizations.of(context).jobDescription,
+                  style: AppTextStyles.black19,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                vacancy.jobDescription,
+                style: AppTextStyles.black16,
+              ),
+
               const SizedBox(height: 40),
               if (!isCompany)
                 MainButton(

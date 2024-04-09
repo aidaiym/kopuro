@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kopuro/app/bloc/app_bloc.dart';
 import 'package:kopuro/export_files.dart';
 import 'package:kopuro/l10n/l10.dart';
@@ -117,7 +118,8 @@ class StudentProfileView extends StatelessWidget {
       return _buildSuccessContent(context, state);
     } else if (state is ProfileErrorState) {
       return Center(
-        child:Text('${AppLocalizations.of(context).errorFetchingUserData}: ${state.message}'),
+        child: Text(
+            '${AppLocalizations.of(context).errorFetchingUserData}: ${state.message}'),
       );
     } else {
       return const Center(
@@ -136,49 +138,182 @@ class StudentProfileView extends StatelessWidget {
           children: <Widget>[
             Row(
               children: [
-                Text(
-                  '${state.userData!['username'] ?? ''} - ',
-                  style: AppTextStyles.black20,
+                ClipOval(
+                  child: Image.network(
+                    '${state.userData!['photoUrl'] ?? 'https://firebasestorage.googleapis.com/v0/b/kopuro-5fe2a.appspot.com/o/images%2F6596121.png?alt=media&token=1f751e91-a606-4e7b-85fe-02b2faf423aa'}',
+                    width: 150,
+                    height: 150,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                Flexible(
-                  child: Text(state.userData!['jobTitle'] ?? '',
-                      style: AppTextStyles.main18),
+                const SizedBox(width: 20),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${state.userData!['username'] ?? ''}',
+                      style: AppTextStyles.black22,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      state.userData!['jobTitle'] ?? '',
+                      style: AppTextStyles.main18,
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        const Icon(Icons.location_on_outlined),
+                        Text(
+                          state.userData!['location'] ?? '',
+                          style: AppTextStyles.black14,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ],
             ),
-            const SizedBox(height: 15),
-          const SizedBox(height: 15),
-            _buildSection(AppLocalizations.of(context).email, state.userData!['email']),
-            _buildSection(AppLocalizations.of(context).phoneNumber, state.userData!['phoneNumber']),
-            _buildSection(AppLocalizations.of(context).aboutYou, state.userData!['aboutUser']),
-            _buildSection(AppLocalizations.of(context).education, state.userData!['education']),
-            _buildSection(AppLocalizations.of(context).languageLabel, state.userData!['language']),
-            _buildSection(AppLocalizations.of(context).skillsLabel, state.userData!['skills']),
-            _buildSection(AppLocalizations.of(context).workExperience, state.userData!['workExperience']),
-            _buildSection(AppLocalizations.of(context).location, state.userData!['location']),
-            _buildSection(AppLocalizations.of(context).linkedin, state.userData!['linkedIn']),
-            _buildSection(AppLocalizations.of(context).github, state.userData!['github']),
+            const SizedBox(height: 30),
+            Text(
+              state.userData!['aboutUser'] ?? '',
+              style: AppTextStyles.black16,
+            ),
+            const SizedBox(height: 30),
+            Text(
+              AppLocalizations.of(context).skillsLabel,
+              style: AppTextStyles.main18,
+            ),
+            const SizedBox(height: 5),
+            Row(
+              children: [
+                const Icon(Icons.code),
+                const SizedBox(width: 10),
+                Text(
+                  state.userData!['skills'] ?? '',
+                  style: AppTextStyles.black16,
+                ),
+                const SizedBox(width: 10),
+              ],
+            ),
+            const SizedBox(height: 30),
+            Text(
+              AppLocalizations.of(context).languageLabel,
+              style: AppTextStyles.main18,
+            ),
+            const SizedBox(height: 5),
+            Row(
+              children: [
+                const Icon(Icons.language),
+                const SizedBox(width: 10),
+                Text(
+                  state.userData!['language'] ?? '',
+                  style: AppTextStyles.black16,
+                ),
+                const SizedBox(width: 10),
+              ],
+            ),
+            const SizedBox(height: 30),
+            Text(
+              AppLocalizations.of(context).education,
+              style: AppTextStyles.main18,
+            ),
+            const SizedBox(height: 5),
+            Row(
+              children: [
+                const Icon(Icons.school),
+                const SizedBox(width: 10),
+                Flexible(
+                  child: Text(
+                    state.userData!['education'] ?? '',
+                    style: AppTextStyles.black16,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 30),
+            Text(
+              AppLocalizations.of(context).workExperience,
+              style: AppTextStyles.main18,
+            ),
+            const SizedBox(height: 5),
+            Row(
+              children: [
+                const Icon(Icons.work_outline),
+                const SizedBox(width: 10),
+                Flexible(
+                  child: Text(
+                    state.userData!['workExperience'] ?? '',
+                    style: AppTextStyles.black16,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 30),
+            Text(
+              AppLocalizations.of(context).contactInformation,
+              style: AppTextStyles.main18,
+            ),
+            const SizedBox(height: 5),
+            Row(
+              children: [
+                const Icon(Icons.email),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  state.userData!['email'] ?? '',
+                  style: AppTextStyles.black16,
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                const Icon(Icons.phone),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  state.userData!['phoneNumber'] ?? '',
+                  style: AppTextStyles.black16,
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                SvgPicture.asset(
+                  'assets/icons/github.svg',
+                  width: 25,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  state.userData!['linkedIn'] ?? '',
+                  style: AppTextStyles.black16,
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                SvgPicture.asset(
+                  'assets/icons/linkedin.svg',
+                  width: 25,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  state.userData!['github'] ?? '',
+                  style: AppTextStyles.black16,
+                ),
+              ],
+            ),
           ],
         ),
       ),
     );
-  }
-
-  Widget _buildSection(String title, String? content) {
-    if (content != null && content.isNotEmpty) {
-      return Padding(
-        padding: const EdgeInsets.only(top: 8.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text('$title: ', style: AppTextStyles.main18),
-            Flexible(child: Text(content, style: AppTextStyles.black16)),
-          ],
-        ),
-      );
-    } else {
-      return const SizedBox();
-    }
   }
 }

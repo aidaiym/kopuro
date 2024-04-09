@@ -70,7 +70,7 @@
     "jobValidator": "Please enter your profession",
     "workExperienceLabel": "Work experience",
     "workExperienceValidator": "Please enter your work experience",
-    "skillsLabel": "Your skills",
+    "skillsLabel": "Skills",
     "skillsValidator": "Please enter your skills",
     "locationLabel": "Location",
     "aboutLabel": "About me",

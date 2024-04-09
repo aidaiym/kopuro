@@ -87,4 +87,9 @@ final class AppTextStyles {
     fontWeight: FontWeight.normal,
     color: AppColors.primaryText,
   );
+   static TextStyle primary13 = GoogleFonts.firaSans(
+    fontSize: 13,
+    fontWeight: FontWeight.normal,
+    color: AppColors.primaryText,
+  );
 }
