@@ -8,10 +8,11 @@ class CreateVacancy extends StatelessWidget {
     super.key,
     required this.companyName,
     required this.contactNumber,
+    required this.companyPhoto,
   });
   final String companyName;
   final String contactNumber;
-
+  final String companyPhoto;
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +84,7 @@ class CreateVacancy extends StatelessWidget {
                   contactInformation: contactNumber,
                   salary: jobSalaryController.text,
                   appliedUsers: [],
+                  companyPhoto: companyPhoto,
                 );
 
                 CollectionReference vacancies =
@@ -94,12 +96,12 @@ class CreateVacancy extends StatelessWidget {
                 vacancy = vacancy.copyWith(id: documentId);
 
                 await documentReference.update(vacancy.toJson());
-               
 
                 var user = FirebaseAuth.instance.currentUser;
-                 if (user != null) {
-                  DocumentReference userRef =
-                      FirebaseFirestore.instance.collection('users').doc(user.uid);
+                if (user != null) {
+                  DocumentReference userRef = FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(user.uid);
                   userRef.update({
                     'vacancies': FieldValue.arrayUnion([documentReference]),
                   });

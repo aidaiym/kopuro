@@ -144,7 +144,7 @@ class SignUpForm extends StatelessWidget {
                         onPressed: () {
                           if (state.isValid) {
                             try {
-                              context.read<SignUpCubit>().signUpFormSubmitted();
+                              context.read<SignUpCubit>().signUpFormSubmitted(isStudent);
                                // Navigator.push<void>(
                               //   context,
                               //   MaterialPageRoute<void>(

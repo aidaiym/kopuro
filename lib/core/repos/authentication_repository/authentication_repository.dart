@@ -89,10 +89,17 @@ class AuthenticationRepository {
   static const userCacheKey = '__user_cache_key__';
 
   Stream<User> get user {
-    return _firebaseAuth.authStateChanges().map((firebaseUser) {
-      final user = firebaseUser == null ? User.empty : firebaseUser.toUser;
-      _cache.write(key: userCacheKey, value: user);
-      return user;
+    return _firebaseAuth
+        .authStateChanges()
+        .asyncMap<User>((firebaseUser) async {
+      if (firebaseUser == null) {
+        _cache.write(key: userCacheKey, value: User.empty);
+        return User.empty;
+      } else {
+        final user = await getUserFromFirestore(firebaseUser.uid);
+        _cache.write(key: userCacheKey, value: user);
+        return user;
+      }
     });
   }
 
@@ -100,13 +107,47 @@ class AuthenticationRepository {
     return _cache.read<User>(key: userCacheKey) ?? User.empty;
   }
 
-  Future<void> signUp({required String email, required String password}) async {
+  Future<void> signUp({
+    required String email,
+    required String password,
+    required bool isStudent,
+  }) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
+      final firebase_auth.UserCredential userCredential =
+          await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      // await _firebaseAuth.currentUser?.sendEmailVerification();
+      final firebase_auth.User? user = userCredential.user;
+      if (user != null) {
+        if (isStudent) {
+          StudentUser student = StudentUser(
+            id: user.uid,
+            email: user.email ?? '',
+            createdTime: DateTime.now(),
+          );
+
+          Map<String, dynamic> studentMap = student.toMapStudent();
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .set(studentMap, SetOptions(merge: true));
+        } else {
+          CompanyUser company = CompanyUser(
+            id: user.uid,
+            email: user.email ?? '',
+            createdTime: DateTime.now(),
+            userType: UserType.company,
+          );
+
+          Map<String, dynamic> companyMap = company.toMap();
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .set(companyMap, SetOptions(merge: true));
+        }
+        // await user.sendEmailVerification();
+      }
     } on firebase_auth.FirebaseAuthException catch (e) {
       throw SignUpWithEmailAndPasswordFailure.fromCode(e.code);
     } catch (_) {
@@ -165,17 +206,17 @@ Future<User> getUserFromFirestore(String userId) async {
 
 UserType userTypeFromString(String userTypeString) {
   switch (userTypeString) {
-    case 'student':
+    case 'UserType.student':
       return UserType.student;
-    case 'company':
+    case 'UserType.company':
       return UserType.company;
     default:
       return UserType.student;
   }
 }
 
-extension on firebase_auth.User {
-  User get toUser {
-    return User(id: uid, email: email!, userType: UserType.student);
-  }
-}
+// extension on firebase_auth.User {
+//   User get toUser {
+//     return User(id: uid, email: email!, userType: );
+//   }
+// }

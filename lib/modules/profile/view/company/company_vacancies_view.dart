@@ -81,6 +81,7 @@ class CompanyVacanciesSuccess extends StatelessWidget {
                     return CreateVacancy(
                       companyName: state.userData!['username'],
                       contactNumber: state.userData!['phoneNumber'],
+                      companyPhoto: state.userData!['photoUrl'],
                     );
                   },
                 );
@@ -117,81 +118,84 @@ class CompanyVacanciesSuccess extends StatelessWidget {
             ),
             (state.userData!['vacancies'] != null &&
                     state.userData!['vacancies']!.isNotEmpty)
-                ? Column(
-                    children: [
-                      const SizedBox(height: 20),
-                      Text(
-                        AppLocalizations.of(context).yourVacancyList,
-                        style: AppTextStyles.main18,
-                      ),
-                      const SizedBox(height: 20),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: state.userData!['vacancies']!.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          var reference = state.userData!['vacancies']![index];
-
-                          return FutureBuilder<DocumentSnapshot>(
-                            future: reference.get(),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<DocumentSnapshot> snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return const Center(
-                                    child: CircularProgressIndicator());
-                              }
-                              if (snapshot.hasError) {
-                                return Text('Error: ${snapshot.error}');
-                              }
-                              if (!snapshot.hasData || snapshot.data == null) {
-                                return const Text('No Data');
-                              }
-
-                              var vacancyData =
-                                  snapshot.data!.data() as Map<String, dynamic>;
-                              Vacancy vacancies = Vacancy.fromJson(vacancyData);
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ListTile(
-                                  leading: const SizedBox(
-                                    width: 40,
-                                    child: Icon(
-                                      Icons.work_outline,
-                                      color: AppColors.main,
+                ? Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 20),
+                        Text(
+                          '${AppLocalizations.of(context).yourVacancyList} : ',
+                          style: AppTextStyles.main18,
+                        ),
+                        const SizedBox(height: 10),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: state.userData!['vacancies']!.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            var reference = state.userData!['vacancies']![index];
+                  
+                            return FutureBuilder<DocumentSnapshot>(
+                              future: reference.get(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                }
+                                if (snapshot.hasError) {
+                                  return Text('Error: ${snapshot.error}');
+                                }
+                                if (!snapshot.hasData || snapshot.data == null) {
+                                  return const Text('No Data');
+                                }
+                  
+                                var vacancyData =
+                                    snapshot.data!.data() as Map<String, dynamic>;
+                                Vacancy vacancies = Vacancy.fromJson(vacancyData);
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ListTile(
+                                    leading: CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                          state.userData!['photoUrl']),
                                     ),
-                                  ),
-                                  title: Text(
-                                    vacancies.companyName,
-                                    style: AppTextStyles.black19,
-                                  ),
-                                  subtitle: Text(vacancies.jobTitle),
-                                  trailing: const Icon(Icons.navigate_next),
-                                  shape: RoundedRectangleBorder(
-                                    side: const BorderSide(
-                                        color: AppColors.inActive),
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  onTap: () {
-                                    Navigator.push<void>(
-                                      context,
-                                      MaterialPageRoute<void>(
-                                        builder: (BuildContext context) =>
-                                            VacancyDetail(
-                                          isCompany: true,
-                                          vacancy: vacancies,
+                                    title: Text(
+                                      vacancies.jobTitle,
+                                      style: AppTextStyles.black19,
+                                    ),
+                                    subtitle: Text(
+                                      '${AppLocalizations.of(context).candidates}  ${vacancies.appliedUsers == null ? 0 : vacancies.appliedUsers!.length}',
+                                    ),
+                                    trailing: const Icon(Icons.navigate_next),
+                                    shape: RoundedRectangleBorder(
+                                      side: const BorderSide(
+                                          color: AppColors.inActive),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    onTap: () {
+                                      Navigator.push<void>(
+                                        context,
+                                        MaterialPageRoute<void>(
+                                          builder: (BuildContext context) =>
+                                              VacancyDetail(
+                                            isCompany: true,
+                                            vacancy: vacancies,
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    ],
-                  )
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                )
                 : Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(

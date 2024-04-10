@@ -108,7 +108,7 @@ class VacancyDetail extends StatelessWidget {
                       ),
                     ],
                   ),
-                   Column(
+                  Column(
                     children: [
                       Container(
                         decoration: BoxDecoration(
@@ -151,7 +151,6 @@ class VacancyDetail extends StatelessWidget {
                 vacancy.jobDescription,
                 style: AppTextStyles.black16,
               ),
-
               const SizedBox(height: 40),
               if (!isCompany)
                 MainButton(
@@ -217,6 +216,100 @@ class VacancyDetail extends StatelessWidget {
                   },
                   text: AppLocalizations.of(context).applyToVacancy,
                 ),
+              if (isCompany)
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${AppLocalizations.of(context).candidates} :',
+                        style: AppTextStyles.main18,
+                      ),
+                      if (vacancy.appliedUsers != null)
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: vacancy.appliedUsers!.length,
+                            itemBuilder: (context, index) {
+                              final candidates = vacancy.appliedUsers![index];
+                              return Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10)),
+                                    border: const Border(
+                                      left: BorderSide(
+                                        color: Color.fromARGB(255, 31, 12, 89),
+                                        width: 10.0,
+                                      ),
+                                    ),
+                                    color: index % 2 == 0
+                                        ? const Color(0xffD6E0FF)
+                                            .withOpacity(0.4)
+                                        : const Color(0xffF1ECFF)
+                                            .withOpacity(0.7),
+                                  ),
+                                  child: ListTile(
+                                    onTap: () {
+                                      Navigator.push<void>(
+                                        context,
+                                        MaterialPageRoute<void>(
+                                          builder: (BuildContext context) =>
+                                              CandidatesDetailView(
+                                                  candidate: candidates),
+                                        ),
+                                      );
+                                    },
+                                    contentPadding: const EdgeInsets.all(10),
+                                    leading: ClipOval(
+                                      child: Image.network(
+                                        candidates.photoUrl ??
+                                            'https://firebasestorage.googleapis.com/v0/b/kopuro-5fe2a.appspot.com/o/images%2F6596121.png?alt=media&token=1f751e91-a606-4e7b-85fe-02b2faf423aa',
+                                        width: 60,
+                                        height: 60,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    title: Text(
+                                      candidates.username,
+                                      style: AppTextStyles.black19,
+                                    ),
+                                    subtitle: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          candidates.jobTitle!,
+                                          style: AppTextStyles.black16,
+                                        ),
+                                        Row(
+                                          children: [
+                                            const Icon(Icons.code),
+                                            const SizedBox(width: 4),
+                                            Text(
+                                              candidates.skills ?? 'Progamming',
+                                              style: AppTextStyles.primary13,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    trailing: const Icon(Icons.navigate_next),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      Text(
+                        AppLocalizations.of(context).candidatesEmpty,
+                        style: AppTextStyles.black16,
+                      ),
+                    ],
+                  ),
+                )
             ],
           ),
         ),

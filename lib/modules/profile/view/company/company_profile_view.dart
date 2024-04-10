@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kopuro/app/bloc/app_bloc.dart';
 import 'package:kopuro/export_files.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
@@ -129,52 +130,109 @@ class CompanyProfileView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
+            Row(
+              children: [
+                ClipOval(
+                  child: Image.network(
+                    '${state.userData!['photoUrl'] ?? 'https://firebasestorage.googleapis.com/v0/b/kopuro-5fe2a.appspot.com/o/images%2F6596121.png?alt=media&token=1f751e91-a606-4e7b-85fe-02b2faf423aa'}',
+                    width: 150,
+                    height: 150,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                const SizedBox(width: 20),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${state.userData!['username'] ?? ''}',
+                      style: AppTextStyles.black22,
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        const Icon(Icons.location_on_outlined),
+                        Text(
+                          state.userData!['location'] ?? '',
+                          style: AppTextStyles.black14,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 30),
             Text(
-              '${state.userData!['username'] ?? ''} - ',
-              style: AppTextStyles.black20,
+              state.userData!['aboutCompany'] ?? '',
+              style: AppTextStyles.black16,
             ),
-            const SizedBox(height: 15),
-            _buildSection(
-              AppLocalizations.of(context).aboutCompany,
-              state.userData!['aboutCompany'],
+            const SizedBox(height: 30),
+            Text(
+              AppLocalizations.of(context).contactInformation,
+              style: AppTextStyles.main18,
             ),
-            _buildSection(
-              AppLocalizations.of(context).companyEmail,
-              state.userData!['email'],
+            const SizedBox(height: 5),
+            Row(
+              children: [
+                const Icon(Icons.email),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  state.userData!['email'] ?? '',
+                  style: AppTextStyles.black16,
+                ),
+              ],
             ),
-            _buildSection(
-              AppLocalizations.of(context).companyContactNumber,
-              state.userData!['phoneNumber'],
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                const Icon(Icons.phone),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  state.userData!['phoneNumber'] ?? '',
+                  style: AppTextStyles.black16,
+                ),
+              ],
             ),
-            _buildSection(
-              AppLocalizations.of(context).companyLocation,
-              state.userData!['location'],
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                SvgPicture.asset(
+                  'assets/icons/linkedin.svg',
+                  width: 25,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  state.userData!['linkedIn'] ?? '',
+                  style: AppTextStyles.black16,
+                ),
+              ],
             ),
-            _buildSection(
-              AppLocalizations.of(context).webLinkCompany,
-              state.userData!['webLinkCompany'],
-            ),
-              _buildSection(
-              AppLocalizations.of(context).linkedin,
-              state.userData!['linkedIn'],
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                SvgPicture.asset(
+                  'assets/icons/linkedin.svg',
+                  width: 25,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  state.userData!['webLinkCompany'] ?? '',
+                  style: AppTextStyles.black16,
+                ),
+              ],
             ),
             const SizedBox(height: 15),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildSection(String title, String? content) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text('$title: ', style: AppTextStyles.main18),
-          Flexible(child: Text(content ?? '', style: AppTextStyles.black16)),
-        ],
       ),
     );
   }

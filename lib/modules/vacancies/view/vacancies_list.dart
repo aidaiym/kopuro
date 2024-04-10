@@ -170,23 +170,6 @@ class _VacanciesListState extends State<VacanciesList> {
                                 ),
                               ],
                             ),
-
-                            // Wrap(
-                            //   spacing: 20,
-                            //   children: [
-                            //     Chip(
-                            //       label: Text(vacancy.jobType),
-                            //     ),
-                            //     Chip(
-                            //       label: Text(vacancy.location),
-                            //     ),
-                            //   ],
-                            // ),
-                            // const SizedBox(height: 8),
-                            // Text(
-                            //   '${AppLocalizations.of(context).jobSalary}: ${vacancy.salary}',
-                            //   style: AppTextStyles.black16,
-                            // ),
                           ],
                         ),
                       ),

@@ -38,7 +38,6 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       DocumentSnapshot userSnapshot =
           await FirebaseFirestore.instance.collection('users').doc(uid).get();
-
       if (userSnapshot.exists) {
         return userSnapshot.data() as Map<String, dynamic>;
       } else {

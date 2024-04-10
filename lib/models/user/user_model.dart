@@ -96,7 +96,7 @@ class StudentUser extends User {
       username: json['username'] as String? ?? '',
       email: json['email'] as String? ?? '',
       createdTime: (json['createdTime'] as Timestamp).toDate(),
-      userType: json['type'] as UserType,
+      userType: UserType.student,
       phoneNumber: json['phoneNumber'] as String? ?? '',
       aboutUser: json['aboutUser'] as String? ?? '',
       jobTitle: json['jobTitle'] as String? ?? '',
@@ -107,6 +107,8 @@ class StudentUser extends User {
       language: json['language'] as String? ?? '',
       linkedIn: json['linkedIn'] as String? ?? '',
       github: json['github'] as String? ?? '',
+      photoUrl: json['photoUrl'] as String? ??
+          'https://firebasestorage.googleapis.com/v0/b/kopuro-5fe2a.appspot.com/o/images%2F6596121.png?alt=media&token=1f751e91-a606-4e7b-85fe-02b2faf423aa',
     );
   }
   @override
@@ -159,21 +161,22 @@ class CompanyUser extends User {
 
   factory CompanyUser.fromJsonCompany(Map<String, dynamic> json) {
     return CompanyUser(
-      id: json['id'] as String? ?? '',
-      username: json['username'] as String? ?? '',
-      email: json['email'] as String? ?? '',
-      createdTime: json['createdTime'] != null
-          ? DateTime.parse(json['createdTime'] as String)
-          : null,
-      userType: json['type'] as UserType,
-      linkedIn: json['linkedIn'] as String? ?? '',
-      phoneNumber: json['phoneNumber'] as String? ?? '',
-      aboutCompany: json['aboutCompany'] as String? ?? '',
-      webLinkCompany: json['webLinkCompany'] as String? ?? '',
-      vacancies: (json['vacancies'] as List<dynamic>?)
-          ?.map((vacancyJson) => vacancyJson as String)
-          .toList(),
-    );
+        id: json['id'] as String? ?? '',
+        username: json['username'] as String? ?? '',
+        email: json['email'] as String? ?? '',
+        createdTime: json['createdTime'] != null
+            ? DateTime.parse(json['createdTime'] as String)
+            : null,
+        userType: json['type'] as UserType,
+        linkedIn: json['linkedIn'] as String? ?? '',
+        phoneNumber: json['phoneNumber'] as String? ?? '',
+        aboutCompany: json['aboutCompany'] as String? ?? '',
+        webLinkCompany: json['webLinkCompany'] as String? ?? '',
+        vacancies: (json['vacancies'] as List<dynamic>?)
+            ?.map((vacancyJson) => vacancyJson as String)
+            .toList(),
+        photoUrl: json['photoUrl'] as String? ??
+            'https://firebasestorage.googleapis.com/v0/b/kopuro-5fe2a.appspot.com/o/images%2Fapple_logo.jpeg?alt=media&token=bd03861d-565d-4dc4-8ca6-5686cb560c3b');
   }
 
   @override

@@ -33,17 +33,25 @@ class CandidatesListView extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                        child: ListView.builder(
-                      itemCount: state.candidates.length,
-                      itemBuilder: (context, index) {
-                        final candidates = state.candidates[index];
-
-                        return Padding(
+                      child: ListView.builder(
+                        itemCount: state.candidates.length,
+                        itemBuilder: (context, index) {
+                          final candidates = state.candidates[index];
+                          return Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Container(
                               decoration: BoxDecoration(
-                                color: AppColors.main.withOpacity(0.05),
-                                borderRadius: BorderRadius.circular(15),
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(10)),
+                                border: const Border(
+                                  left: BorderSide(
+                                    color: Color.fromARGB(255, 31, 12, 89),
+                                    width: 10.0,
+                                  ),
+                                ),
+                                color: index % 2 == 0
+                                    ? const Color(0xffD6E0FF).withOpacity(0.4)
+                                    : const Color(0xffF1ECFF).withOpacity(0.7),
                               ),
                               child: ListTile(
                                 onTap: () {
@@ -57,23 +65,46 @@ class CandidatesListView extends StatelessWidget {
                                   );
                                 },
                                 contentPadding: const EdgeInsets.all(10),
-                                leading: CircleAvatar(
-                                  child: Image.asset(
-                                    'assets/images/avatar.png',
-                                    width: 20,
+                                leading: ClipOval(
+                                  child: Image.network(
+                                    candidates.photoUrl ??
+                                        'https://firebasestorage.googleapis.com/v0/b/kopuro-5fe2a.appspot.com/o/images%2F6596121.png?alt=media&token=1f751e91-a606-4e7b-85fe-02b2faf423aa',
+                                    width: 60,
+                                    height: 60,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
-                                title: Text(candidates.username,
-                                    style: AppTextStyles.black20),
-                                subtitle: Text(
-                                  candidates.jobTitle!,
-                                  style: AppTextStyles.main14,
+                                title: Text(
+                                  candidates.username,
+                                  style: AppTextStyles.black19,
+                                ),
+                                subtitle: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      candidates.jobTitle!,
+                                      style: AppTextStyles.black16,
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Icon(Icons.code),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          candidates.skills ?? 'Progamming',
+                                          style: AppTextStyles.primary13,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                                 trailing: const Icon(Icons.navigate_next),
                               ),
-                            ));
-                      },
-                    )),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                   ],
                 ),
               );

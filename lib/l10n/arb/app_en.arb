@@ -29,6 +29,7 @@
     "jobSeeker": "Job Seeker",
     "employer": "Employer",
     "candidates": "Candidates",
+    "candidatesEmpty": "There are no candidates yet",
     "addVacancy": "Add Vacancy",
     "vacancies": "Vacancies",
     "profile": "Profile",
