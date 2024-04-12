@@ -81,7 +81,8 @@ class CompanyVacanciesSuccess extends StatelessWidget {
                     return CreateVacancy(
                       companyName: state.userData!['username'],
                       contactNumber: state.userData!['phoneNumber'],
-                      companyPhoto: state.userData!['photoUrl'],
+                      companyPhoto: state.userData!['photoUrl'] ??
+                          'https://firebasestorage.googleapis.com/v0/b/kopuro-5fe2a.appspot.com/o/images%2Fphoto_2024-04-08_15-26-25.jpg?alt=media&token=9346809f-8f11-4930-80a8-ca81f0b8aa6e',
                     );
                   },
                 );
@@ -119,9 +120,9 @@ class CompanyVacanciesSuccess extends StatelessWidget {
             (state.userData!['vacancies'] != null &&
                     state.userData!['vacancies']!.isNotEmpty)
                 ? Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 20),
                         Text(
@@ -134,8 +135,9 @@ class CompanyVacanciesSuccess extends StatelessWidget {
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: state.userData!['vacancies']!.length,
                           itemBuilder: (BuildContext context, int index) {
-                            var reference = state.userData!['vacancies']![index];
-                  
+                            var reference =
+                                state.userData!['vacancies']![index];
+
                             return FutureBuilder<DocumentSnapshot>(
                               future: reference.get(),
                               builder: (BuildContext context,
@@ -148,13 +150,15 @@ class CompanyVacanciesSuccess extends StatelessWidget {
                                 if (snapshot.hasError) {
                                   return Text('Error: ${snapshot.error}');
                                 }
-                                if (!snapshot.hasData || snapshot.data == null) {
+                                if (!snapshot.hasData ||
+                                    snapshot.data == null) {
                                   return const Text('No Data');
                                 }
-                  
-                                var vacancyData =
-                                    snapshot.data!.data() as Map<String, dynamic>;
-                                Vacancy vacancies = Vacancy.fromJson(vacancyData);
+
+                                var vacancyData = snapshot.data!.data()
+                                    as Map<String, dynamic>;
+                                Vacancy vacancies =
+                                    Vacancy.fromJson(vacancyData);
                                 return Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: ListTile(
@@ -195,7 +199,7 @@ class CompanyVacanciesSuccess extends StatelessWidget {
                         ),
                       ],
                     ),
-                )
+                  )
                 : Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(

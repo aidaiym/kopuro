@@ -7,18 +7,97 @@ import 'package:kopuro/export_files.dart';
 import 'package:kopuro/l10n/l10.dart';
 
 class VacancyDetail extends StatelessWidget {
-  const VacancyDetail(
-      {super.key, required this.vacancy, this.isCompany = false});
+  const VacancyDetail({
+    super.key,
+    required this.vacancy,
+    this.isCompany = false,
+  });
   final Vacancy vacancy;
   final bool isCompany;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return EditVacancy(vacancy: vacancy);
+                },
+              );
+            },
+            icon: const Icon(Icons.edit),
+            color: AppColors.main,
+          ),
+          IconButton(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text(AppLocalizations.of(context).confirmDeletion),
+                  content: Text(AppLocalizations.of(context).areYouSureDelete),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(AppLocalizations.of(context).no),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        try {
+                          await FirebaseFirestore.instance
+                              .collection('vacancies')
+                              .doc(vacancy.id)
+                              .delete();
+                          var user = FirebaseAuth.instance.currentUser;
+                          if (user != null) {
+                            try {
+                              await FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(user.uid)
+                                  .update({
+                                'vacancies':
+                                    FieldValue.arrayRemove([vacancy.id])
+                              });
+                            } catch (e) {
+                              log(
+                                  'Error removing vacancy reference from user document: $e');
+                            }
+                          }
+                          // ignore: use_build_context_synchronously
+                          Navigator.pop(context);
+                        } catch (e) {
+                          // ignore: use_build_context_synchronously
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              // ignore: use_build_context_synchronously
+                              content: Text(
+                                  // ignore: use_build_context_synchronously
+                                  '${AppLocalizations.of(context).error}: $e'),
+                            ),
+                          );
+                        }
+                      },
+                      child: Text(AppLocalizations.of(context).delete),
+                    ),
+                  ],
+                ),
+              );
+            },
+            icon: const Icon(Icons.delete_forever_outlined),
+            color: Colors.red,
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               ClipOval(
                 child: Image.network(
@@ -163,7 +242,6 @@ class VacancyDetail extends StatelessWidget {
                           .update(({
                             'appliedUsers': FieldValue.arrayUnion([user!.uid])
                           }));
-
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -217,21 +295,39 @@ class VacancyDetail extends StatelessWidget {
                   text: AppLocalizations.of(context).applyToVacancy,
                 ),
               if (isCompany)
-                Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '${AppLocalizations.of(context).candidates} :',
-                        style: AppTextStyles.main18,
-                      ),
-                      if (vacancy.appliedUsers != null)
-                        Expanded(
-                          child: ListView.builder(
-                            itemCount: vacancy.appliedUsers!.length,
-                            itemBuilder: (context, index) {
-                              final candidates = vacancy.appliedUsers![index];
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  // mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      '${AppLocalizations.of(context).candidates} :',
+                      style: AppTextStyles.main18,
+                    ),
+                    if (vacancy.appliedUsers != null)
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: vacancy.appliedUsers!.length,
+                        itemBuilder: (context, index) {
+                          final candidateId = vacancy.appliedUsers![index];
+                          return FutureBuilder<DocumentSnapshot>(
+                            future: FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(candidateId)
+                                .get(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Center(
+                                    child: CircularProgressIndicator());
+                              }
+                              if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              }
+                              final candidateData =
+                                  snapshot.data!.data() as Map<String, dynamic>;
+                              final candidate =
+                                  StudentUser.fromJson(candidateData);
+
                               return Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Container(
@@ -257,14 +353,15 @@ class VacancyDetail extends StatelessWidget {
                                         MaterialPageRoute<void>(
                                           builder: (BuildContext context) =>
                                               CandidatesDetailView(
-                                                  candidate: candidates),
+                                            candidate: candidate,
+                                          ),
                                         ),
                                       );
                                     },
                                     contentPadding: const EdgeInsets.all(10),
                                     leading: ClipOval(
                                       child: Image.network(
-                                        candidates.photoUrl ??
+                                        candidate.photoUrl ??
                                             'https://firebasestorage.googleapis.com/v0/b/kopuro-5fe2a.appspot.com/o/images%2F6596121.png?alt=media&token=1f751e91-a606-4e7b-85fe-02b2faf423aa',
                                         width: 60,
                                         height: 60,
@@ -272,7 +369,7 @@ class VacancyDetail extends StatelessWidget {
                                       ),
                                     ),
                                     title: Text(
-                                      candidates.username,
+                                      candidate.username,
                                       style: AppTextStyles.black19,
                                     ),
                                     subtitle: Column(
@@ -281,7 +378,7 @@ class VacancyDetail extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          candidates.jobTitle!,
+                                          candidate.jobTitle ?? 'Unknown',
                                           style: AppTextStyles.black16,
                                         ),
                                         Row(
@@ -289,7 +386,7 @@ class VacancyDetail extends StatelessWidget {
                                             const Icon(Icons.code),
                                             const SizedBox(width: 4),
                                             Text(
-                                              candidates.skills ?? 'Progamming',
+                                              candidate.skills ?? 'Programming',
                                               style: AppTextStyles.primary13,
                                             ),
                                           ],
@@ -301,15 +398,16 @@ class VacancyDetail extends StatelessWidget {
                                 ),
                               );
                             },
-                          ),
-                        ),
+                          );
+                        },
+                      )
+                    else
                       Text(
                         AppLocalizations.of(context).candidatesEmpty,
                         style: AppTextStyles.black16,
                       ),
-                    ],
-                  ),
-                )
+                  ],
+                ),
             ],
           ),
         ),

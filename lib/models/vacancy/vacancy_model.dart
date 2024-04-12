@@ -84,7 +84,7 @@ class Vacancy {
       contactInformation: contactInformation ?? this.contactInformation,
       salary: salary ?? this.salary,
       appliedUsers: appliedUsers ?? appliedUsers,
-      companyPhoto: companyPhoto ?? companyPhoto,
+      companyPhoto: companyPhoto ?? this.companyPhoto,
     );
   }
 }

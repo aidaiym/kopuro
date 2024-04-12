@@ -98,6 +98,8 @@
     "from": "From",
     "to": "To",
     "apply": "Apply",
-    "resendemail": "Try to resend the verification link again."
-
+    "resendemail": "Try to resend the verification link again.",
+    "delete": "Delete",
+    "confirmDeletion": "Confirm Deletion",
+    "areYouSureDelete": "Are you sure you want to delete this vacancy?"
 }
