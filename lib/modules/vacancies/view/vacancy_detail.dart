@@ -54,6 +54,7 @@ class VacancyDetail extends StatelessWidget {
                               .doc(vacancy.id)
                               .delete();
                           var user = FirebaseAuth.instance.currentUser;
+
                           if (user != null) {
                             try {
                               await FirebaseFirestore.instance
@@ -64,10 +65,28 @@ class VacancyDetail extends StatelessWidget {
                                     FieldValue.arrayRemove([vacancy.id])
                               });
                             } catch (e) {
-                              log(
-                                  'Error removing vacancy reference from user document: $e');
+                              log('Error removing vacancy reference from user document: $e');
                             }
                           }
+
+                          // var user = FirebaseAuth.instance.currentUser;
+                          // if (user != null) {
+                          //   try {
+                          //     print(user.uid);
+                          //     print(vacancy.id);
+                          //     final a = FirebaseFirestore.instance
+                          //         .collection('users')
+                          //         .doc(user.uid)
+                          //         .get();
+                          //         print(a);
+                          //     await FirebaseFirestore.instance
+                          //         .collection('users')
+                          //         .doc(user.uid)
+                          //         .update({
+                          //       'vacancies':
+                          //           FieldValue.arrayRemove(['/vacancy/${vacancy.id}'])
+                          //     });
+
                           // ignore: use_build_context_synchronously
                           Navigator.pop(context);
                         } catch (e) {
