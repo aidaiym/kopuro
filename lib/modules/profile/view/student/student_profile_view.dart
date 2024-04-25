@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -311,6 +312,103 @@ class StudentProfileView extends StatelessWidget {
                 ),
               ],
             ),
+            const SizedBox(height: 40),
+            Text(
+              AppLocalizations.of(context).appliedVacancies,
+              style: AppTextStyles.main18,
+            ),
+            (state.userData!['appliedVacancies'] != null &&
+                    state.userData!['appliedVacancies']!.isNotEmpty)
+                ? Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 20),
+                        Text(
+                          '${AppLocalizations.of(context).yourVacancyList} : ',
+                          style: AppTextStyles.main18,
+                        ),
+                        const SizedBox(height: 10),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount:
+                              state.userData!['appliedVacancies']!.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            var reference =
+                                state.userData!['appliedVacancies']![index];
+
+                            return FutureBuilder<DocumentSnapshot>(
+                              future: reference.get(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                }
+                                if (snapshot.hasError) {
+                                  return Text('Error: ${snapshot.error}');
+                                }
+                                if (!snapshot.hasData ||
+                                    snapshot.data == null) {
+                                  return const Text('No Data');
+                                }
+
+                                var vacancyData = snapshot.data!.data()
+                                    as Map<String, dynamic>;
+                                Vacancy vacancies =
+                                    Vacancy.fromJson(vacancyData);
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ListTile(
+                                    leading: CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                          state.userData!['photoUrl']),
+                                    ),
+                                    title: Text(
+                                      vacancies.jobTitle,
+                                      style: AppTextStyles.black19,
+                                    ),
+                                    subtitle: Text(
+                                      '${AppLocalizations.of(context).candidates}  ${vacancies.appliedUsers == null ? 0 : vacancies.appliedUsers!.length}',
+                                    ),
+                                    trailing: const Icon(Icons.navigate_next),
+                                    shape: RoundedRectangleBorder(
+                                      side: const BorderSide(
+                                          color: AppColors.inActive),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    onTap: () {
+                                      Navigator.push<void>(
+                                        context,
+                                        MaterialPageRoute<void>(
+                                          builder: (BuildContext context) =>
+                                              VacancyDetail(
+                                            isCompany: true,
+                                            vacancy: vacancies,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      AppLocalizations.of(context).noYourVacancy,
+                      style: AppTextStyles.black19,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
           ],
         ),
       ),

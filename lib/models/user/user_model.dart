@@ -52,6 +52,7 @@ class StudentUser extends User {
   final String? language;
   final String? linkedIn;
   final String? github;
+  final List<String>? appliedVacancies;
 
   const StudentUser({
     String? id,
@@ -70,6 +71,7 @@ class StudentUser extends User {
     this.language,
     this.linkedIn,
     this.github,
+    this.appliedVacancies,
   }) : super(
           id: id ?? '',
           username: username ?? '',
@@ -87,6 +89,7 @@ class StudentUser extends User {
       'language': language,
       'linkedIn': linkedIn,
       'github': github,
+      'appliedVacancies': appliedVacancies,
     };
   }
 
@@ -109,6 +112,9 @@ class StudentUser extends User {
       github: json['github'] as String? ?? '',
       photoUrl: json['photoUrl'] as String? ??
           'https://firebasestorage.googleapis.com/v0/b/kopuro-5fe2a.appspot.com/o/images%2F6596121.png?alt=media&token=1f751e91-a606-4e7b-85fe-02b2faf423aa',
+      appliedVacancies: (json['appliedVacancies'] as List<dynamic>?)
+          ?.map((vacancyJson) => vacancyJson as String)
+          .toList(),
     );
   }
   @override
@@ -123,6 +129,7 @@ class StudentUser extends User {
         language,
         linkedIn,
         github,
+        appliedVacancies,
       ];
 }
 

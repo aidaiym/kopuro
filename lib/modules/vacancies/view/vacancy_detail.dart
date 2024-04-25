@@ -261,7 +261,14 @@ class VacancyDetail extends StatelessWidget {
                           .update(({
                             'appliedUsers': FieldValue.arrayUnion([user!.uid])
                           }));
+                      await FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(user.uid)
+                          .update({
+                        'appliedVacancies': FieldValue.arrayUnion([vacancy.id])
+                      });
                       showDialog(
+                        // ignore: use_build_context_synchronously
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
@@ -290,6 +297,7 @@ class VacancyDetail extends StatelessWidget {
                     } catch (e) {
                       log('Error applying to the vacancy: $e');
                       showDialog(
+                        // ignore: use_build_context_synchronously
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
