@@ -336,9 +336,8 @@ class StudentProfileView extends StatelessWidget {
                           itemCount:
                               state.userData!['appliedVacancies']!.length,
                           itemBuilder: (BuildContext context, int index) {
-                            var reference =
-                                state.userData!['appliedVacancies']![index];
-
+                            var reference = FirebaseFirestore.instance.collection('users').doc(state.userData!['appliedVacancies']![index]);
+                           
                             return FutureBuilder<DocumentSnapshot>(
                               future: reference.get(),
                               builder: (BuildContext context,
