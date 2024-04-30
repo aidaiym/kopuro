@@ -94,6 +94,13 @@ class StudentUser extends User {
   }
 
   factory StudentUser.fromJson(Map<String, dynamic> json) {
+      List<String>? appliedVacancies = [];
+  if (json['appliedVacancies'] != null) {
+    appliedVacancies = (json['appliedVacancies'] as List<dynamic>)
+        .map((vacancyRef) => (vacancyRef as DocumentReference).path)
+        .toList();
+  }
+
     return StudentUser(
       id: json['id'] as String? ?? '',
       username: json['username'] as String? ?? '',
@@ -112,9 +119,7 @@ class StudentUser extends User {
       github: json['github'] as String? ?? '',
       photoUrl: json['photoUrl'] as String? ??
           'https://firebasestorage.googleapis.com/v0/b/kopuro-5fe2a.appspot.com/o/images%2F6596121.png?alt=media&token=1f751e91-a606-4e7b-85fe-02b2faf423aa',
-      appliedVacancies: (json['appliedVacancies'] as List<dynamic>?)
-          ?.map((vacancyJson) => vacancyJson as String)
-          .toList(),
+      appliedVacancies :appliedVacancies,
     );
   }
   @override

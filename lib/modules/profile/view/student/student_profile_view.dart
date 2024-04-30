@@ -324,20 +324,15 @@ class StudentProfileView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 20),
-                        Text(
-                          '${AppLocalizations.of(context).yourVacancyList} : ',
-                          style: AppTextStyles.main18,
-                        ),
-                        const SizedBox(height: 10),
                         ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount:
                               state.userData!['appliedVacancies']!.length,
                           itemBuilder: (BuildContext context, int index) {
-                            var reference = FirebaseFirestore.instance.collection('users').doc(state.userData!['appliedVacancies']![index]);
-                           
+                            // var reference = FirebaseFirestore.instance.collection('users').doc(state.userData!['appliedVacancies']![index]);
+                            var reference =
+                                state.userData!['appliedVacancies']![index];
                             return FutureBuilder<DocumentSnapshot>(
                               future: reference.get(),
                               builder: (BuildContext context,
@@ -354,24 +349,24 @@ class StudentProfileView extends StatelessWidget {
                                     snapshot.data == null) {
                                   return const Text('No Data');
                                 }
-
                                 var vacancyData = snapshot.data!.data()
                                     as Map<String, dynamic>;
                                 Vacancy vacancies =
                                     Vacancy.fromJson(vacancyData);
                                 return Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.only(bottom: 8.0),
                                   child: ListTile(
                                     leading: CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                          state.userData!['photoUrl']),
+                                      backgroundImage: NetworkImage(vacancies
+                                              .companyPhoto ??
+                                          'https://firebasestorage.googleapis.com/v0/b/kopuro-5fe2a.appspot.com/o/images%2Fphoto_2024-04-08_15-29-45.jpg?alt=media&token=17f53cb9-fcc6-4521-b61f-802f52ba1799'),
                                     ),
                                     title: Text(
                                       vacancies.jobTitle,
                                       style: AppTextStyles.black19,
                                     ),
                                     subtitle: Text(
-                                      '${AppLocalizations.of(context).candidates}  ${vacancies.appliedUsers == null ? 0 : vacancies.appliedUsers!.length}',
+                                      '${AppLocalizations.of(context).jobSalary}  ${vacancies.salary}',
                                     ),
                                     trailing: const Icon(Icons.navigate_next),
                                     shape: RoundedRectangleBorder(
@@ -385,8 +380,9 @@ class StudentProfileView extends StatelessWidget {
                                         MaterialPageRoute<void>(
                                           builder: (BuildContext context) =>
                                               VacancyDetail(
-                                            isCompany: true,
+                                            isCompany: false,
                                             vacancy: vacancies,
+                                            showApply: false,
                                           ),
                                         ),
                                       );
@@ -403,7 +399,7 @@ class StudentProfileView extends StatelessWidget {
                 : Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      AppLocalizations.of(context).noYourVacancy,
+                      AppLocalizations.of(context).noAppliedVacancies,
                       style: AppTextStyles.black19,
                       textAlign: TextAlign.center,
                     ),

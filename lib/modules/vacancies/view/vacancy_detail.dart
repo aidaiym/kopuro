@@ -11,105 +11,114 @@ class VacancyDetail extends StatelessWidget {
     super.key,
     required this.vacancy,
     this.isCompany = false,
+    this.showApply = true,
   });
   final Vacancy vacancy;
   final bool isCompany;
+  final bool showApply;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(
-            onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                builder: (BuildContext context) {
-                  return EditVacancy(vacancy: vacancy);
-                },
-              );
-            },
-            icon: const Icon(Icons.edit),
-            color: AppColors.main,
-          ),
-          IconButton(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: Text(AppLocalizations.of(context).confirmDeletion),
-                  content: Text(AppLocalizations.of(context).areYouSureDelete),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
+          if (isCompany)
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return EditVacancy(vacancy: vacancy);
                       },
-                      child: Text(AppLocalizations.of(context).no),
-                    ),
-                    TextButton(
-                      onPressed: () async {
-                        try {
-                          await FirebaseFirestore.instance
-                              .collection('vacancies')
-                              .doc(vacancy.id)
-                              .delete();
-                          var user = FirebaseAuth.instance.currentUser;
-
-                          if (user != null) {
-                            try {
-                              await FirebaseFirestore.instance
-                                  .collection('users')
-                                  .doc(user.uid)
-                                  .update({
-                                'vacancies':
-                                    FieldValue.arrayRemove([vacancy.id])
-                              });
-                            } catch (e) {
-                              log('Error removing vacancy reference from user document: $e');
-                            }
-                          }
-
-                          // var user = FirebaseAuth.instance.currentUser;
-                          // if (user != null) {
-                          //   try {
-                          //     print(user.uid);
-                          //     print(vacancy.id);
-                          //     final a = FirebaseFirestore.instance
-                          //         .collection('users')
-                          //         .doc(user.uid)
-                          //         .get();
-                          //         print(a);
-                          //     await FirebaseFirestore.instance
-                          //         .collection('users')
-                          //         .doc(user.uid)
-                          //         .update({
-                          //       'vacancies':
-                          //           FieldValue.arrayRemove(['/vacancy/${vacancy.id}'])
-                          //     });
-
-                          // ignore: use_build_context_synchronously
-                          Navigator.pop(context);
-                        } catch (e) {
-                          // ignore: use_build_context_synchronously
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              // ignore: use_build_context_synchronously
-                              content: Text(
-                                  // ignore: use_build_context_synchronously
-                                  '${AppLocalizations.of(context).error}: $e'),
-                            ),
-                          );
-                        }
-                      },
-                      child: Text(AppLocalizations.of(context).delete),
-                    ),
-                  ],
+                    );
+                  },
+                  icon: const Icon(Icons.edit),
+                  color: AppColors.main,
                 ),
-              );
-            },
-            icon: const Icon(Icons.delete_forever_outlined),
-            color: Colors.red,
-          ),
+                IconButton(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title:
+                            Text(AppLocalizations.of(context).confirmDeletion),
+                        content:
+                            Text(AppLocalizations.of(context).areYouSureDelete),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(AppLocalizations.of(context).no),
+                          ),
+                          TextButton(
+                            onPressed: () async {
+                              try {
+                                await FirebaseFirestore.instance
+                                    .collection('vacancies')
+                                    .doc(vacancy.id)
+                                    .delete();
+                                var user = FirebaseAuth.instance.currentUser;
+
+                                if (user != null) {
+                                  try {
+                                    await FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(user.uid)
+                                        .update({
+                                      'vacancies':
+                                          FieldValue.arrayRemove([vacancy.id])
+                                    });
+                                  } catch (e) {
+                                    log('Error removing vacancy reference from user document: $e');
+                                  }
+                                }
+
+                                // var user = FirebaseAuth.instance.currentUser;
+                                // if (user != null) {
+                                //   try {
+                                //     print(user.uid);
+                                //     print(vacancy.id);
+                                //     final a = FirebaseFirestore.instance
+                                //         .collection('users')
+                                //         .doc(user.uid)
+                                //         .get();
+                                //         print(a);
+                                //     await FirebaseFirestore.instance
+                                //         .collection('users')
+                                //         .doc(user.uid)
+                                //         .update({
+                                //       'vacancies':
+                                //           FieldValue.arrayRemove(['/vacancy/${vacancy.id}'])
+                                //     });
+
+                                // ignore: use_build_context_synchronously
+                                Navigator.pop(context);
+                              } catch (e) {
+                                // ignore: use_build_context_synchronously
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    // ignore: use_build_context_synchronously
+                                    content: Text(
+                                        // ignore: use_build_context_synchronously
+                                        '${AppLocalizations.of(context).error}: $e'),
+                                  ),
+                                );
+                              }
+                            },
+                            child: Text(AppLocalizations.of(context).delete),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.delete_forever_outlined),
+                  color: Colors.red,
+                ),
+              ],
+            )
         ],
       ),
       body: Padding(
@@ -250,7 +259,7 @@ class VacancyDetail extends StatelessWidget {
                 style: AppTextStyles.black16,
               ),
               const SizedBox(height: 40),
-              if (!isCompany)
+              if (!isCompany && showApply)
                 MainButton(
                   onPressed: () async {
                     try {
@@ -262,11 +271,16 @@ class VacancyDetail extends StatelessWidget {
                             'appliedUsers': FieldValue.arrayUnion([user!.uid])
                           }));
 
+                      DocumentReference documentReference = FirebaseFirestore
+                          .instance
+                          .collection('vacancies')
+                          .doc(vacancy.id);
                       FirebaseFirestore.instance
                           .collection('users')
                           .doc(user.uid)
                           .update({
-                        'appliedVacancies': FieldValue.arrayUnion([vacancy])
+                        'appliedVacancies':
+                            FieldValue.arrayUnion([documentReference]),
                       });
 
                       showDialog(

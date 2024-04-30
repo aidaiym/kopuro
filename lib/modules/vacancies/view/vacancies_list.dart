@@ -53,9 +53,7 @@ class _VacanciesListState extends State<VacanciesList> {
                       setState(() {
                         query = value;
                       });
-                      context
-                          .read<VacancyCubit>()
-                          .filterVacancies(query, selectedFilter);
+                      context.read<VacancyCubit>().searchVacancies(query);
                     },
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context).search,
@@ -199,6 +197,11 @@ class _VacanciesListState extends State<VacanciesList> {
   }
 
   void _showFilterDialog(BuildContext context) {
+    String? selectedJobType;
+    String? selectedLocation;
+    String? salaryFrom;
+    String? salaryTo;
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -213,10 +216,10 @@ class _VacanciesListState extends State<VacanciesList> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       DropdownButton<String>(
-                        value: selectedFilter1,
+                        value: selectedJobType,
                         onChanged: (String? newValue) {
                           setState(() {
-                            selectedFilter1 = newValue;
+                            selectedJobType = newValue;
                           });
                         },
                         items: <String>[
@@ -232,10 +235,10 @@ class _VacanciesListState extends State<VacanciesList> {
                         ).toList(),
                       ),
                       DropdownButton<String>(
-                        value: selectedFilter,
+                        value: selectedLocation,
                         onChanged: (String? newValue) {
                           setState(() {
-                            selectedFilter = newValue;
+                            selectedLocation = newValue;
                           });
                         },
                         items: <String>[
@@ -264,7 +267,7 @@ class _VacanciesListState extends State<VacanciesList> {
                         width: MediaQuery.of(context).size.width * 0.3,
                         child: TextField(
                           onChanged: (value) {
-                            salaryFrom = int.tryParse(value);
+                            salaryFrom = value;
                           },
                           decoration: InputDecoration(
                             labelText: AppLocalizations.of(context).from,
@@ -277,7 +280,7 @@ class _VacanciesListState extends State<VacanciesList> {
                         width: MediaQuery.of(context).size.width * 0.3,
                         child: TextField(
                           onChanged: (value) {
-                            salaryTo = int.tryParse(value);
+                            salaryTo = value;
                           },
                           decoration: InputDecoration(
                             labelText: AppLocalizations.of(context).to,
@@ -293,9 +296,13 @@ class _VacanciesListState extends State<VacanciesList> {
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
-                    context
-                        .read<VacancyCubit>()
-                        .filterVacancies(query, selectedFilter1);
+                    context.read<VacancyCubit>().filterVacancy(
+                          salaryFrom,
+                          salaryTo,
+                          selectedJobType == 'Full-time',
+                          selectedLocation == 'Remote',
+                        );
+                        
                   },
                   child: Text(AppLocalizations.of(context).apply),
                 ),

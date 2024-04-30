@@ -102,5 +102,6 @@
     "delete": "Өчүрүү",
     "confirmDeletion": "Өчүрүүнү ырастоо",
     "areYouSureDelete": "Бул вакансияны чын эле өчүргүңүз келеби?",
-    "appliedVacancies": "Сиз тапшырган вакансиялар"
+    "appliedVacancies": "Сиз тапшырган вакансиялар",
+    "noAppliedVacancies": "Сиз азырынча эч кандай жумушка тапшыра элексиз."
 }

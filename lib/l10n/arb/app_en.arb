@@ -102,5 +102,6 @@
     "delete": "Delete",
     "confirmDeletion": "Confirm Deletion",
     "areYouSureDelete": "Are you sure you want to delete this vacancy?",
-    "appliedVacancies": "The vacancies you applied for"
+    "appliedVacancies": "The vacancies you applied for",
+    "noAppliedVacancies": "You haven't applied to any jobs yet."
 }

@@ -22,7 +22,7 @@ class VacancyCubit extends Cubit<VacancyState> {
     }
   }
 
-  void filterVacancies(String query, String? selectedFilter) async {
+  void searchVacancies(String query) async {
     try {
       final String lowerCaseQuery = query.toLowerCase();
 
@@ -32,22 +32,55 @@ class VacancyCubit extends Cubit<VacancyState> {
       final List<Vacancy> allVacancies =
           snapshot.docs.map((doc) => Vacancy.fromJson(doc.data())).toList();
 
-      List<Vacancy> filteredVacancies = allVacancies.where((vacancy) {
-        if (selectedFilter == 'Full-time') {
-          return vacancy.jobType.toLowerCase() == 'full-time';
-        } else if (selectedFilter == 'Part-time') {
-          return vacancy.jobType.toLowerCase() == 'part-time';
-        } else if (selectedFilter == 'Remote') {
-          return vacancy.location.toLowerCase() == 'remote';
-        } else if (selectedFilter == 'Onsite') {
-          return vacancy.location.toLowerCase() == 'onsite';
-        } else {
-          return vacancy.jobTitle.toLowerCase().contains(lowerCaseQuery);
-        }
+      List<Vacancy> searchedVacancies = allVacancies.where((vacancy) {
+        return vacancy.jobTitle.toLowerCase().contains(lowerCaseQuery);
       }).toList();
-      emit(VacancyLoaded(vacancies: filteredVacancies));
+      emit(VacancyLoaded(vacancies: searchedVacancies));
     } catch (e) {
       emit(const VacancyError(message: 'Failed to filter vacancies.'));
     }
   }
+void filterVacancy(
+  String? salaryFrom,
+  String? salaryTo,
+  bool isFullTime,
+  bool isRemote,
+) async {
+  try {
+    Query<Map<String, dynamic>> filteredQuery =
+        _firestore.collection('vacancies');
+
+    if (salaryFrom != null && salaryFrom.isNotEmpty) {
+      filteredQuery = filteredQuery.where('salary',
+          isGreaterThanOrEqualTo: int.parse(salaryFrom));
+    }
+    if (salaryTo != null && salaryTo.isNotEmpty) {
+      filteredQuery = filteredQuery.where('salary',
+          isLessThanOrEqualTo: int.parse(salaryTo));
+    }
+
+    if (isFullTime) {
+      filteredQuery = filteredQuery.where('jobType', isEqualTo: 'Full-Time');
+    } else {
+      filteredQuery = filteredQuery.where('jobType', isEqualTo: 'Part-time');
+    }
+
+    if (isRemote) {
+      filteredQuery = filteredQuery.where('location', isEqualTo: 'Remote');
+    } else {
+      filteredQuery = filteredQuery.where('location', isEqualTo: 'Onsite');
+    }
+
+    final QuerySnapshot<Map<String, dynamic>> snapshot =
+        await filteredQuery.get();
+
+    final List<Vacancy> filteredVacancies = snapshot.docs
+        .map((doc) => Vacancy.fromJson(doc.data()))
+        .toList();
+
+    emit(VacancyLoaded(vacancies: filteredVacancies));
+  } catch (e) {
+    emit(const VacancyError(message: 'Failed to filter vacancies.'));
+  }
+}
 }
