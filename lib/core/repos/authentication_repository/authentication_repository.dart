@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/material.dart';
 import 'package:kopuro/export_files.dart';
 
 class SignUpWithEmailAndPasswordFailure implements Exception {
@@ -132,6 +133,7 @@ class AuthenticationRepository {
               .collection('users')
               .doc(user.uid)
               .set(studentMap, SetOptions(merge: true));
+          MaterialPageRoute(builder: (context) => const ResumeBuilder());
         } else {
           CompanyUser company = CompanyUser(
             id: user.uid,
@@ -146,7 +148,7 @@ class AuthenticationRepository {
               .doc(user.uid)
               .set(companyMap, SetOptions(merge: true));
         }
-        // await user.sendEmailVerification();
+        MaterialPageRoute(builder: (context) => const CompanyProfileBuilder());
       }
     } on firebase_auth.FirebaseAuthException catch (e) {
       throw SignUpWithEmailAndPasswordFailure.fromCode(e.code);
@@ -214,9 +216,3 @@ UserType userTypeFromString(String userTypeString) {
       return UserType.student;
   }
 }
-
-// extension on firebase_auth.User {
-//   User get toUser {
-//     return User(id: uid, email: email!, userType: );
-//   }
-// }
