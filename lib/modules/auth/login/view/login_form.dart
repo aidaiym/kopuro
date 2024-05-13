@@ -77,7 +77,6 @@ class LoginForm extends StatelessWidget {
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context).password,
                       errorMaxLines: 3,
-
                       errorText: state.password.displayError != null
                           ? AppLocalizations.of(context).passwordErrorText
                           : null,
@@ -109,11 +108,23 @@ class LoginForm extends StatelessWidget {
                       ? const CircularProgressIndicator()
                       : MainButton(
                           onPressed: state.isValid
-                              ? () => context
-                                  .read<LoginCubit>()
-                                  .logInWithCredentials()
+                              ? () {
+                                  context
+                                      .read<LoginCubit>()
+                                      .logInWithCredentials();
+                                  // if (state.status.isSuccess) {
+                                  //   Navigator.push<void>(
+                                  //     context,
+                                  //     MaterialPageRoute<void>(
+                                  //       builder: (BuildContext context) =>
+                                  //           const StudentMainView(),
+                                  //     ),
+                                  //   );
+                                  // }
+                                }
                               : null,
-                          text: AppLocalizations.of(context).signIn);
+                          text: AppLocalizations.of(context).signIn,
+                        );
                 },
               ),
               const SizedBox(height: 4),

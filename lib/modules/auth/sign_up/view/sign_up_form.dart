@@ -136,31 +136,43 @@ class SignUpForm extends StatelessWidget {
               },
             ),
             const SizedBox(height: 16),
-            BlocBuilder<SignUpCubit, SignUpState>(
-              builder: (context, state) {
-                return state.status.isInProgress
-                    ? const CircularProgressIndicator()
-                    : MainButton(
-                        onPressed: () {
-                          if (state.isValid) {
-                            try {
-                              context.read<SignUpCubit>().signUpFormSubmitted(isStudent);
-                               // Navigator.push<void>(
-                              //   context,
-                              //   MaterialPageRoute<void>(
-                              //     builder: (BuildContext context) =>
-                              //         VerifyEmailView(isStudent: isStudent),
-                              //   ),
-                              // );
-                            } catch (e) {
-                              log(e.toString());
+            BlocBuilder<SignUpCubit, SignUpState>(builder: (context, state) {
+              return state.status.isInProgress
+                  ? const CircularProgressIndicator()
+                  : MainButton(
+                      onPressed: () {
+                        if (state.isValid) {
+                          try {
+                            context
+                                .read<SignUpCubit>()
+                                .signUpFormSubmitted(isStudent);
+                            if (state.status.isSuccess) {
+                              if (isStudent) {
+                                Navigator.push<void>(
+                                  context,
+                                  MaterialPageRoute<void>(
+                                    builder: (BuildContext context) =>
+                                        const ResumeBuilder(),
+                                  ),
+                                );
+                              } else {
+                                Navigator.push<void>(
+                                  context,
+                                  MaterialPageRoute<void>(
+                                    builder: (BuildContext context) =>
+                                        const CompanyProfileBuilder(),
+                                  ),
+                                );
+                              }
                             }
+                          } catch (e) {
+                            log(e.toString());
                           }
-                        },
-                        text: AppLocalizations.of(context).next,
-                      );
-              },
-            ),
+                        }
+                      },
+                      text: AppLocalizations.of(context).next,
+                    );
+            }),
           ],
         ),
       ),
